@@ -1,0 +1,7 @@
+/* custom font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500&family=Noto+Sans:wght@400;700&display=swap');
+
+/* base styles */
+* {
+    font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
