@@ -15,7 +15,7 @@ import { app } from '../firebase/config'
 import { getAuth} from "firebase/auth"
 
 export default {
-    setup () {
+    setup (props, context) {
         //ref
         const name = ref('')
         const email = ref('')
@@ -27,6 +27,10 @@ export default {
         const handleSubmit = async () => {
             const res = await signup(auth, name.value, email.value, password.value)
             console.log(res)
+
+            if (!error.value) {
+                context.emit('signup')
+            }
         }
         return { name, email, password, handleSubmit, error }
     }
