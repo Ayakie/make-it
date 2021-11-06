@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit">
       <input type="text" placeholder="your name" required v-model="name">
       <input type="email" placeholder="email" required v-model="email">
-      <input type="password" placeholder="password" required v-model="email">
+      <input type="password" placeholder="password" required v-model="password">
       <div class="error"> {{ error }} </div>
       <button>Sign up</button>
   </form>
@@ -10,6 +10,10 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+import useSignup from '../composables/useSignup'
+import { app } from '../firebase/config'
+import { getAuth} from "firebase/auth"
+
 export default {
     setup () {
         //ref
@@ -17,10 +21,14 @@ export default {
         const email = ref('')
         const password = ref('')
 
-        const handleSubmit = () => {
+        const auth = getAuth(app)
+        const { error, signup } = useSignup()
 
+        const handleSubmit = async () => {
+            const res = await signup(auth, name.value, email.value, password.value)
+            console.log(res)
         }
-        return { name, email, password, handleSubmit }
+        return { name, email, password, handleSubmit, error }
     }
 }
 </script>

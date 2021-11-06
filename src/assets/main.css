@@ -45,3 +45,9 @@ input, textarea {
     margin: 20px auto;
     border: 0.5px solid #d7d7d7;
 }
+
+/* error text */
+.error {
+    color: var(--unfinished);
+    margin: 16px 0;
+}
