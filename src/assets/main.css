@@ -1,7 +1,47 @@
+/* ress */
+@import url(~ress/ress.css);
+
 /* custom font */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500&family=Noto+Sans:wght@400;700&display=swap');
+
+/* variables */
+:root {
+    --primary: #333333;
+    --secondary: #8c8c8c;
+    --main: #233145;
+    --accent: #F1AC5F;
+    --finished: #baf069;
+    --unfinished: #F07751;
+}
 
 /* base styles */
 * {
     font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+    color: var(--primary);
+}
+
+/* buttons */
+button, .btn {
+    color: var(--main);
+    border-radius: 10px;
+    background: var(--accent);
+    padding: 10px 20px;
+}
+
+/* forms */
+form {
+    max-width: 400px;
+    border-radius: 10px;
+    background: white;
+    margin: 20px auto;
+    padding: 40px 16px;
+    /* border: 1px solid var(--secondary); */
+}
+
+input, textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 20px auto;
+    border: 0.5px solid #d7d7d7;
 }
