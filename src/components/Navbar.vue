@@ -4,15 +4,28 @@
           <div class="site"></div>
           <div class="nav-login">
               <p>ようこそ、{{}} さん</p>
-              <button>Logout</button>
+              <button @click="handleLogout">Logout</button>
           </div>
       </div>
   </header>
 </template>
 
 <script>
-export default {
+import useLogout from '../composables/useLogout'
 
+export default {
+    setup() {
+        const { error, logout } = useLogout()
+        
+        const handleLogout =  async () => {
+            await logout()
+            if (!error.value) {
+                console.log('user logged out')
+            }
+        }
+
+        return { error, handleLogout}
+    }
 }
 </script>
 
