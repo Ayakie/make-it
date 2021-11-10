@@ -2,8 +2,8 @@
   <header>
       <div class="header-container">
           <div class="site"></div>
-          <div class="nav-login">
-              <p>ようこそ、{{}} さん</p>
+          <div class="nav-login" v-if="user">
+              <p>ようこそ、{{ user.displayName }} さん</p>
               <button @click="handleLogout">Logout</button>
           </div>
       </div>
@@ -12,19 +12,28 @@
 
 <script>
 import useLogout from '../composables/useLogout'
+import getUser from '../composables/getUser'
+import { useRouter } from 'vue-router'
+
 
 export default {
     setup() {
         const { error, logout } = useLogout()
-        
+        const router = useRouter()
+
         const handleLogout =  async () => {
             await logout()
             if (!error.value) {
                 console.log('user logged out')
             }
+
+            router.push({name: 'Welcome'})
+
         }
 
-        return { error, handleLogout}
+        const user = getUser()
+
+        return { error, handleLogout, user}
     }
 }
 </script>
