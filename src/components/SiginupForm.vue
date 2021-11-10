@@ -12,7 +12,7 @@
 import { ref } from '@vue/reactivity'
 import useSignup from '../composables/useSignup'
 import { app } from '../firebase/config'
-import { getAuth} from "firebase/auth"
+import { getAuth } from "firebase/auth"
 
 export default {
     setup (props, context) {
@@ -25,7 +25,7 @@ export default {
         const { error, signup } = useSignup()
 
         const handleSubmit = async () => {
-            const res = await signup(auth, name.value, email.value, password.value)
+            const res = await signup(name.value, email.value, password.value)
             console.log(res)
 
             if (!error.value) {

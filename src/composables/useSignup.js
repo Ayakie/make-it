@@ -1,11 +1,11 @@
 import { ref } from "vue"
-// import { app } from '../firebase/config'
-import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
+import { app } from '../firebase/config'
+import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
 
 const error = ref(null)
-// const auth = getAuth(app)
+const auth = getAuth(app)
 
-const signup = async (auth, name, email, password) => {
+const signup = async (name, email, password) => {
     error.value = null
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password)
@@ -26,7 +26,7 @@ const signup = async (auth, name, email, password) => {
 }
 
 const useSignup = () => {
-    return {error, signup}
+    return { error, signup }
 }
 
 export default useSignup
