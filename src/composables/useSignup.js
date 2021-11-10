@@ -1,18 +1,17 @@
 import { ref } from "vue"
-import { app } from '../firebase/config'
-import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
+import { projectAuth } from '../firebase/config'
+import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
 
 const error = ref(null)
-const auth = getAuth(app)
 
 const signup = async (name, email, password) => {
     error.value = null
     try {
-        const res = await createUserWithEmailAndPassword(auth, email, password)
+        const res = await createUserWithEmailAndPassword(projectAuth, email, password)
         if (!res) {
             throw new Error('サインアップが完了しませんでした')
         }
-        await updateProfile(auth.currentUser,
+        await updateProfile(projectAuth.currentUser,
              {displayName: name} )
         error.value = null
 
