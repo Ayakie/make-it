@@ -3,6 +3,7 @@ import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
 
 import { getAuth } from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAOLQ10OuZdRl5rTHvgWoF1MqZST_C4i2w",
@@ -17,7 +18,7 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig)
 
 // init service
-const projectFirestore = firebase.firestore()
+const projectFirestore = getFirestore(app)
 const projectAuth = getAuth(app)
 
 // timestamp

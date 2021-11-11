@@ -5,12 +5,14 @@
       v-model="newTask"
       @keypress.enter.prevent="handleEnter">
       </textarea>
+      <div class="error"> {{ error }} </div>
   </form>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import getUser from '@/composables/getUser'
+import useCollection from '@/composables/useCollection'
 import { timestamp } from '@/firebase/config'
 
 export default {
@@ -19,6 +21,8 @@ export default {
 
     const user = getUser()
 
+    const { error, _addDoc } = useCollection('tasks')
+
     const handleEnter = async() => {
       const task = {
         userId: user.value.uid,
@@ -26,11 +30,13 @@ export default {
         task: newTask.value,
         createdAt: timestamp()
       }
-      console.log(task)
-      newTask.value = ''
+      const docRef = await _addDoc(task)
+      if (!error.value) {
+        newTask.value = ''
+      }
     }
 
-    return { newTask, handleEnter }
+    return { newTask, handleEnter, error }
   }
 }
 </script>
