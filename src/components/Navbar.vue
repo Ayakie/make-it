@@ -27,7 +27,7 @@ export default {
                 console.log('user logged out')
             }
 
-            router.push({name: 'Welcome'})
+            router.push({ name: 'Welcome' })
 
         }
 

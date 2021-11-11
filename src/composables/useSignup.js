@@ -12,7 +12,7 @@ const signup = async (name, email, password) => {
             throw new Error('サインアップが完了しませんでした')
         }
         await updateProfile(projectAuth.currentUser,
-             {displayName: name} )
+             { displayName: name } )
         error.value = null
 
         return res
