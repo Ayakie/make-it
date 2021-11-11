@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import HeroBefore from '../components/HeroBefore.vue'
+import HeroBefore from '../components/hero/HeroBefore.vue'
 
 export default {
   name: 'Home',

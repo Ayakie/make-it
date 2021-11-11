@@ -18,8 +18,8 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
-import LoginForm from "../components/LoginForm.vue"
-import SignupForm from "../components/SiginupForm.vue"
+import LoginForm from "../components/auth/LoginForm.vue"
+import SignupForm from "../components/auth/SiginupForm.vue"
 
 export default {
     components: { LoginForm, SignupForm },

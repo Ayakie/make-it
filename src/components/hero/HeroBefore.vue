@@ -2,7 +2,7 @@
     <section class="hero">
         <Navbar />
         <div class="hero-img">
-            <img src="../assets/setting-goal.png" alt="">
+            <img src="@/assets/setting-goal.png" alt="">
         </div>
         <div class="hero-text">
             <h3 class="title">ゴールを達成した自分をイメージしよう</h3>

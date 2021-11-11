@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import useLogout from '../composables/useLogout'
-import getUser from '../composables/getUser'
+import useLogout from '../../composables/useLogout'
+import getUser from '../../composables/getUser'
 import { useRouter } from 'vue-router'
 
 
