@@ -1,15 +1,13 @@
 <template>
-  <Navbar />
-  <div class="home">
-  </div>
+  <HeroBefore />
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
+import HeroBefore from '../components/HeroBefore.vue'
 
 export default {
   name: 'Home',
-  components: { Navbar },
+  components: { HeroBefore },
 
 }
 </script>

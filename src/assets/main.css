@@ -20,6 +20,10 @@
     color: var(--primary);
 }
 
+h2, h3 {
+    color: var(--main);
+}
+
 /* buttons */
 button, .btn {
     color: var(--main);
