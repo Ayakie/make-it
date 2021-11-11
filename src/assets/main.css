@@ -16,7 +16,7 @@
 
 /* base styles */
 * {
-    font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     color: var(--primary);
 }
 
@@ -35,6 +35,7 @@ button, .btn {
 
 /* forms */
 form {
+    font-size: 14px;
     max-width: 400px;
     border-radius: 10px;
     background: white;
