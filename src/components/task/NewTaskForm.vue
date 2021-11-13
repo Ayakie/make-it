@@ -28,6 +28,7 @@ export default {
         userId: user.value.uid,
         userName: user.value.displayName,
         task: newTask.value,
+        completed: false,
         createdAt: timestamp()
       }
       const docRef = await _addDoc(task)
@@ -43,7 +44,7 @@ export default {
 
 <style>
 .new-task {
-  padding: 20px 16px;
+  padding: 16px;
 }
 .new-task textarea {
   text-align: center;
