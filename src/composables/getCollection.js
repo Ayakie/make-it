@@ -11,8 +11,6 @@ const getCollection = (collectionName, _query) => {
     let collectionRef = collection(projectFirestore, collectionName)
     collectionRef = query(collectionRef, orderBy('createdAt'))
 
-    // let collectionRef = query(collection(projectFirestore, collectionName),
-        //orderBy('createdAt'))
 
     if (_query) {
         collectionRef = query(collectionRef, ..._query)
@@ -23,7 +21,6 @@ const getCollection = (collectionName, _query) => {
         console.log(collectionRef)
 
         snap.docs.forEach(doc => {
-            console.log(doc)
             // wait for the server to create the timestamp & send it back
             doc.data().createdAt && results.push({...doc.data(), id: doc.id})
         })

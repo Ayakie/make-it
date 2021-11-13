@@ -56,6 +56,6 @@ header {
 .nav-login button {
     color: #8C8C8C;
     background-color: #D7D7D7;
-    margin-left: 20px;
+    margin-left: 24px;
 }
 </style>

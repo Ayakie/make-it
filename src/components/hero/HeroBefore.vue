@@ -40,6 +40,6 @@ export default {
     margin-top: 120px;
 }
 .hero-text .title {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 </style>

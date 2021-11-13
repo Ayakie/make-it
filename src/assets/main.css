@@ -30,16 +30,15 @@ button, .btn {
     color: var(--main);
     border-radius: 10px;
     background: var(--accent);
-    padding: 10px 20px;
+    padding: 10px 24px;
 }
 
 /* forms */
 form {
-    font-size: 14px;
     max-width: 400px;
     border-radius: 10px;
     background: white;
-    margin: 20px auto;
+    margin: 24px auto;
     padding: 40px 16px;
     /* border: 1px solid var(--secondary); */
 }
@@ -48,12 +47,25 @@ input, textarea {
     display: block;
     width: 100%;
     padding: 10px;
-    margin: 20px auto;
+    margin: 24px auto;
     border: 0.5px solid #d7d7d7;
 }
 
 /* error text */
 .error {
     color: var(--unfinished);
-    margin: 16px 0;
+    margin: 18px 0;
 }
+
+.created-time {
+    font-size: 14px;
+    color: var(--secondary);
+  }
+
+.material-icons {
+    cursor: pointer;
+    color: var(--secondary);
+  }
+.material-icons:hover{
+    color: var(--main);
+  }

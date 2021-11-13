@@ -45,6 +45,7 @@ export default {
 <style>
 .new-task {
   padding: 16px;
+  border-radius: 4px;
 }
 .new-task textarea {
   text-align: center;
