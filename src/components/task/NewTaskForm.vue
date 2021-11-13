@@ -1,6 +1,6 @@
 <template>
   <form class="new-task">
-      <textarea id="" cols="30"
+      <textarea
       placeholder="Enter を押して新規作成"
       v-model="newTask"
       @keypress.enter.prevent="handleEnter">
@@ -31,7 +31,10 @@ export default {
         completed: false,
         createdAt: timestamp()
       }
-      const docRef = await _addDoc(task)
+      
+      if (newTask.value.length) {
+        const docRef = await _addDoc(task)
+      }
       if (!error.value) {
         newTask.value = ''
       }
@@ -46,6 +49,7 @@ export default {
 .new-task {
   padding: 16px;
   border-radius: 4px;
+  max-width: 600px;
 }
 .new-task textarea {
   text-align: center;
