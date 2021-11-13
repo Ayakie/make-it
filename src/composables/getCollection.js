@@ -4,7 +4,7 @@ import { projectFirestore } from "@/firebase/config"
 
 const getCollection = (collectionName, _query) => {
     
-    const documents = ref(null)
+    const documents = ref([])
     const error = ref(null)
 
     // register the firestore collection reference
