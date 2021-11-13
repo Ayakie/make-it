@@ -4,7 +4,7 @@
     <div class="task-container">
       <p class="detail">{{ doc.task }}</p>
       <!-- icons -->
-      <span class="material-icons">delete</span>
+      <span class="material-icons" @click="deleteTask">delete</span>
     </div>
   </div>
 </template>
@@ -20,7 +20,11 @@ export default {
         return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) H:m')
       })
 
-      return { time }
+      const deleteTask = () => {
+        context.emit('delete', props.doc.id)
+      }
+
+      return { time, deleteTask}
     }
 }
 </script>

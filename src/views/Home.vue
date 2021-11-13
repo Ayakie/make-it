@@ -4,7 +4,7 @@
     <h2>やることリスト</h2>
     <div v-if="documents.length" class="tasks">
       <div v-for="doc in documents" :key="doc.id">
-        <SingleTask :doc="doc"/>
+        <SingleTask :doc="doc" @delete="handleDelete"/>
       </div>
     </div>
     <NewTaskForm />
@@ -17,6 +17,8 @@ import getUser from '@/composables/getUser'
 import HeroBefore from '@/components/hero/HeroBefore.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
+import { projectFirestore } from "@/firebase/config"
+import { doc, deleteDoc } from 'firebase/firestore'
 
 export default {
   name: 'Home',
@@ -26,7 +28,11 @@ export default {
     // get current user's collection
     const { error, documents } = getCollection('tasks', ['userId', '==', user.value.uid])
 
-    return { error, documents }
+    const handleDelete = async (id) => {
+      await deleteDoc(doc(projectFirestore, 'tasks', id))
+    }
+
+    return { error, documents, handleDelete }
   }
 }
 </script>
