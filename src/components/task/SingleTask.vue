@@ -2,7 +2,9 @@
   <div class="task">
     <p class="created-time">{{ time }}</p>
     <div class="task-container">
-      <p class="detail">{{ doc.task }}</p>
+      <router-link :to="{name: 'Detail', params: {id: doc.id}}" class="detail">
+        <p>{{ doc.task }}</p>
+      </router-link>
       <!-- icons -->
       <span class="material-icons" @click="deleteTask">delete</span>
     </div>
@@ -24,7 +26,7 @@ export default {
         context.emit('delete', props.doc.id)
       }
 
-      return { time, deleteTask}
+      return { time, deleteTask }
     }
 }
 </script>
@@ -45,6 +47,7 @@ export default {
 }
 .detail {
   cursor: pointer;
+  width: 80%;
 }
 
 </style>

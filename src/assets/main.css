@@ -70,3 +70,7 @@ input, textarea {
 .material-icons:hover{
     color: var(--main);
   }
+
+a {
+    text-decoration: none;
+}

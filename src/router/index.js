@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Welcome from '../views/Welcome.vue'
+import Detail from '../views/Detail.vue'
 import { projectAuth } from '../firebase/config'
 
 // auth guard
@@ -24,6 +25,12 @@ const routes = [
     path: '/',
     name: 'Welcome',
     component: Welcome
+  },
+  {
+    path:'/:id',
+    name: 'Detail',
+    component: Detail,
+    props: true
   }
 ]
 

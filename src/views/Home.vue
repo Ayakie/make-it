@@ -32,7 +32,7 @@ export default {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
 
-    return { error, documents, handleDelete }
+    return { error, documents, handleDelete}
   }
 }
 </script>
