@@ -32,6 +32,13 @@ export default {
 
 <style scoped>
 h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+.tasks {
+  max-width: 600px;
+  background: white;
+  border-radius: 4px;
+  margin: 40px auto;
+  padding: 32px;
 }
 </style>
