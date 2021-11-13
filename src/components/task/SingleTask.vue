@@ -1,14 +1,10 @@
 <template>
   <div class="task">
+    <p class="created-time">{{ time }}</p>
     <div class="task-container">
-      <div class="text">
-        <p class="created-time">{{ time }}</p>
-        <p class="detail">{{ doc.task }}</p>
-      </div>
+      <p class="detail">{{ doc.task }}</p>
       <!-- icons -->
-      <div class="action">
-        <span class="material-icons">delete</span>
-      </div>
+      <span class="material-icons">delete</span>
     </div>
   </div>
 </template>
@@ -21,7 +17,7 @@ export default {
     props: ['doc'],
     setup(props, context) {
       const time = computed(() => {
-        return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E)')
+        return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) H:m')
       })
 
       return { time }
@@ -44,7 +40,6 @@ export default {
   height: 100%;
 }
 .detail {
-  margin-top: 8px;
   cursor: pointer;
 }
 
