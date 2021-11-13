@@ -2,11 +2,9 @@
   <HeroBefore />
   <section class="task">
     <h2>やることリスト</h2>
-    <div class="tasks">
-      <div v-if="documents">
-        <div v-for="doc in documents" :key="doc.id">
-          <SingleTask :doc="doc"/>
-        </div>
+    <div v-if="documents.length" class="tasks">
+      <div v-for="doc in documents" :key="doc.id">
+        <SingleTask :doc="doc"/>
       </div>
     </div>
     <NewTaskForm />
@@ -15,6 +13,7 @@
 
 <script>
 import getCollection from '@/composables/getCollection'
+import getUser from '@/composables/getUser'
 import HeroBefore from '@/components/hero/HeroBefore.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
@@ -23,7 +22,9 @@ export default {
   name: 'Home',
   components: { HeroBefore, NewTaskForm, SingleTask },
   setup (){
-    const { error, documents } = getCollection('tasks')
+    const user = getUser()
+    // get current user's collection
+    const { error, documents } = getCollection('tasks', ['userId', '==', user.value.uid])
 
     return { error, documents }
   }

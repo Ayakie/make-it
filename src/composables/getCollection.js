@@ -13,12 +13,11 @@ const getCollection = (collectionName, _query) => {
 
 
     if (_query) {
-        collectionRef = query(collectionRef, ..._query)
+        collectionRef = query(collectionRef, where(..._query))
     }
 
     let unsub = onSnapshot(collectionRef, (snap) => {
         let results = []
-        console.log(collectionRef)
 
         snap.docs.forEach(doc => {
             // wait for the server to create the timestamp & send it back
