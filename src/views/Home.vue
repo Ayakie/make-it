@@ -1,4 +1,5 @@
 <template>
+  <Navbar />
   <HeroBefore />
   <section class="task">
     <h2>やることリスト</h2>
@@ -14,6 +15,7 @@
 <script>
 import getCollection from '@/composables/getCollection'
 import getUser from '@/composables/getUser'
+import Navbar from '@/components/Navbar.vue'
 import HeroBefore from '@/components/hero/HeroBefore.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
@@ -22,7 +24,7 @@ import { doc, deleteDoc } from 'firebase/firestore'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, NewTaskForm, SingleTask },
+  components: { HeroBefore, NewTaskForm, SingleTask, Navbar },
   setup (){
     const user = getUser()
     // get current user's collection

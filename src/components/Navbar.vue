@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import useLogout from '../../composables/useLogout'
-import getUser from '../../composables/getUser'
+import useLogout from '../composables/useLogout'
+import getUser from '../composables/getUser'
 import { useRouter } from 'vue-router'
 
 
@@ -48,14 +48,23 @@ header {
     align-items: center;
     height: 100%;
 }
-
 .nav-login p {
-    color: #8C8C8C;
+    color: var(--secondary);
     display: inline-block;
 }
 .nav-login button {
-    color: #8C8C8C;
+    color: var(--secondary);
     background-color: #D7D7D7;
     margin-left: 24px;
+}
+
+/* smartphone */
+@media (max-width:768px) {
+    header {
+        font-size:12px;
+    }
+    .nav-login button {
+        margin-left:16px;
+    }
 }
 </style>

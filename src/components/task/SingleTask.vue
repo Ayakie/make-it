@@ -49,5 +49,9 @@ export default {
   cursor: pointer;
   width: 80%;
 }
-
+.created-time {
+    font-size: 14px;
+    color: var(--secondary);
+    margin-bottom: 8px;
+  }
 </style>
