@@ -17,6 +17,7 @@ import getCollection from '@/composables/getCollection'
 import getUser from '@/composables/getUser'
 import Navbar from '@/components/Navbar.vue'
 import HeroBefore from '@/components/hero/HeroBefore.vue'
+import HeroAfter from '@/components/hero/HeroAfter.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import { projectFirestore } from "@/firebase/config"
@@ -24,7 +25,7 @@ import { doc, deleteDoc } from 'firebase/firestore'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, NewTaskForm, SingleTask, Navbar },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar },
   setup (){
     const user = getUser()
     // get current user's collection
@@ -39,7 +40,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 h2 {
   margin-bottom: 24px;
 }
@@ -49,5 +50,37 @@ h2 {
   border-radius: 4px;
   margin: 40px auto;
   padding: 32px;
+}
+.hero {
+    height: 480px;
+    position: relative;
+}
+.hero-container {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    height: 100%;
+}
+.hero-img {
+  position: absolute;
+  left: max(15vw, 120px);
+  top: 10%;
+  z-index: -1;
+}
+.hero .title {
+    margin-bottom: 24px;
+}
+.material-icons.edit {
+  position: absolute;
+  top: 50%;
+  right: 25vw;
+
+}
+/* smartphone */
+@media (max-width: 768px) {
+    .hero-img {
+        left: 20px;
+        filter: opacity(70%);
+    }
 }
 </style>
