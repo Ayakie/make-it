@@ -9,23 +9,24 @@
           <input type="date" id="goal-date" required>
           <button>登録する</button>
       </form>
-      <span class="back" @click="backPage">戻る</span>
+      <BackPage />
   </div>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
+import BackPage from '@/components/BackPage.vue'
+
 export default {
+    components: { BackPage },
     setup() {
         const router = useRouter()
 
         const handleSubmit = () => {
 
         }
-        const backPage = () => {
-            router.go(-1)
-        }
-        return { handleSubmit, backPage }
+
+        return { handleSubmit }
     }
 }
 </script>
@@ -43,16 +44,5 @@ export default {
 }
 .modal input {
     margin-top: 8px;
-}
-form > label {
-    text-align: left;
-    display: block;
-}
-.back {
-    cursor: pointer;
-    color: #3D566F;
-}
-.back:hover {
-    opacity: 0.6;
 }
 </style>
