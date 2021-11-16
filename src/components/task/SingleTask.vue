@@ -19,7 +19,7 @@ export default {
     props: ['doc'],
     setup(props, context) {
       const time = computed(() => {
-        return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) H:m')
+        return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) HH:mm')
       })
 
       const deleteTask = () => {
