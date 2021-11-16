@@ -1,7 +1,11 @@
 <template>
   <header>
       <div class="header-container">
-          <div class="site"></div>
+          <div class="site">
+              <router-link :to="{name: 'Home'}">
+                  <span class="material-icons home">home</span>
+              </router-link>
+          </div>
           <div class="nav-login" v-if="user">
               <p>ようこそ、{{ user.displayName }} さん</p>
               <button @click="handleLogout">Logout</button>
@@ -56,6 +60,9 @@ header {
     color: var(--secondary);
     background-color: #D7D7D7;
     margin-left: 24px;
+}
+.material-icons.home {
+    font-size: 36px;
 }
 
 /* smartphone */
