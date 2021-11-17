@@ -1,6 +1,12 @@
 <template>
   <Navbar />
-  <HeroBefore />
+  <HeroAfter v-if="false"/>
+  <HeroBefore v-if="true"/>
+  <section class="calendar">
+    <div class="calendar-container">
+      <Calendar is-expanded :attributes='attrs' />
+    </div>
+  </section>
   <section class="task">
     <h2>やることリスト</h2>
     <div v-if="documents.length" class="tasks">
@@ -22,10 +28,11 @@ import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
+import { Calendar, DatePicker } from 'v-calendar'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar, Calendar, DatePicker },
   setup (){
     const user = getUser()
     // get current user's collection
@@ -35,15 +42,26 @@ export default {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
 
-    return { error, documents, handleDelete}
+    return { error, documents, handleDelete }
+  },
+  data() {
+    return {
+      attrs: [
+        {
+          key: 'today',
+          highlight: {
+            color: 'gray',
+            fillMode: 'solid'
+            },
+          dates: new Date(),
+        },
+      ],
+    };
   }
 }
 </script>
 
 <style>
-h2 {
-  margin-bottom: 24px;
-}
 .tasks {
   max-width: 600px;
   background: white;
@@ -68,13 +86,17 @@ h2 {
   z-index: -1;
 }
 .hero .title {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 .material-icons.edit {
   position: absolute;
   top: 50%;
   right: 25vw;
 
+}
+.calendar-container {
+  max-width: 600px;
+  margin: 0 auto;
 }
 /* smartphone */
 @media (max-width: 768px) {
