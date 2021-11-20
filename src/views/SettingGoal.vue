@@ -16,12 +16,9 @@
                   required>
               </template>
           </DatePicker>
-          <!-- <div class="output-date">
-            {{ date }}
-          </div> -->
-          <!-- <input type="date" id="goal-date" v-model="goalDate" required> -->
+          <div class="error" v-if="dateError">{{ dateError }}</div>
           <div class="error" v-if="error"> {{ error }}</div>
-          <button>登録する</button>
+          <button :disabled="isDisabled">登録する</button>
       </form>
       <BackPage />
   </div>
@@ -32,7 +29,7 @@ import { useRouter } from 'vue-router'
 import useCollection from '@/composables/useCollection'
 import getUser from '@/composables/getUser'
 import BackPage from '@/components/BackPage.vue'
-import { ref } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import { timestamp } from '@/firebase/config'
 import { Calendar, DatePicker } from 'v-calendar'
 
@@ -43,7 +40,9 @@ export default {
         const newGoal = ref('')
         const goalDate = ref('')
         const user = getUser()
-        console.log('user in SettingGoal:' , user.value)
+        const today = new Date()
+        const dateError = ref('')
+        const isDisabled = ref(false)
 
         const { error, _addDoc } = useCollection('goals')
 
@@ -55,16 +54,18 @@ export default {
                 date: goalDate.value,
                 createdAt: timestamp()
             }
-            if (newGoal.value.length) {
+            dateError.value = goalDate.value.getTime() < today.getTime() ?
+            '目標日は明日以降に設定しよう' : ''
+
+            if (!error.value && !dateError.value) {
+                console.log('submitted!')
                 const docRef = await _addDoc(goal)
-            }
-            if (!error.value) {
                 newGoal.value =''
+                router.push({name: 'Home'})
             }
-            router.push({name: 'Home'})
         }
 
-        return {newGoal, goalDate, handleSubmit, error }
+        return {newGoal, goalDate, handleSubmit, error, dateError, isDisabled }
     },
     data() {
         return {
