@@ -6,7 +6,20 @@
           <label for="goal">目標</label>
           <input type="text" id="goal" v-model="newGoal" required placeholder="例) 〇〇大学に合格する">
           <label for="goal-date">達成日</label>
-          <input type="date" id="goal-date" v-model="goalDate" required>
+          <DatePicker mode="date" v-model="goalDate" :masks="masks">
+              <template v-slot="{ inputValue, inputEvents }">
+                  <input
+                  id="goal-date"
+                  :value="inputValue"
+                  v-on="inputEvents"
+                  placeholder="2021/01/01"
+                  required>
+              </template>
+          </DatePicker>
+          <!-- <div class="output-date">
+            {{ date }}
+          </div> -->
+          <!-- <input type="date" id="goal-date" v-model="goalDate" required> -->
           <div class="error" v-if="error"> {{ error }}</div>
           <button>登録する</button>
       </form>
@@ -21,9 +34,10 @@ import getUser from '@/composables/getUser'
 import BackPage from '@/components/BackPage.vue'
 import { ref } from '@vue/reactivity'
 import { timestamp } from '@/firebase/config'
+import { Calendar, DatePicker } from 'v-calendar'
 
 export default {
-    components: { BackPage },
+    components: { BackPage, Calendar, DatePicker },
     setup(props, context) {
         const router = useRouter()
         const newGoal = ref('')
@@ -51,6 +65,13 @@ export default {
         }
 
         return {newGoal, goalDate, handleSubmit, error }
+    },
+    data() {
+        return {
+            masks: {
+                input: 'YYYY/MM/DD'
+            }
+        }
     }
 }
 </script>
