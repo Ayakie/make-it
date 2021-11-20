@@ -18,6 +18,7 @@
           </DatePicker>
           <div class="error" v-if="dateError">{{ dateError }}</div>
           <div class="error" v-if="error"> {{ error }}</div>
+          <div class="output" v-if="output"> {{output}} </div>
           <button :disabled="isDisabled">登録する</button>
       </form>
       <BackPage />
@@ -41,12 +42,13 @@ export default {
         const goalDate = ref('')
         const user = getUser()
         const today = new Date()
-        const dateError = ref('')
-        const isDisabled = ref(false)
+        const restSec = ref(null)
+        // const output = ref('')
 
         const { error, _addDoc } = useCollection('goals')
 
         const handleSubmit = async () => {
+            const now = new Date()
             const goal = {
                 userId: user.value.uid,
                 userName: user.value.displayName,
@@ -54,8 +56,6 @@ export default {
                 date: goalDate.value,
                 createdAt: timestamp()
             }
-            dateError.value = goalDate.value.getTime() < today.getTime() ?
-            '目標日は明日以降に設定しよう' : ''
 
             if (!error.value && !dateError.value) {
                 console.log('submitted!')
@@ -63,9 +63,28 @@ export default {
                 newGoal.value =''
                 router.push({name: 'Home'})
             }
+            context.emit('setDate', restSec.value)
         }
 
-        return {newGoal, goalDate, handleSubmit, error, dateError, isDisabled }
+        const output = computed(() => {
+            if(!dateError.value && goalDate.value) {
+                restSec.value = Math.floor((goalDate.value.getTime() - today.getTime()) / 1000)
+                console.log('remaining seconds ', restSec.value)
+                const day = Math.floor(restSec.value / 60 / 60 / 24)
+
+                return newGoal.value + 'まで残り ' + day + ' 日です!'
+            }
+        })
+
+        const dateError = computed(() => {
+            if(goalDate.value) {
+                const now_= new Date()
+                return goalDate.value.getTime() < now_.getTime() ?
+                '目標日は明日以降に設定しよう' : ''
+            }
+        })
+
+        return {newGoal, goalDate, handleSubmit, error, dateError, output, dateError }
     },
     data() {
         return {
@@ -90,5 +109,9 @@ export default {
 }
 .modal input {
     margin-top: 8px;
+}
+.output {
+    color: var(--secondary);
+    margin-bottom: 16px;
 }
 </style>
