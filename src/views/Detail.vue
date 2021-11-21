@@ -7,7 +7,7 @@
         {{ document.task }}
       </h4>
       <label for="complete-date">完了日</label>
-      <DatePicker mode="date" id="complete-date" v-model="date" :masks="masks">
+      <DatePicker mode="date" id="complete-date" v-model="completedAt" :masks="masks">
         <template v-slot="{ inputValue, inputEvents }">
           <input
           id="complete-date"
@@ -22,15 +22,18 @@
       v-model="memo">
       </textarea>
       <label for="">タグ (カテゴリ)</label>
-      {{tagsSet}}
       <input class="input-tag" type="text" placeholder="Enter を押して追加"
       v-model="tag" @keypress.enter.prevent="handleEnterTag">
       <div class="tag" v-for="_tag in tagsList" :key="_tag">
         <span class="material-icons clear" @click="handleClear(_tag)">clear</span>
         #{{ _tag }}
       </div>
-      <div class="complete-button">
-        <button>完了する</button>
+      <div>
+        <button class="complete-button">完了する</button>
+        <div class="save">
+          <span class="material-icons save-icon">border_color</span> 
+          一時保存する
+        </div>
       </div>
     </form>
     <BackPage />
@@ -41,21 +44,26 @@
 import Navbar from "@/components/Navbar.vue"
 import BackPage from '@/components/BackPage.vue'
 import getDocument from "@/composables/getDocument"
+import setDocument from "@/composables/setDocument"
 import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
+import { useRouter } from 'vue-router'
 
 export default {
   components: { Navbar, BackPage, DatePicker },
   props: ['id', 'tagsSet'],
   setup(props) {
-    const { error, document, _getDoc } = getDocument('tasks', props.id)
+    const router = useRouter()
+    const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
+    const { error: setError, updateDoc } = setDocument('tasks', props.id)
+
     _getDoc()
     const tag = ref('')
     const memo = ref('')
     // for suggenstion of tag
     const tagsSet = props.tagsSet
     const tagsList = ref([])
-
+    const completedAt = ref(new Date())
 
     const handleEnterTag = () => {
       if(!tagsList.value.includes(tag.value)) {
@@ -72,11 +80,22 @@ export default {
 
     })
 
-    return { error, document, memo, tag, handleEnterTag, tagsList, handleClear }
+    const handleSubmit = () => {
+      const data = {
+        tags: tagsList.value,
+        complete: true,
+        memo: memo.value,
+        completedAt: completedAt.value
+      }
+      updateDoc(data)
+      
+      router.push({ name: 'Home'})
+    }
+
+    return { taskError, document, memo, tag, handleEnterTag, tagsList, handleClear, handleSubmit, completedAt }
   },
   data() {
     return {
-      date: new Date(),
       masks: {
         input: 'YYYY/MM/DD'
       }
@@ -96,7 +115,7 @@ input, textarea {
 }
 .tag {
   display: inline-block;
-  margin: 0 8px;
+  margin: 4px 8px;
   padding: 8px 16px;
   border-radius: 20px;
   background: #F2F2F2;
@@ -113,5 +132,20 @@ input, textarea {
   font-size: 18px;
   vertical-align: middle;
   padding-bottom: 1px;
+}
+.save {
+  cursor: pointer;
+  vertical-align: middle;
+  /* display: inline-block; */
+  color: #3D566F;
+  font-size: 14px;
+  margin-top: 16px;
+}
+.save:hover {
+  opacity: 0.6;
+}
+.save-icon {
+  font-size: 14px;
+  vertical-align: middle;
 }
 </style>
