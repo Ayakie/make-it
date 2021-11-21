@@ -32,10 +32,10 @@ import getUser from '@/composables/getUser'
 import BackPage from '@/components/BackPage.vue'
 import { computed, ref } from '@vue/reactivity'
 import { timestamp } from '@/firebase/config'
-import { Calendar, DatePicker } from 'v-calendar'
+import { DatePicker } from 'v-calendar'
 
 export default {
-    components: { BackPage, Calendar, DatePicker },
+    components: { BackPage, DatePicker },
     setup(props, context) {
         const router = useRouter()
         const newGoal = ref('')

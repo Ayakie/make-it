@@ -11,6 +11,8 @@ let app
 
 projectAuth.onAuthStateChanged(() => {
     if(!app) {
-        app = createApp(App).use(router).mount('#app')
+        app = createApp(App)
+        .use(router)
+        .mount('#app')
     }
 })
