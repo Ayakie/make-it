@@ -18,11 +18,20 @@
         </template>
       </DatePicker>
       <label for="memo">メモ</label>
-      <textarea id="memo"></textarea>
+      <textarea id="memo" placeholder=""
+      v-model="memo">
+      </textarea>
       <label for="">タグ (カテゴリ)</label>
-      {{ tags }}
-      <input type="text" v-model="tag" placeholder="Enter を押して追加">
-      <button>完了する</button>
+      {{tagsSet}}
+      <input class="input-tag" type="text" placeholder="Enter を押して追加"
+      v-model="tag" @keypress.enter.prevent="handleEnterTag">
+      <div class="tag" v-for="_tag in tagsList" :key="_tag">
+        <span class="material-icons clear">clear</span>
+        #{{ _tag }}
+      </div>
+      <div class="complete-button">
+        <button>完了する</button>
+      </div>
     </form>
     <BackPage />
   </div>
@@ -32,21 +41,35 @@
 import Navbar from "@/components/Navbar.vue"
 import BackPage from '@/components/BackPage.vue'
 import getDocument from "@/composables/getDocument"
-import { ref } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
 
 export default {
   components: { Navbar, BackPage, DatePicker },
-  props: ['id', 'tags'],
+  props: ['id', 'tagsSet'],
   setup(props) {
-    console.log('tags in detals', props.tags)
     const { error, document, _getDoc } = getDocument('tasks', props.id)
     _getDoc()
+    const tag = ref('')
+    const memo = ref('')
+    // for suggenstion of tag
+    const tagsSet = props.tagsSet
+    const tagsList = ref([])
+    // array
+    console.log('props tagsSet', tagsSet)
 
-    let today = new Date().getDate()
-    const date = ref(new Date())
+    const handleEnterTag = () => {
+      if(!tagsList.value.includes(tag.value)) {
+        tagsList.value.push(tag.value)
+      }
+        tag.value = ''
+    }
 
-    return { error, document }
+    const showTag = computed(() => {
+
+    })
+
+    return { error, document, memo, tag, handleEnterTag, tagsList }
   },
   data() {
     return {
@@ -67,5 +90,25 @@ export default {
 }
 input, textarea {
   margin-top: 8px;
+}
+.tag {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #F2F2F2;
+  color: var(--secondary);
+
+}
+.input-tag {
+  margin-bottom: 8px;
+}
+.complete-button {
+  margin-top: 24px;
+}
+.clear {
+  font-size: 18px;
+  vertical-align: middle;
+  padding-bottom: 1px;
 }
 </style>
