@@ -28,6 +28,7 @@ export default {
         userId: user.value.uid,
         userName: user.value.displayName,
         task: newTask.value,
+        tags:[],
         completed: false,
         createdAt: timestamp()
       }
