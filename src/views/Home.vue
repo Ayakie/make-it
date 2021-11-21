@@ -14,7 +14,7 @@
     <h2>やることリスト</h2>
     <div v-if="taskDocs.length" class="tasks">
       <div v-for="doc in taskDocs" :key="doc.id">
-        <SingleTask :doc="doc" @delete="handleDelete" :tags="getTagsSet"/>
+        <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
       </div>
     </div>
     <NewTaskForm />
@@ -54,9 +54,7 @@ export default {
       taskDocs.value.forEach(doc => {
         doc.tags.forEach(tag => tagsSet.add(tag))
       })
-
       tags.value = [...tagsSet]
-      console.log('tagsSet:', tags.value)
 
       return tags
     })

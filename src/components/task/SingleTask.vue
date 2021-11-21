@@ -2,7 +2,7 @@
   <div class="task">
     <p class="created-time">{{ time }}</p>
     <div class="task-container">
-      <router-link :to="{name: 'Detail', params: {id: doc.id, tags: tags.value}}" class="detail">
+      <router-link :to="{name: 'Detail', params: {id: doc.id, tagsSet: tagsSet.value}}" class="detail">
         <p>{{ doc.task }}</p>
       </router-link>
       <!-- icons -->
@@ -16,7 +16,7 @@ import { computed, ref } from '@vue/reactivity'
 import { format } from 'date-fns'
 
 export default {
-    props: ['doc', 'tags'],
+    props: ['doc', 'tagsSet'],
     setup(props, context) {
       
       const time = computed(() => {
