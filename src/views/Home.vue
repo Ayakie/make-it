@@ -14,7 +14,7 @@
     <h2>やることリスト</h2>
     <div v-if="taskDocs.length" class="tasks">
       <div v-for="doc in taskDocs" :key="doc.id">
-        <SingleTask :doc="doc" @delete="handleDelete"/>
+        <SingleTask :doc="doc" @delete="handleDelete" :tags="getTagsSet"/>
       </div>
     </div>
     <NewTaskForm />
@@ -32,12 +32,15 @@ import SingleTask from '@/components/task/SingleTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
+import { ref } from '@vue/reactivity'
+import { onMounted, onUpdated, computed } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
   components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar, Calendar, DatePicker },
   setup (){
     const user = getUser()
+    const tags = ref([])
     // get current user's collection
     const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
@@ -46,7 +49,20 @@ export default {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
 
-    return { taskDocs, handleDelete, goalDocs }
+    const getTagsSet = computed(() => {
+      const tagsSet = new Set()
+      taskDocs.value.forEach(doc => {
+        doc.tags.forEach(tag => tagsSet.add(tag))
+      })
+
+      tags.value = [...tagsSet]
+      console.log('tagsSet:', tags.value)
+
+      return tags
+    })
+
+
+    return { taskDocs, handleDelete, goalDocs, getTagsSet }
   },
   data() {
     return {

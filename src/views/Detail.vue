@@ -20,6 +20,7 @@
       <label for="memo">メモ</label>
       <textarea id="memo"></textarea>
       <label for="">タグ (カテゴリ)</label>
+      {{ tags }}
       <input type="text" v-model="tag" placeholder="Enter を押して追加">
       <button>完了する</button>
     </form>
@@ -36,9 +37,9 @@ import { DatePicker } from 'v-calendar'
 
 export default {
   components: { Navbar, BackPage, DatePicker },
-  props: ['id'],
+  props: ['id', 'tags'],
   setup(props) {
-    console.log('props', props.id)
+    console.log('tags in detals', props.tags)
     const { error, document, _getDoc } = getDocument('tasks', props.id)
     _getDoc()
 
