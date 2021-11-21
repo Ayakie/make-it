@@ -17,6 +17,7 @@ const getCollection = (collectionName, _query) => {
     }
 
     let unsub = onSnapshot(collectionRef, (snap) => {
+        console.log('snap')
         let results = []
 
         snap.docs.forEach(doc => {
@@ -32,7 +33,7 @@ const getCollection = (collectionName, _query) => {
     }, (err) => {
         console.log(err.message)
         error.value = 'could not fetch the data'
-        documents.value = null
+        documents.value = []
     })
     return { error, documents }
 }
