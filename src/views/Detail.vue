@@ -26,7 +26,7 @@
       <input class="input-tag" type="text" placeholder="Enter を押して追加"
       v-model="tag" @keypress.enter.prevent="handleEnterTag">
       <div class="tag" v-for="_tag in tagsList" :key="_tag">
-        <span class="material-icons clear">clear</span>
+        <span class="material-icons clear" @click="handleClear(_tag)">clear</span>
         #{{ _tag }}
       </div>
       <div class="complete-button">
@@ -55,8 +55,7 @@ export default {
     // for suggenstion of tag
     const tagsSet = props.tagsSet
     const tagsList = ref([])
-    // array
-    console.log('props tagsSet', tagsSet)
+
 
     const handleEnterTag = () => {
       if(!tagsList.value.includes(tag.value)) {
@@ -65,11 +64,15 @@ export default {
         tag.value = ''
     }
 
+    const handleClear = (_tag) => {
+      tagsList.value.pop(_tag)
+    }
+
     const showTag = computed(() => {
 
     })
 
-    return { error, document, memo, tag, handleEnterTag, tagsList }
+    return { error, document, memo, tag, handleEnterTag, tagsList, handleClear }
   },
   data() {
     return {
