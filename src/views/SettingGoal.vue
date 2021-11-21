@@ -19,7 +19,7 @@
           <div class="error" v-if="dateError">{{ dateError }}</div>
           <div class="error" v-if="error"> {{ error }}</div>
           <div class="output" v-if="output"> {{output}} </div>
-          <button :disabled="isDisabled">登録する</button>
+          <button>登録する</button>
       </form>
       <BackPage />
   </div>
@@ -43,7 +43,6 @@ export default {
         const user = getUser()
         const today = new Date()
         const restSec = ref(null)
-        // const output = ref('')
 
         const { error, _addDoc } = useCollection('goals')
 
@@ -69,7 +68,6 @@ export default {
         const output = computed(() => {
             if(!dateError.value && goalDate.value) {
                 restSec.value = Math.floor((goalDate.value.getTime() - today.getTime()) / 1000)
-                console.log('remaining seconds ', restSec.value)
                 const day = Math.floor(restSec.value / 60 / 60 / 24)
 
                 return newGoal.value + 'まで残り ' + day + ' 日です!'
