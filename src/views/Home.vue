@@ -1,6 +1,9 @@
 <template>
   <Navbar />
-  <HeroAfter v-if="goalDocs.length"/>
+  <HeroAfter v-if="goalDocs.length"
+  :date="goalDocs[0]['date']"
+  :goal="goalDocs[0]['goal']"
+  />
   <HeroBefore v-if="!goalDocs.length"/>
   <section class="calendar">
     <div class="calendar-container">
@@ -39,8 +42,6 @@ export default {
     const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
 
-    // console.log('goalDocs in Home', goals)
-
     const handleDelete = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
@@ -65,6 +66,9 @@ export default {
 </script>
 
 <style>
+section.task {
+  margin-top: 48px;
+}
 .tasks {
   max-width: 600px;
   background: white;
