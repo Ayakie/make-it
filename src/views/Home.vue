@@ -1,7 +1,7 @@
 <template>
   <Navbar />
-  <HeroAfter v-if="false"/>
-  <HeroBefore v-if="true"/>
+  <HeroAfter v-if="goalDocs.length"/>
+  <HeroBefore v-if="!goalDocs.length"/>
   <section class="calendar">
     <div class="calendar-container">
       <Calendar is-expanded :attributes='attrs' />
@@ -9,8 +9,8 @@
   </section>
   <section class="task">
     <h2>やることリスト</h2>
-    <div v-if="documents.length" class="tasks">
-      <div v-for="doc in documents" :key="doc.id">
+    <div v-if="taskDocs.length" class="tasks">
+      <div v-for="doc in taskDocs" :key="doc.id">
         <SingleTask :doc="doc" @delete="handleDelete"/>
       </div>
     </div>
@@ -36,13 +36,16 @@ export default {
   setup (){
     const user = getUser()
     // get current user's collection
-    const { error, documents } = getCollection('tasks', ['userId', '==', user.value.uid])
+    const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
+    const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
+
+    // console.log('goalDocs in Home', goals)
 
     const handleDelete = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
 
-    return { error, documents, handleDelete }
+    return { taskDocs, handleDelete, goalDocs }
   },
   data() {
     return {
