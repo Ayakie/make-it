@@ -24,14 +24,14 @@
       <label for="">タグ (カテゴリ)</label>
       <input class="input-tag" type="text" placeholder="Enter を押して追加"
       v-model="tag" @keypress.enter.prevent="handleEnterTag">
-      <div class="tag" v-for="_tag in tagsList" :key="_tag">
+      <div class="tag" v-for="_tag in document.tags" :key="_tag">
         <span class="material-icons clear" @click="handleClear(_tag)">clear</span>
         #{{ _tag }}
       </div>
       <div>
         <button class="complete-button">完了する</button>
         <div class="save">
-          <span class="material-icons save-icon">border_color</span> 
+          <span class="material-icons save-icon">border_color</span>
           一時保存する
         </div>
       </div>
@@ -48,6 +48,7 @@ import setDocument from "@/composables/setDocument"
 import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
 import { useRouter } from 'vue-router'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
   components: { Navbar, BackPage, DatePicker },
@@ -56,16 +57,28 @@ export default {
     const router = useRouter()
     const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
     const { error: setError, updateDoc } = setDocument('tasks', props.id)
-
-    _getDoc()
-    const tag = ref('')
-    const memo = ref('')
-    // for suggenstion of tag
-    const tagsSet = props.tagsSet
-    const tagsList = ref([])
+    const memo = ref([])
     const completedAt = ref(new Date())
 
-    const handleEnterTag = () => {
+    const setupValue = (async() => {
+      await _getDoc()
+      console.log('document.value: ', document.value)
+      memo.value = document.value.memo
+      if (document.value.completedAt) {
+        completedAt.value = document.value.completedAt.toDate()
+      }
+    })()
+
+    const tag = ref('')
+    // for suggenstion of tag
+    const tagsSet = props.tagsSet
+    // document is null at this moment
+    // console.log('document.value: ', document.value)
+    const tagsList = ref([])
+    onMounted(() => console.log('mounted!'))
+
+    const handleEnterTag = async () => {
+      tagsList.value = await document.value.tags
       if(!tagsList.value.includes(tag.value)) {
         tagsList.value.push(tag.value)
       }
@@ -80,19 +93,19 @@ export default {
 
     })
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       const data = {
         tags: tagsList.value,
         complete: true,
         memo: memo.value,
         completedAt: completedAt.value
       }
-      updateDoc(data)
+      await updateDoc(data)
       
       router.push({ name: 'Home'})
     }
 
-    return { taskError, document, memo, tag, handleEnterTag, tagsList, handleClear, handleSubmit, completedAt }
+    return { taskError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt }
   },
   data() {
     return {
