@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <HeroAfter v-if="goalDocs.length"
   :date="goalDocs[0]['date']"
   :goal="goalDocs[0]['goal']"
@@ -25,7 +24,6 @@
 <script>
 import getCollection from '@/composables/getCollection'
 import getUser from '@/composables/getUser'
-import Navbar from '@/components/Navbar.vue'
 import HeroBefore from '@/components/hero/HeroBefore.vue'
 import HeroAfter from '@/components/hero/HeroAfter.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
@@ -39,7 +37,7 @@ import { onMounted, onUpdated } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar, Calendar, DatePicker, FilterNav },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav },
   setup (){
     const user = getUser()
     const tags = ref([])

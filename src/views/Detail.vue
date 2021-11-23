@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="detail" v-if="document">
     <h3>やったことを振り返ろう</h3>
     <form @submit.prevent="handleSubmit">
@@ -41,7 +40,6 @@
 </template>
 
 <script>
-import Navbar from "@/components/Navbar.vue"
 import BackPage from '@/components/BackPage.vue'
 import getDocument from "@/composables/getDocument"
 import setDocument from "@/composables/setDocument"
@@ -51,7 +49,7 @@ import { useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
 
 export default {
-  components: { Navbar, BackPage, DatePicker },
+  components: { BackPage, DatePicker },
   props: ['id', 'tagsSet'],
   setup(props) {
     const router = useRouter()
@@ -145,7 +143,6 @@ input, textarea {
   border-radius: 20px;
   background: #F2F2F2;
   color: var(--secondary);
-
 }
 .input-tag {
   margin-bottom: 8px;
