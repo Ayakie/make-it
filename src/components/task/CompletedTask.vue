@@ -2,15 +2,20 @@
     <div class="completed-tasks-container">
         <div class="tasks">
             <div v-for="doc in tasks" :key="doc.id">
-                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet">
+                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet">
 
                 </SingleTask>
             </div>
-            <div class="no-task" v-if="!tasks">達成したことを振り返ることでモチベーションアップ！</div>
+            <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
         </div>
         <div class="tags">
             <p>タグ一覧</p>
-            <div v-for="tag in tagsSet" :key="tag" class="tag"># {{ tag }}</div>
+            <div class="tag"
+            :class="{selected: isSelected === '全て表示'}"
+            @click="handleClick('全て表示')">全て表示</div><br>
+            <div v-for="tag in tagsSet" :key="tag" class="tag"
+            :class="{selected: isSelected === tag}"
+            @click="handleClick(tag)"># {{ tag }}</div>
         </div>
     </div>
 </template>
@@ -19,22 +24,31 @@
 import SingleTask from '@/components/task/SingleTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
-import { ref } from '@vue/reactivity'
+import { ref, computed } from '@vue/reactivity'
 
 export default {
     name: 'CompletedTask',
-    props:['tasks','tagsSet'],
+    props:['tasks','tagsSet', 'uid'],
     components: { SingleTask },
     inheritAttrs: false,
 
     setup(props) {
-        const tasks = ref(props.tasks.value)
+        const tasks = ref(props.tasks)
         const tagsSet = props.tagsSet.value
-        console.log(tagsSet)
+        console.log(tasks.value)
+        const isSelected = ref(null)
         const handleDelete = async (id) => {
             await deleteDoc(doc(projectFirestore, 'tasks', id))
         }
-        return { handleDelete, tagsSet, tasks }
+        const handleClick = (tag) => {
+            isSelected.value = tag
+            if (tag === "全て表示") {
+                tasks.value = props.tasks
+            } else {
+                tasks.value = props.tasks.filter(task => task.tags.includes(tag))
+            }
+        }
+        return { handleDelete, tagsSet, tasks, handleClick, isSelected}
     }
 
 }
@@ -58,6 +72,11 @@ export default {
 }
 .tags p {
     margin: 24px auto;
+}
+.selected {
+    color: var(--accent);
+    font-weight: bold;
+    border-bottom: none;
 }
 @media (max-width: 768px) {
     .completed-tasks-container {
