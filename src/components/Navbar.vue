@@ -1,12 +1,12 @@
 <template>
   <header>
-      <div class="header-container">
+      <div class="header-container"  v-if="user">
           <div class="site">
               <router-link :to="{name: 'Home'}">
                   <span class="material-icons home">home</span>
               </router-link>
           </div>
-          <div class="nav-login" v-if="user">
+          <div class="nav-login">
               <p>ようこそ、{{ user.displayName }} さん</p>
               <button @click="handleLogout">Logout</button>
           </div>
