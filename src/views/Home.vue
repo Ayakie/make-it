@@ -9,15 +9,24 @@
       <Calendar is-expanded :attributes='attrs' />
     </div>
   </section>
+
   <section class="task">
     <h2>やることリスト</h2>
     <FilterNav @changeStatus="updateStatus" :status="status"/>
-    <div v-if="taskDocs.length" class="tasks">
+
+    <!-- ongoing task page -->
+    <div v-if="taskDocs.length && status==='ongoing'" class="tasks">
       <div v-for="doc in filteredDocs" :key="doc.id">
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
       </div>
+      <p v-if="!filteredDocs.length" class="no-task">小さなことから始めよう</p>
     </div>
-    <NewTaskForm />
+    <NewTaskForm v-if="status==='ongoing'"/>
+
+    <!-- completed task page -->
+    <div class="completed-tasks" v-if="status==='completed'">
+      <CompletedTask :tasks="filteredDocs" :tagsSet="getTagsSet"/>
+    </div>
   </section>
 </template>
 
@@ -29,6 +38,7 @@ import HeroAfter from '@/components/hero/HeroAfter.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
+import CompletedTask from '@/components/task/CompletedTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
@@ -37,7 +47,7 @@ import { onMounted, onUpdated } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav, CompletedTask },
   setup (){
     const user = getUser()
     const tags = ref([])
@@ -47,12 +57,13 @@ export default {
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
 
     const filteredDocs = computed(() => {
+      // return taskDocs.value.filter(doc => !doc.completed)
       if (status.value === "ongoing") {
         return taskDocs.value.filter(doc => !doc.completed)
       } else if (status.value === "completed") {
         return taskDocs.value.filter(doc => doc.completed)
       } else {
-        return taskDocs
+        throw new Error('another status!')
       }
     })
 
@@ -101,11 +112,15 @@ section.task {
   max-width: 600px;
   background: white;
   border-radius: 4px;
-  margin: 40px auto;
+  margin: 24px auto;
   padding: 32px;
 }
+.no-task {
+  color: var(--secondary);
+  text-align: center;
+}
 .hero {
-    height: 480px;
+    height: 400px;
     position: relative;
 }
 .hero-container {
@@ -135,9 +150,18 @@ section.task {
 }
 /* smartphone */
 @media (max-width: 768px) {
-    .hero-img {
-        left: 20px;
-        filter: opacity(70%);
+  .hero-img {
+      left: 20px;
+      filter: opacity(60%);
     }
+    .hero .title {
+      margin-top: 20px;
+      margin-bottom: 0;
+    }
+  .material-icons.edit {
+    position: absolute;
+    top: 65%;
+    right: 5vw;
+}
 }
 </style>
