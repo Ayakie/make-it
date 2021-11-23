@@ -2,8 +2,11 @@
     <div class="completed-tasks-container">
         <div class="tasks">
             <div v-for="doc in tasks" :key="doc.id">
-                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
+                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet">
+
+                </SingleTask>
             </div>
+            <div class="no-task" v-if="!tasks">達成したことを振り返ることでモチベーションアップ！</div>
         </div>
         <div class="tags">
             <p>タグ一覧</p>
@@ -16,6 +19,7 @@
 import SingleTask from '@/components/task/SingleTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
+import { ref } from '@vue/reactivity'
 
 export default {
     name: 'CompletedTask',
@@ -24,12 +28,13 @@ export default {
     inheritAttrs: false,
 
     setup(props) {
+        const tasks = ref(props.tasks.value)
         const tagsSet = props.tagsSet.value
         console.log(tagsSet)
         const handleDelete = async (id) => {
             await deleteDoc(doc(projectFirestore, 'tasks', id))
         }
-        return { handleDelete, tagsSet }
+        return { handleDelete, tagsSet, tasks }
     }
 
 }

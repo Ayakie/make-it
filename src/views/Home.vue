@@ -15,17 +15,17 @@
     <FilterNav @changeStatus="updateStatus" :status="status"/>
 
     <!-- ongoing task page -->
-    <div v-if="taskDocs.length && status==='ongoing'" class="tasks">
+    <div v-if="filteredDocs.length && status==='ongoing'" class="tasks">
       <div v-for="doc in filteredDocs" :key="doc.id">
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
       </div>
-      <p v-if="!filteredDocs.length" class="no-task">小さなことから始めよう</p>
     </div>
+    <p v-if="(!filteredDocs.length || !taskDocs.length) && status==='ongoing'" class="tasks no-task">小さなことから始めよう</p>
     <NewTaskForm v-if="status==='ongoing'"/>
 
     <!-- completed task page -->
     <div class="completed-tasks" v-if="status==='completed'">
-      <CompletedTask :tasks="filteredDocs" :tagsSet="getTagsSet"/>
+      <CompletedTask :tasks="filteredDocs" :tagsSet="getTagsSet" :uid="uid"/>
     </div>
   </section>
 </template>
@@ -52,9 +52,11 @@ export default {
     const user = getUser()
     const tags = ref([])
     const status = ref('ongoing')
+    const uid = user.value.uid
     // get current user's collection
-    const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
-    const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
+    const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', uid])
+    const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', uid])
+    console.log('taskDocs', taskDocs.value)
 
     const filteredDocs = computed(() => {
       // return taskDocs.value.filter(doc => !doc.completed)
