@@ -30,7 +30,7 @@
       </div>
       <div>
         <button class="complete-button">完了する</button>
-        <div class="save">
+        <div class="save" @click="handleSave">
           <span class="material-icons save-icon">border_color</span>
           一時保存する
         </div>
@@ -93,6 +93,18 @@ export default {
 
     })
 
+    const handleSave = async() => {
+      const data = {
+        tags: tagsList.value,
+        complete: false,
+        memo: memo.value,
+        completedAt: completedAt.value
+      }
+      await updateDoc(data)
+
+      router.push({ name: 'Home'})
+    }
+
     const handleSubmit = async () => {
       const data = {
         tags: tagsList.value,
@@ -105,7 +117,7 @@ export default {
       router.push({ name: 'Home'})
     }
 
-    return { taskError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt }
+    return { taskError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave }
   },
   data() {
     return {
