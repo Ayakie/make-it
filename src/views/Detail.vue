@@ -19,7 +19,7 @@
       </DatePicker>
       <label for="memo">メモ</label>
       <textarea id="memo" placeholder=""
-      v-model="memo">
+      v-model="memo" required>
       </textarea>
       <label for="">タグ (カテゴリ)</label>
       <input class="input-tag" type="text" placeholder="Enter を押して追加"
@@ -96,7 +96,7 @@ export default {
     const handleSave = async() => {
       const data = {
         tags: tagsList.value,
-        complete: false,
+        completed: false,
         memo: memo.value,
         completedAt: completedAt.value
       }
@@ -107,8 +107,8 @@ export default {
 
     const handleSubmit = async () => {
       const data = {
+        completed: true,
         tags: tagsList.value,
-        complete: true,
         memo: memo.value,
         completedAt: completedAt.value
       }
