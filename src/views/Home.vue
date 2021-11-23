@@ -12,6 +12,7 @@
   </section>
   <section class="task">
     <h2>やることリスト</h2>
+    <FilterNav @changeStatus="updateStatus" :status="status"/>
     <div v-if="taskDocs.length" class="tasks">
       <div v-for="doc in taskDocs" :key="doc.id">
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
@@ -29,6 +30,7 @@ import HeroBefore from '@/components/hero/HeroBefore.vue'
 import HeroAfter from '@/components/hero/HeroAfter.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
+import FilterNav from '@/components/FilterNav.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
@@ -37,10 +39,11 @@ import { onMounted, onUpdated, computed } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar, Calendar, DatePicker },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Navbar, Calendar, DatePicker, FilterNav },
   setup (){
     const user = getUser()
     const tags = ref([])
+    const status = ref('ongoing')
     // get current user's collection
     const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
@@ -59,8 +62,12 @@ export default {
       return tags
     })
 
+    const updateStatus = (_status) => {
+      status.value = _status
+      console.log(status.value)
+    }
 
-    return { taskDocs, handleDelete, goalDocs, getTagsSet }
+    return { taskDocs, handleDelete, goalDocs, getTagsSet, updateStatus, status }
   },
   data() {
     return {
