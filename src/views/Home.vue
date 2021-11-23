@@ -14,7 +14,7 @@
     <h2>やることリスト</h2>
     <FilterNav @changeStatus="updateStatus" :status="status"/>
     <div v-if="taskDocs.length" class="tasks">
-      <div v-for="doc in taskDocs" :key="doc.id">
+      <div v-for="doc in filteredDocs" :key="doc.id">
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
       </div>
     </div>
@@ -34,8 +34,8 @@ import FilterNav from '@/components/FilterNav.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
-import { ref } from '@vue/reactivity'
-import { onMounted, onUpdated, computed } from '@vue/runtime-core'
+import { ref, computed } from '@vue/reactivity'
+import { onMounted, onUpdated } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
@@ -47,6 +47,16 @@ export default {
     // get current user's collection
     const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', user.value.uid])
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', user.value.uid])
+
+    const filteredDocs = computed(() => {
+      if (status.value === "ongoing") {
+        return taskDocs.value.filter(doc => !doc.completed)
+      } else if (status.value === "completed") {
+        return taskDocs.value.filter(doc => doc.completed)
+      } else {
+        return taskDocs
+      }
+    })
 
     const handleDelete = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
@@ -64,10 +74,9 @@ export default {
 
     const updateStatus = (_status) => {
       status.value = _status
-      console.log(status.value)
     }
 
-    return { taskDocs, handleDelete, goalDocs, getTagsSet, updateStatus, status }
+    return { taskDocs, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs }
   },
   data() {
     return {
