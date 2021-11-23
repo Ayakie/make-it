@@ -41,6 +41,14 @@ export default {
 }
 .selected {
     border-bottom: 2px solid #3D566F;
-    color: var(--secondary);
+    color: #3D566F;
+}
+
+@media (max-width: 768px) {
+    .filter-nav {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+    }
 }
 </style>
