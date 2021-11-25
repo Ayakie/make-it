@@ -25,6 +25,10 @@ h2, h3 {
     text-align: center;
 }
 
+h2 {
+    margin: 24px;
+}
+
 /* buttons */
 button, .btn {
     color: var(--main);
@@ -35,11 +39,11 @@ button, .btn {
 
 /* forms */
 form {
-    max-width: 400px;
+    max-width: 480px;
     border-radius: 10px;
     background: white;
-    margin: 24px auto;
-    padding: 40px 16px;
+    margin: 32px auto;
+    padding: 40px 32px;
     /* border: 1px solid var(--secondary); */
 }
 
@@ -49,6 +53,11 @@ input, textarea {
     padding: 10px;
     margin: 24px auto;
     border: 0.5px solid #d7d7d7;
+}
+
+form > label {
+    text-align: left;
+    display: block;
 }
 
 /* error text */
@@ -64,7 +73,9 @@ input, textarea {
 .material-icons:hover{
     color: var(--main);
   }
-
 a {
     text-decoration: none;
+}
+section {
+    margin: 24px auto;
 }

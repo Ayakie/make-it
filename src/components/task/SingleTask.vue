@@ -2,7 +2,7 @@
   <div class="task">
     <p class="created-time">{{ time }}</p>
     <div class="task-container">
-      <router-link :to="{name: 'Detail', params: {id: doc.id, tagsSet: tagsSet.value}}" class="detail">
+      <router-link :to="{name: 'Detail', params: {id: doc.id, tagsSet: tagsSet}}" class="detail">
         <p>{{ doc.task }}</p>
       </router-link>
       <!-- icons -->
