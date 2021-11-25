@@ -17,7 +17,7 @@ const setDocument = (collectionName, _id) => {
 
         } catch (err) {
             console.log('error occurred in setDoc', err.message)
-            error.value = 'データを更新できませんでした'
+            error.value = ' ※この項目は必須です'
         }
 
     }

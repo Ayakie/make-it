@@ -30,7 +30,8 @@ export default {
         task: newTask.value,
         tags:[],
         completed: false,
-        createdAt: timestamp()
+        createdAt: timestamp(),
+        memo: ""
       }
       
       if (newTask.value.length) {
