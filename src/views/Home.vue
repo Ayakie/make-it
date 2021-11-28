@@ -40,7 +40,7 @@ import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
 import CompletedTask from '@/components/task/CompletedTask.vue'
 import { projectFirestore } from "@/firebase/config"
-import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
+import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
 import { onMounted, onUpdated } from '@vue/runtime-core'
@@ -71,7 +71,8 @@ export default {
 
     const handleFinish = async (id) => {
       await updateDoc(doc(projectFirestore, 'tasks', id), {
-        completed: true
+        completed: true,
+        completedAt: serverTimestamp()
       })
     }
 
