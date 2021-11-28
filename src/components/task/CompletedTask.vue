@@ -10,7 +10,7 @@
         </div>
         <div class="tags">
             <p>タグ一覧</p>
-            <div class="tag"
+            <div class="tag show-all"
             :class="{selected: isSelected === '全て表示'}"
             @click="handleClick('全て表示')">全て表示</div><br>
             <div v-for="tag in tagsSet" :key="tag" class="tag"
@@ -36,7 +36,7 @@ export default {
         const tasks = ref(props.tasks)
         const tagsSet = props.tagsSet.value
         console.log(tasks.value)
-        const isSelected = ref(null)
+        const isSelected = ref('全て表示')
         const handleDelete = async (id) => {
             await deleteDoc(doc(projectFirestore, 'tasks', id))
         }
