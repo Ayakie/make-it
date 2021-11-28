@@ -30,13 +30,19 @@
       </div>
       <!-- if finished -->
       <div v-if="isCompleted">
-        <button class="delete-btn" @click.prevent="handleUnfinish">
+        <button @click.prevent="handleUnfinish">
           <span class="material-icons finish">unpublished</span>
           <span class="text">やることに戻す</span>
         </button>
-        <div class="delete-btn" @click.prevent="handleDelete">
-          <span class="material-icons finish">delete</span>
-          削除する
+        <div class="btn-container">
+          <div class="delete-btn" @click.prevent="handleDelete">
+            <span class="material-icons finish">delete</span>
+            削除する
+          </div>
+          <div class="save-btn" @click.prevent="handleUpdate">
+            <span class="material-icons save">border_color</span>
+            更新する
+          </div>
         </div>
       </div>
       <!-- if unfinished -->
@@ -164,7 +170,22 @@ export default {
       }
     }
 
-    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, handleUnfinish, handleDelete }
+    const handleUpdate = async () => {
+      const data = {
+        completed: true,
+        task: title.value,
+        tags: tags.value,
+        memo: memo.value,
+        completedAt: completedAt.value,
+        createdAt: timestamp()
+        }
+      await _updateDoc(data)
+      if (!setError.value) {
+        router.push({ name: 'Home' })
+      }
+    }
+
+    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, handleUnfinish, handleDelete, handleUpdate }
   },
   data() {
     return {
@@ -197,6 +218,10 @@ input, textarea {
 .input-tag {
   margin-bottom: 8px;
 }
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
 button {
   margin: auto;
   margin-top: 24px;
@@ -221,6 +246,7 @@ button .text {
 .save-btn, .delete-btn {
   cursor: pointer;
   margin-top: 16px;
+  margin-right: 16px;
 }
 .save-btn:hover, .delete-btn:hover {
   opacity: 0.6;
