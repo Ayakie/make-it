@@ -102,7 +102,8 @@ export default {
     const attributes = ref([
       {
         dates: new Date(),
-        highlight: {color: "gray", fillMode: 'solid'}
+        highlight: {color: "gray", fillMode: 'solid'},
+        // popover: {label: '今日'}
       }
     ])
     watchEffect(() => {
@@ -111,7 +112,7 @@ export default {
         attributes.value.push({
           dates: goalDocs.value[0]['date'].toDate(),
           highlight: { color: 'orange', fillMode: 'solid' },
-          popover: true
+          popover: {label: 'something'}
           }
         )
         console.log(attributes.value)
