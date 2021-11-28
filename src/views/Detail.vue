@@ -70,8 +70,6 @@ import { DatePicker } from 'v-calendar'
 import { useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
 import { timestamp } from '@/firebase/config'
-import { doc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { projectFirestore } from '../firebase/config'
 
 export default {
   components: { BackPage, DatePicker },
@@ -85,6 +83,7 @@ export default {
     const tags = ref([])
     const title = ref('')
 
+    // retrieve data from firestore
     const setupValue = (async() => {
       await _getDoc()
       console.log('document.value: ', document.value)
