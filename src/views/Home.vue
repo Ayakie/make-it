@@ -8,7 +8,11 @@
 
   <section class="calendar">
     <div class="calendar-container">
-      <Calendar is-expanded :attributes='attributes' />
+      <Calendar is-expanded :attributes='attributes'>
+        <template #day-popover>
+          {{ goalDocs[0]['goal'] }}
+        </template>
+      </Calendar>
     </div>
   </section>
 
@@ -43,7 +47,7 @@ import FilterNav from '@/components/FilterNav.vue'
 import CompletedTask from '@/components/task/CompletedTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { Calendar, DatePicker } from 'v-calendar'
+import { Calendar, DatePicker, Popover } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
 import { onMounted, onUpdated, watch, watchEffect } from '@vue/runtime-core'
 
@@ -97,37 +101,21 @@ export default {
     }
     const attributes = ref([
       {
-      dates: new Date(),
-      highlight: {
-        color: "gray",
-        fillMode: 'solid'
-      }}])
+        dates: new Date(),
+        highlight: {color: "gray", fillMode: 'solid'}
+      }
+    ])
     watchEffect(() => {
       console.log('changed', goalDocs.value[0])
       if (goalDocs.value[0]) {
-        attributes.value.push(
-          {
-        dates: goalDocs.value[0]['date'].toDate(),
-        highlight: {
-          color: 'orange',
-          fillMode: 'solid'
-        }
-      }
+        attributes.value.push({
+          dates: goalDocs.value[0]['date'].toDate(),
+          highlight: { color: 'orange', fillMode: 'solid' },
+          popover: true
+          }
         )
         console.log(attributes.value)
-        // attributes.value.push()
       }
-    })
-
-    const returnAttrs = computed((goalDocs) => {
-      // goalDate.value = goalDocs[0]['date'].toDate()
-      return attributes.push({
-        highlight: {
-          color: 'orange',
-          fillMode: 'solid'
-        },
-        dates: goalDate.value
-      })
     })
 
     return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
