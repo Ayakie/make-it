@@ -109,7 +109,8 @@ export default {
     }
 
     const handleClear = (_tag) => {
-      tags.value.pop(_tag)
+      const idx = tags.value.indexOf(_tag)
+      tags.value.splice(idx, 1)
     }
 
     const handleSave = async() => {
