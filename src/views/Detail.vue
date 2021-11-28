@@ -29,10 +29,12 @@
         #{{ _tag }}
       </div>
       <div>
-        <span class="material-icons finish">done</span>
-        <button class="complete-button">やることを完了する</button>
-        <div class="save" @click="handleSave">
-          <span class="material-icons save-icon">border_color</span>
+        <button class="complete-btn">
+         <span class="material-icons finish">task_alt</span>
+         <span class="finish-text">やることを完了する</span>
+          </button>
+        <div class="save-btn" @click="handleSave">
+          <span class="material-icons save">border_color</span>
           一時保存する
         </div>
       </div>
@@ -156,24 +158,30 @@ input, textarea {
 .input-tag {
   margin-bottom: 8px;
 }
-.complete-button {
+.complete-btn {
   margin-top: 24px;
+}
+.finish-text {
+  vertical-align: middle;
+}
+.material-icons.finish {
+  color: #3D566F;
+  margin-right: 4px;
 }
 .clear {
   font-size: 18px;
   padding-bottom: 1px;
 }
-.save {
-  cursor: pointer;
+.material-icons.save {
   color: #3D566F;
   font-size: 14px;
+  margin-right: 4px;
+}
+.save-btn {
+  cursor: pointer;
   margin-top: 16px;
 }
-.save:hover {
+.save-btn:hover {
   opacity: 0.6;
-}
-.save-icon {
-  font-size: 14px;
-  margin-right: 4px;
 }
 </style>
