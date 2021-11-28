@@ -5,9 +5,10 @@
   :id="goalDocs[0]['id']"
   />
   <HeroBefore v-if="!goalDocs.length"/>
+
   <section class="calendar">
     <div class="calendar-container">
-      <Calendar is-expanded :attributes='attrs' />
+      <Calendar is-expanded :attributes='attributes' />
     </div>
   </section>
 
@@ -21,7 +22,7 @@
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet" @finish="handleFinish"/>
       </div>
     </div>
-    <!-- <p v-if="(!filteredDocs.length || !taskDocs.length) && status==='ongoing'" class="tasks no-task">小さなことから始めよう</p> -->
+    <!-- new task form -->
     <NewTaskForm v-if="status==='ongoing'"/>
 
     <!-- completed task page -->
@@ -44,7 +45,7 @@ import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
-import { onMounted, onUpdated } from '@vue/runtime-core'
+import { onMounted, onUpdated, watch, watchEffect } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
@@ -57,10 +58,10 @@ export default {
     // get current user's collection
     const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', uid])
     const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', uid])
-    console.log('taskDocs', taskDocs.value)
+    console.log('goalDoc', goalDocs.value)
 
     const filteredDocs = computed(() => {
-      // return taskDocs.value.filter(doc => !doc.completed)
+      // return documents based on status（ongoing or completed）
       if (status.value === "ongoing") {
         return taskDocs.value.filter(doc => !doc.completed)
       } else if (status.value === "completed") {
@@ -94,22 +95,42 @@ export default {
     const updateStatus = (_status) => {
       status.value = _status
     }
+    const attributes = ref([
+      {
+      dates: new Date(),
+      highlight: {
+        color: "gray",
+        fillMode: 'solid'
+      }}])
+    watchEffect(() => {
+      console.log('changed', goalDocs.value[0])
+      if (goalDocs.value[0]) {
+        attributes.value.push(
+          {
+        dates: goalDocs.value[0]['date'].toDate(),
+        highlight: {
+          color: 'orange',
+          fillMode: 'solid'
+        }
+      }
+        )
+        console.log(attributes.value)
+        // attributes.value.push()
+      }
+    })
 
-    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs }
-  },
-  data() {
-    return {
-      attrs: [
-        {
-          key: 'today',
-          highlight: {
-            color: 'gray',
-            fillMode: 'solid'
-            },
-          dates: new Date(),
+    const returnAttrs = computed((goalDocs) => {
+      // goalDate.value = goalDocs[0]['date'].toDate()
+      return attributes.push({
+        highlight: {
+          color: 'orange',
+          fillMode: 'solid'
         },
-      ],
-    };
+        dates: goalDate.value
+      })
+    })
+
+    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
   }
 }
 </script>
