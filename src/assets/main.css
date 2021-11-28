@@ -69,6 +69,7 @@ form > label {
 .material-icons {
     cursor: pointer;
     color: var(--secondary);
+    vertical-align: middle;
   }
 .material-icons:hover{
     color: var(--main);

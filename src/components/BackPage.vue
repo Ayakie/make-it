@@ -19,9 +19,6 @@ export default {
 </script>
 
 <style scoped>
-.material-icons.back {
-    vertical-align: middle;
-}
 .back {
     display: inline-block;
     cursor: pointer;

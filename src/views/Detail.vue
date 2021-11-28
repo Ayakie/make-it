@@ -29,7 +29,8 @@
         #{{ _tag }}
       </div>
       <div>
-        <button class="complete-button">完了する</button>
+        <span class="material-icons finish">done</span>
+        <button class="complete-button">やることを完了する</button>
         <div class="save" @click="handleSave">
           <span class="material-icons save-icon">border_color</span>
           一時保存する
@@ -160,13 +161,10 @@ input, textarea {
 }
 .clear {
   font-size: 18px;
-  vertical-align: middle;
   padding-bottom: 1px;
 }
 .save {
   cursor: pointer;
-  vertical-align: middle;
-  /* display: inline-block; */
   color: #3D566F;
   font-size: 14px;
   margin-top: 16px;
@@ -176,6 +174,6 @@ input, textarea {
 }
 .save-icon {
   font-size: 14px;
-  vertical-align: middle;
+  margin-right: 4px;
 }
 </style>
