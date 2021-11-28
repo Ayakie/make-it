@@ -12,7 +12,9 @@
             <span class="output">{{ output['sec'] }}</span> 秒
             です！
             </h3>
-        <span class="material-icons edit">edit</span>
+          <router-link :to="{name: 'SettingGoal', params: {id: id, goal: goal}}">
+            <span class="material-icons edit">edit</span>
+          </router-link>
       </div>
   </section>
 </template>
@@ -20,7 +22,7 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 export default {
-  props: ['date', 'goal'],
+  props: ['date', 'goal', 'id'],
   setup(props) {
     const goalDate = props.date
     const goal = props.goal

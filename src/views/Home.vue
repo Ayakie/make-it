@@ -2,6 +2,7 @@
   <HeroAfter v-if="goalDocs.length"
   :date="goalDocs[0]['date']"
   :goal="goalDocs[0]['goal']"
+  :id="goalDocs[0]['id']"
   />
   <HeroBefore v-if="!goalDocs.length"/>
   <section class="calendar">

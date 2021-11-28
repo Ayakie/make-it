@@ -30,7 +30,8 @@ const routes = [
   {
     path: '/setting-goal',
     name: 'SettingGoal',
-    component: SettingGoal
+    component: SettingGoal,
+    props: true
   },
   {
     path:'/:id',

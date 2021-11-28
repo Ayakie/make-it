@@ -3,6 +3,9 @@
       <h3>目標と達成予定日を設定しよう</h3>
       <p>登録することで、達成日までのカウントダウンが表示されます</p>
       <form @submit.prevent="handleSubmit">
+          <div v-if="id">
+              現在の目標：{{ goal }}
+          </div>
           <label for="goal">目標</label>
           <input type="text" id="goal" v-model="newGoal" required placeholder="例) 〇〇大学に合格する">
           <label for="goal-date">達成日</label>
@@ -17,9 +20,16 @@
               </template>
           </DatePicker>
           <div class="error" v-if="dateError">{{ dateError }}</div>
-          <div class="error" v-if="error"> {{ error }}</div>
+          <div class="error" v-if="addError"> {{ addError }}</div>
           <div class="output" v-if="output"> {{output}} </div>
-          <button>登録する</button>
+          <button>
+            <span v-if="id">
+                更新する
+            </span>
+            <span v-else>
+                登録する
+            </span>
+          </button>
       </form>
       <BackPage />
   </div>
@@ -28,6 +38,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import useCollection from '@/composables/useCollection'
+import setDocument from "@/composables/setDocument"
 import getUser from '@/composables/getUser'
 import BackPage from '@/components/BackPage.vue'
 import { computed, ref } from '@vue/reactivity'
@@ -36,6 +47,7 @@ import { DatePicker } from 'v-calendar'
 
 export default {
     components: { BackPage, DatePicker },
+    props:['id', 'goal'],
     setup(props, context) {
         const router = useRouter()
         const newGoal = ref('')
@@ -44,11 +56,11 @@ export default {
         const today = new Date()
         const restSec = ref(null)
 
-        const { error, _addDoc } = useCollection('goals')
+        const { error:addError, _addDoc } = useCollection('goals')
+        const { error:setError, _updateDoc, _} = setDocument('goals', props.id)
 
         const handleSubmit = async () => {
-            const now = new Date()
-            const goal = {
+            let goal = {
                 userId: user.value.uid,
                 userName: user.value.displayName,
                 goal: newGoal.value,
@@ -56,13 +68,24 @@ export default {
                 createdAt: timestamp()
             }
 
-            if (!error.value && !dateError.value) {
-                console.log('submitted!')
-                const docRef = await _addDoc(goal)
-                newGoal.value =''
-                router.push({name: 'Home'})
+            if (!addError.value && !dateError.value) {
+                if (props.id) {
+                    let goal = {
+                        goal: newGoal.value,
+                        date: goalDate.value,
+                        createdAt: timestamp()
+                    }
+                    await _updateDoc(goal)
+                } else {
+                    const docRef = await _addDoc(goal)
+                    // newGoal.value =''
+                }
+                if (!setError.value && !addError.value) {
+                    console.log('submitted!')
+                    router.push({name: 'Home'})
+                }
             }
-            context.emit('setDate', restSec.value)
+            // context.emit('setDate', restSec.value)
         }
 
         const output = computed(() => {
@@ -82,7 +105,7 @@ export default {
             }
         })
 
-        return {newGoal, goalDate, handleSubmit, error, dateError, output, dateError }
+        return {newGoal, goalDate, handleSubmit, addError, dateError, output, dateError }
     },
     data() {
         return {
