@@ -1,7 +1,7 @@
 <template>
   <div class="detail" v-if="document">
     <h3>やったことを振り返ろう</h3>
-    <form @submit.prevent="handleSubmit">
+    <form>
       <label for="">タイトル</label>
       <input type="text" class="task-name" v-model="title">
       <label for="complete-date">完了日</label>
@@ -28,12 +28,18 @@
         <span class="material-icons clear" @click="handleClear(_tag)">clear</span>
         #{{ _tag }}
       </div>
-      <div>
-        <button class="complete-btn">
+      <!-- if finished -->
+      <button class="delete-btn" v-if="isCompleted" @click.prevent="unfinishTask">
+        <span class="material-icons finish">unpublished</span>
+        <span class="text">やることに戻す</span>
+      </button>
+      <!-- if unfinished -->
+      <div v-else>
+        <button class="complete-btn" @click.prevent="handleSubmit">
          <span class="material-icons finish">task_alt</span>
-         <span class="finish-text">やることを完了する</span>
+         <span class="text">やることを完了する</span>
           </button>
-        <div class="save-btn" @click="handleSave">
+        <div class="save-btn" @click.prevent="handleSave">
           <span class="material-icons save">border_color</span>
           一時保存する
         </div>
@@ -51,14 +57,17 @@ import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
 import { useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
+import { timestamp } from '@/firebase/config'
+import { doc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { projectFirestore } from '../firebase/config'
 
 export default {
   components: { BackPage, DatePicker },
-  props: ['id', 'tagsSet'],
+  props: ['id', 'tagsSet', 'isCompleted'],
   setup(props) {
     const router = useRouter()
     const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
-    const { error: setError, updateDoc } = setDocument('tasks', props.id)
+    const { error: setError, _updateDoc } = setDocument('tasks', props.id)
     const memo = ref(null)
     const completedAt = ref(new Date())
     const tags = ref([])
@@ -106,7 +115,7 @@ export default {
         memo: memo.value,
         completedAt: completedAt.value
       }
-      await updateDoc(data)
+      await _updateDoc(data)
       if (!setError.value) {
         router.push({ name: 'Home'})
       }
@@ -120,12 +129,30 @@ export default {
         memo: memo.value,
         completedAt: completedAt.value
       }
-      await updateDoc(data)
-      
-      router.push({ name: 'Home'})
+      await _updateDoc(data)
+      if (!setError.value) {
+        router.push({ name: 'Home' })
+      }
     }
 
-    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave }
+    const unfinishTask = async () => {
+      const data = {
+        completed: false,
+        task: title.value,
+        tags: tags.value,
+        memo: memo.value,
+        completedAt: completedAt.value,
+        createdAt: timestamp()
+        }
+      await _updateDoc(data)
+      if (!setError.value) {
+        router.push({ name: 'Home' })
+      }
+      // await setDoc(doc(projectFirestore, 'tasks', props.id), data, {merge: true})
+      // router.push({ name: 'Home'})
+    }
+
+    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, unfinishTask }
   },
   data() {
     return {
@@ -158,10 +185,12 @@ input, textarea {
 .input-tag {
   margin-bottom: 8px;
 }
-.complete-btn {
+button {
+  margin: auto;
   margin-top: 24px;
+  display: block;
 }
-.finish-text {
+button .text {
   vertical-align: middle;
 }
 .material-icons.finish {

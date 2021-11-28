@@ -7,7 +7,7 @@
                         <span class="material-icons finish">done</span>
                     </template>
                     <template #icons>
-                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet}}">
+                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet, isCompleted: true}}">
                             <span class="material-icons">edit</span>
                         </router-link>
                     </template>
