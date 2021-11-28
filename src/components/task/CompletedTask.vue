@@ -3,7 +3,14 @@
         <div class="tasks">
             <div v-for="doc in tasks" :key="doc.id">
                 <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet">
-
+                    <template #finished-task-icon>
+                        <span class="material-icons finish">done</span>
+                    </template>
+                    <template #icons>
+                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet}}">
+                            <span class="material-icons">edit</span>
+                        </router-link>
+                    </template>
                 </SingleTask>
             </div>
             <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
@@ -77,6 +84,9 @@ export default {
     color: var(--accent);
     font-weight: bold;
     border-bottom: none;
+}
+.material-icons.finish {
+    color: var(--finished);
 }
 @media (max-width: 768px) {
     .completed-tasks-container {
