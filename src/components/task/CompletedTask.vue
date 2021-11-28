@@ -2,12 +2,12 @@
     <div class="completed-tasks-container">
         <div class="tasks">
             <div v-for="doc in tasks" :key="doc.id">
-                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet">
+                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value">
                     <template #finished-task-icon>
                         <span class="material-icons finish">done</span>
                     </template>
                     <template #icons>
-                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet, isCompleted: true}}">
+                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet.value, isCompleted: true}}">
                             <span class="material-icons">edit</span>
                         </router-link>
                     </template>
@@ -20,7 +20,7 @@
             <div class="tag show-all"
             :class="{selected: isSelected === '全て表示'}"
             @click="handleClick('全て表示')">全て表示</div><br>
-            <div v-for="tag in tagsSet" :key="tag" class="tag"
+            <div v-for="tag in tagsSet.value" :key="tag" class="tag"
             :class="{selected: isSelected === tag}"
             @click="handleClick(tag)"># {{ tag }}</div>
         </div>
@@ -41,7 +41,6 @@ export default {
 
     setup(props) {
         const tasks = ref(props.tasks)
-        const tagsSet = props.tagsSet.value
         console.log(tasks.value)
         const isSelected = ref('全て表示')
         const handleDelete = async (id) => {
@@ -55,7 +54,7 @@ export default {
                 tasks.value = props.tasks.filter(task => task.tags.includes(tag))
             }
         }
-        return { handleDelete, tagsSet, tasks, handleClick, isSelected}
+        return { handleDelete, tasks, handleClick, isSelected}
     }
 
 }
