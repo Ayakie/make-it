@@ -2,11 +2,14 @@
   <div class="task">
     <p class="created-time">{{ time }}</p>
     <div class="task-container">
-      <router-link :to="{name: 'Detail', params: {id: doc.id, tagsSet: tagsSet}}" class="detail">
-        <p>{{ doc.task }}</p>
-      </router-link>
-      <!-- icons -->
-      <span class="material-icons" @click="deleteTask">delete</span>
+      <p>{{ doc.task }}</p>
+      <div class="icons">
+        <span class="material-icons finish" @click="finishTask">done</span>
+        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet}}">
+          <span class="material-icons">edit</span>
+        </router-link>
+        <span class="material-icons" @click="deleteTask">delete</span>
+      </div>
     </div>
   </div>
 </template>
@@ -23,11 +26,15 @@ export default {
         return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) HH:mm')
       })
 
+      const finishTask = () => {
+        context.emit('finish', props.doc.id)
+      }
+
       const deleteTask = () => {
         context.emit('delete', props.doc.id)
       }
 
-      return { time, deleteTask }
+      return { time, deleteTask, finishTask }
     }
 }
 </script>
@@ -55,4 +62,10 @@ export default {
     color: var(--secondary);
     margin-bottom: 8px;
   }
+.material-icons {
+  margin-right: 8px;
+}
+.material-icons.finish:hover {
+  color: var(--finished);
+}
 </style>

@@ -17,7 +17,7 @@
     <!-- ongoing task page -->
     <div v-if="filteredDocs.length && status==='ongoing'" class="tasks">
       <div v-for="doc in filteredDocs" :key="doc.id">
-        <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
+        <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet" @finish="handleFinish"/>
       </div>
     </div>
     <!-- <p v-if="(!filteredDocs.length || !taskDocs.length) && status==='ongoing'" class="tasks no-task">小さなことから始めよう</p> -->
@@ -40,7 +40,7 @@ import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
 import CompletedTask from '@/components/task/CompletedTask.vue'
 import { projectFirestore } from "@/firebase/config"
-import { doc, deleteDoc } from 'firebase/firestore'
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
 import { Calendar, DatePicker } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
 import { onMounted, onUpdated } from '@vue/runtime-core'
@@ -69,6 +69,12 @@ export default {
       }
     })
 
+    const handleFinish = async (id) => {
+      await updateDoc(doc(projectFirestore, 'tasks', id), {
+        completed: true
+      })
+    }
+
     const handleDelete = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
@@ -87,7 +93,7 @@ export default {
       status.value = _status
     }
 
-    return { taskDocs, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs }
+    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs }
   },
   data() {
     return {
