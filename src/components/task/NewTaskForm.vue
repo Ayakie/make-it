@@ -30,6 +30,7 @@ export default {
         tags:[],
         completed: false,
         createdAt: timestamp(),
+        completedAt: timestamp(),
         memo: ""
       }
       

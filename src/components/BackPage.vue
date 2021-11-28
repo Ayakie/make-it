@@ -22,7 +22,7 @@ export default {
 .back {
     display: inline-block;
     cursor: pointer;
-    color: #3D566F;
+    color: var(--main2);
 }
 .back:hover {
     opacity: 0.6;

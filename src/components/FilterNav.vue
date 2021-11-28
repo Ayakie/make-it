@@ -40,8 +40,8 @@ export default {
     opacity: 80%;
 }
 .selected {
-    border-bottom: 2px solid #3D566F;
-    color: #3D566F;
+    border-bottom: 2px solid var(--main2);
+    color: var(--main2);
 }
 
 @media (max-width: 768px) {

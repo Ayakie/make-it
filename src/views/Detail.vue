@@ -165,7 +165,7 @@ input, textarea {
   vertical-align: middle;
 }
 .material-icons.finish {
-  color: #3D566F;
+  color: var(--main2);
   margin-right: 4px;
 }
 .clear {
@@ -173,7 +173,7 @@ input, textarea {
   padding-bottom: 1px;
 }
 .material-icons.save {
-  color: #3D566F;
+  color: var(--main2);
   font-size: 14px;
   margin-right: 4px;
 }

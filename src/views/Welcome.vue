@@ -46,7 +46,7 @@ body {
 }
 .welcome span {
     cursor: pointer;
-    color: #3D566F;
+    color: var(--main2);
 }
 .welcome span:hover {
     opacity: 0.6;
