@@ -1,11 +1,10 @@
 <template>
-  <form class="new-task">
-      <textarea
-      placeholder="Enter を押して新規作成"
-      v-model="newTask"
-      @keypress.enter.prevent="handleEnter">
-      </textarea>
+  <form class="new-task" @submit.prevent="handleSubmit">
+      <input type="text" class="input-new-task"
+      placeholder="小さなことから始めよう"
+      v-model="newTask">
       <div class="error"> {{ error }} </div>
+    <button class="create-btn">作成する</button>
   </form>
 </template>
 
@@ -23,7 +22,7 @@ export default {
 
     const { error, _addDoc } = useCollection('tasks')
 
-    const handleEnter = async() => {
+    const handleSubmit = async() => {
       const task = {
         userId: user.value.uid,
         userName: user.value.displayName,
@@ -42,7 +41,7 @@ export default {
       }
     }
 
-    return { newTask, handleEnter, error }
+    return { newTask, handleSubmit, error }
   }
 }
 </script>
@@ -58,5 +57,14 @@ export default {
   margin: 0 auto;
   padding: 0 10px;
   border: none;
+}
+.create-btn {
+  margin: 0 auto;
+  background: var(--secondary);
+  display: inherit;
+  color: white;
+}
+.input-new-task {
+  text-align: center;
 }
 </style>

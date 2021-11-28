@@ -20,7 +20,7 @@
         <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet"/>
       </div>
     </div>
-    <p v-if="(!filteredDocs.length || !taskDocs.length) && status==='ongoing'" class="tasks no-task">小さなことから始めよう</p>
+    <!-- <p v-if="(!filteredDocs.length || !taskDocs.length) && status==='ongoing'" class="tasks no-task">小さなことから始めよう</p> -->
     <NewTaskForm v-if="status==='ongoing'"/>
 
     <!-- completed task page -->
