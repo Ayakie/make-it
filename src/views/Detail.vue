@@ -29,10 +29,16 @@
         #{{ _tag }}
       </div>
       <!-- if finished -->
-      <button class="delete-btn" v-if="isCompleted" @click.prevent="unfinishTask">
-        <span class="material-icons finish">unpublished</span>
-        <span class="text">やることに戻す</span>
-      </button>
+      <div v-if="isCompleted">
+        <button class="delete-btn" @click.prevent="handleUnfinish">
+          <span class="material-icons finish">unpublished</span>
+          <span class="text">やることに戻す</span>
+        </button>
+        <div class="delete-btn" @click.prevent="handleDelete">
+          <span class="material-icons finish">delete</span>
+          削除する
+        </div>
+      </div>
       <!-- if unfinished -->
       <div v-else>
         <button class="complete-btn" @click.prevent="handleSubmit">
@@ -67,7 +73,7 @@ export default {
   setup(props) {
     const router = useRouter()
     const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
-    const { error: setError, _updateDoc } = setDocument('tasks', props.id)
+    const { error: setError, _updateDoc, _deleteDoc } = setDocument('tasks', props.id)
     const memo = ref(null)
     const completedAt = ref(new Date())
     const tags = ref([])
@@ -135,7 +141,7 @@ export default {
       }
     }
 
-    const unfinishTask = async () => {
+    const handleUnfinish = async () => {
       const data = {
         completed: false,
         task: title.value,
@@ -148,11 +154,16 @@ export default {
       if (!setError.value) {
         router.push({ name: 'Home' })
       }
-      // await setDoc(doc(projectFirestore, 'tasks', props.id), data, {merge: true})
-      // router.push({ name: 'Home'})
     }
 
-    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, unfinishTask }
+    const handleDelete = async () => {
+      await _deleteDoc()
+      if (!setError.value) {
+        router.push({ name: 'Home' })
+      }
+    }
+
+    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, handleUnfinish, handleDelete }
   },
   data() {
     return {
@@ -206,11 +217,11 @@ button .text {
   font-size: 14px;
   margin-right: 4px;
 }
-.save-btn {
+.save-btn, .delete-btn {
   cursor: pointer;
   margin-top: 16px;
 }
-.save-btn:hover {
+.save-btn:hover, .delete-btn:hover {
   opacity: 0.6;
 }
 </style>
