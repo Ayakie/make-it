@@ -7,17 +7,23 @@
   <HeroBefore v-if="!goalDocs.length"/>
 
   <section class="calendar">
+    <h2>目標日を確認しよう</h2>
     <div class="calendar-container">
       <Calendar is-expanded :attributes='attributes'>
-        <template #day-popover>
+        <template #day-popover="{ dayTitle }">
+          {{ dayTitle }}
+          <br>
           {{ goalDocs[0]['goal'] }}
+          <!-- <li v-for="{key, customData} in attributes" :key="key">
+            {{ customData.task }}
+          </li> -->
         </template>
       </Calendar>
     </div>
   </section>
 
   <section class="task">
-    <h2>やることリスト</h2>
+    <h2 class="section-title task">やることリスト</h2>
     <FilterNav @changeStatus="updateStatus" :status="status"/>
 
     <!-- ongoing task page -->
@@ -101,21 +107,36 @@ export default {
     }
     const attributes = ref([
       {
+        key: 'today',
         dates: new Date(),
         highlight: {color: "gray", fillMode: 'solid'},
         // popover: {label: '今日'}
       }
     ])
+
     watchEffect(() => {
       console.log('changed', goalDocs.value[0])
       if (goalDocs.value[0]) {
         attributes.value.push({
+          key: 'goal date',
           dates: goalDocs.value[0]['date'].toDate(),
           highlight: { color: 'orange', fillMode: 'solid' },
           popover: {label: 'something'}
           }
         )
-        console.log(attributes.value)
+        attributes.value.push(
+        ...taskDocs.value.map(doc => ({
+          key: doc.id,
+          dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
+          dot: {
+            color: doc.completed ? 'green' : 'red',
+            class: doc.completed ? 'opacity-40' : '',
+          },
+          customData: doc,
+          // popover: true
+        }))
+      )
+        console.log('attrs', attributes.value)
       }
     })
 
@@ -167,6 +188,9 @@ section.task {
 .calendar-container {
   max-width: 600px;
   margin: 0 auto;
+}
+.section-title.task{
+  margin-bottom: 0px;
 }
 /* smartphone */
 @media (max-width: 768px) {
