@@ -10,13 +10,12 @@
     <h2>目標日を確認しよう</h2>
     <div class="calendar-container">
       <Calendar is-expanded :attributes='attributes'>
-        <template #day-popover="{ dayTitle }">
+        <template #day-popover="{ dayTitle, attributes }">
           {{ dayTitle }}
           <br>
-          {{ goalDocs[0]['goal'] }}
-          <!-- <li v-for="{key, customData} in attributes" :key="key">
-            {{ customData.task }}
-          </li> -->
+        <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr" style="color: white;">
+          {{ attr.customData.task }}
+        </popover-row>
         </template>
       </Calendar>
     </div>
@@ -53,13 +52,13 @@ import FilterNav from '@/components/FilterNav.vue'
 import CompletedTask from '@/components/task/CompletedTask.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { Calendar, DatePicker, Popover } from 'v-calendar'
+import { Calendar, DatePicker, PopoverRow } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
 import { onMounted, onUpdated, watch, watchEffect } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav, CompletedTask },
+  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
   setup (){
     const user = getUser()
     const tags = ref([])
@@ -110,7 +109,8 @@ export default {
         key: 'today',
         dates: new Date(),
         highlight: {color: "gray", fillMode: 'solid'},
-        // popover: {label: '今日'}
+        popover: {label: 'something'},
+        customData: {'task': 'Today'}
       }
     ])
 
@@ -121,7 +121,8 @@ export default {
           key: 'goal date',
           dates: goalDocs.value[0]['date'].toDate(),
           highlight: { color: 'orange', fillMode: 'solid' },
-          popover: {label: 'something'}
+          popover: {label: 'something'},
+          customData: {'task': goalDocs.value[0]['goal']}
           }
         )
         attributes.value.push(
@@ -130,10 +131,11 @@ export default {
           dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
           dot: {
             color: doc.completed ? 'green' : 'red',
-            class: doc.completed ? 'opacity-40' : '',
           },
           customData: doc,
-          // popover: true
+          popover: {
+            visibility: 'click'
+            }
         }))
       )
         console.log('attrs', attributes.value)
@@ -191,6 +193,9 @@ section.task {
 }
 .section-title.task{
   margin-bottom: 0px;
+}
+.vc-day-popover-row-content {
+  color: white;
 }
 /* smartphone */
 @media (max-width: 768px) {
