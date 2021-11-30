@@ -2,7 +2,7 @@
     <div class="completed-tasks-container">
         <div class="tasks">
             <div v-for="doc in tasks" :key="doc.id">
-                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value">
+                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value" :isCompleted="true">
                     <template #finished-task-icon>
                         <span class="material-icons finish">done</span>
                     </template>
@@ -16,7 +16,7 @@
             <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
         </div>
         <div class="tags">
-            <p>タグ一覧</p>
+            <h4 class="tags-title">タグ一覧</h4>
             <div class="tag show-all"
             :class="{selected: isSelected === '全て表示'}"
             @click="handleClick('全て表示')">全て表示</div><br>
@@ -76,8 +76,9 @@ export default {
   color: var(--secondary);
   cursor: pointer;
 }
-.tags p {
+.tags-title {
     margin: 24px auto;
+    color: var(--main);
 }
 .selected {
     color: var(--accent);
@@ -98,5 +99,8 @@ export default {
         margin: 8px auto;
         text-align: center;
     }
+    .material-icons.finish {
+    font-size: 20px;
+  }    
 }
 </style>

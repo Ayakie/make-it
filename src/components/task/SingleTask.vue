@@ -3,7 +3,7 @@
     <p class="created-time">{{ time }}</p>
     <!-- task name and icons -->
     <div class="task-container">
-      <div class="task-name">
+      <div class="task-name" :class="{completed: isCompleted === true}">
         <slot name="finished-task-icon"></slot>
         <p>{{ doc.task }}</p>
       </div>
@@ -36,7 +36,7 @@ import { computed, ref } from '@vue/reactivity'
 import { format } from 'date-fns'
 
 export default {
-    props: ['doc', 'tagsSet'],
+    props: ['doc', 'tagsSet', 'isCompleted'],
     setup(props, context) {
       const time = computed(() => {
         if (props.doc.completed) {
@@ -62,7 +62,7 @@ export default {
 <style scoped>
 .task {
   margin: 24px auto;
-  padding: 8px 20px;
+  padding: 8px 10px;
   background: white;
   border-bottom: 0.5px solid #d7d7d7;
   max-width: 600px;
@@ -72,6 +72,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 100%;
+}
+.task-name {
+  max-width: 390px;
+  display: flex;
 }
 .task-name p {
   display: inline-block;
@@ -105,5 +109,20 @@ export default {
 }
 .description {
   margin-top: 4px;
+}
+@media (max-width: 768px) {
+  .tasks {
+    padding: 12px 24px;
+  }
+  .task {
+    padding: 0px;
+    font-size: 15px;
+  }
+  .task-name {
+    max-width: 170px;
+  }
+  .task-name.completed {
+    max-width: 220px;
+  }
 }
 </style>
