@@ -15,6 +15,15 @@ const requireAuth = (to, from, next) => {
   }
 }
 
+const requireNoAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  if(user) {
+    next({ name: 'Home'})
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/home',
@@ -25,7 +34,8 @@ const routes = [
   {
     path: '/',
     name: 'Welcome',
-    component: Welcome
+    component: Welcome,
+    beforeEnter: requireNoAuth
   },
   {
     path: '/setting-goal',
