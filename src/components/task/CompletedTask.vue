@@ -1,19 +1,21 @@
 <template>
     <div class="completed-tasks-container">
-        <div class="tasks">
-            <div v-for="doc in tasks" :key="doc.id">
-                <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value" :isCompleted="true">
-                    <template #finished-task-icon>
-                        <span class="material-icons finish">done</span>
-                    </template>
-                    <template #icons>
-                        <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet.value, isCompleted: true}}">
-                            <span class="material-icons">edit</span>
-                        </router-link>
-                    </template>
-                </SingleTask>
+        <div class="tasks-container">
+            <div class="tasks">
+                <div v-for="doc in tasks" :key="doc.id">
+                    <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value" :isCompleted="true">
+                        <template #finished-task-icon>
+                            <span class="material-icons finish">done</span>
+                        </template>
+                        <template #icons>
+                            <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet.value, isCompleted: true}}">
+                                <span class="material-icons">edit</span>
+                            </router-link>
+                        </template>
+                    </SingleTask>
+                </div>
+                <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
             </div>
-            <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
         </div>
         <div class="tags">
             <h4 class="tags-title">タグ一覧</h4>
@@ -65,9 +67,15 @@ export default {
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 24px;
+
+}
+.tasks-container {
+    width: 95%;
+    margin: 0 auto;
 }
 .tasks {
-    width: 90%;
+    max-height: 600px;
+    overflow: auto;
 }
 .tag {
   display: inline-block;
@@ -77,8 +85,9 @@ export default {
   cursor: pointer;
 }
 .tags-title {
-    margin: 24px auto;
+    text-align: center;
     color: var(--main);
+    margin-bottom: 8px;
 }
 .selected {
     color: var(--accent);
@@ -101,6 +110,6 @@ export default {
     }
     .material-icons.finish {
     font-size: 20px;
-  }    
+  }
 }
 </style>
