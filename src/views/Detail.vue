@@ -1,5 +1,5 @@
 <template>
-  <div class="detail" v-if="document">
+  <div class="detail" v-if="!taskError">
     <h3>やったことを振り返ろう</h3>
     <form>
       <label for="">タイトル</label>
@@ -81,7 +81,7 @@ export default {
   props: ['id', 'tagsSet', 'isCompleted'],
   setup(props) {
     const router = useRouter()
-    const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
+    const { error: taskError, document, _getDoc, isPending } = getDocument('tasks', props.id)
     const { error: setError, _updateDoc, _deleteDoc } = setDocument('tasks', props.id)
     const memo = ref('')
     const completedAt = ref(new Date())

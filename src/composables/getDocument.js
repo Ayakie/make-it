@@ -11,17 +11,16 @@ const getDocument = (collectionName, _id) => {
             const docRef = doc(projectFirestore, collectionName, _id)
             const docSnap = await getDoc(docRef)
             document.value = {...docSnap.data(), id: docSnap.id}
-            console.log('got! ', document.value)
+            console.log('got doc! ', document.value)
+
             if (!docSnap.exists()) {
-                throw new Error('could not fetch the data')
+                throw new Error('データを取得できませんでした')
             }
             error.value = null
-    
-    
+
         } catch (err) {
             console.log(err)
             error.value = err
-            document.value = null
         }
    }
     // console.log('document in getDocument()', document.value)
