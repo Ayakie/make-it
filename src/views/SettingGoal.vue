@@ -55,9 +55,9 @@ export default {
         const user = getUser()
         const today = new Date()
         const restSec = ref(null)
+        const setError = ref(null)
 
         const { error:addError, _addDoc } = useCollection('goals')
-        const { error:setError, _updateDoc, _} = setDocument('goals', props.id)
 
         const handleSubmit = async () => {
             let goal = {
@@ -70,6 +70,7 @@ export default {
 
             if (!addError.value && !dateError.value) {
                 if (props.id) {
+                    const { error:setError, _updateDoc, _} = setDocument('goals', props.id)
                     let goal = {
                         goal: newGoal.value,
                         date: goalDate.value,
