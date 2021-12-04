@@ -59,12 +59,17 @@
     </form>
     <BackPage />
   </div>
+  <div v-if="taskError">
+    <NotFound />
+  </div>
 </template>
 
 <script>
 import BackPage from '@/components/BackPage.vue'
+import NotFound from '@/views/NotFound.vue'
 import getDocument from "@/composables/getDocument"
 import setDocument from "@/composables/setDocument"
+import getImgUrl from "@/composables/getImgUrl"
 import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
 import { useRouter } from 'vue-router'
@@ -72,22 +77,23 @@ import { onMounted } from '@vue/runtime-core'
 import { timestamp } from '@/firebase/config'
 
 export default {
-  components: { BackPage, DatePicker },
+  components: { BackPage, DatePicker, NotFound },
   props: ['id', 'tagsSet', 'isCompleted'],
   setup(props) {
     const router = useRouter()
     const { error: taskError, document, _getDoc } = getDocument('tasks', props.id)
     const { error: setError, _updateDoc, _deleteDoc } = setDocument('tasks', props.id)
-    const memo = ref(null)
+    const memo = ref('')
     const completedAt = ref(new Date())
     const tags = ref([])
     const title = ref('')
+    const imgUrl = getImgUrl(3)
 
     // retrieve data from firestore
     const setupValue = (async() => {
       await _getDoc()
       console.log('document.value: ', document.value)
-      memo.value = document.value.memo
+      // memo.value = document.value.memo
       title.value = document.value.task
       if (document.value.completedAt) {
         completedAt.value = document.value.completedAt.toDate()
@@ -184,7 +190,10 @@ export default {
       }
     }
 
-    return { title, setError, document, memo, tag, handleEnterTag, handleClear, handleSubmit, completedAt, handleSave, handleUnfinish, handleDelete, handleUpdate }
+    return {taskError, title, setError, document, memo,
+    tag, handleEnterTag, handleClear, handleSubmit,
+    completedAt, handleSave, handleUnfinish, handleDelete,
+    handleUpdate, imgUrl }
   },
   data() {
     return {
@@ -250,4 +259,5 @@ button .text {
 .save-btn:hover, .delete-btn:hover {
   opacity: 0.6;
 }
+
 </style>

@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Welcome from '../views/Welcome.vue'
 import Detail from '../views/Detail.vue'
 import SettingGoal from '../views/SettingGoal.vue'
+import NotFound from '../views/NotFound.vue'
 import { projectAuth } from '../firebase/config'
 
 // auth guard
@@ -41,14 +42,22 @@ const routes = [
     path: '/setting-goal',
     name: 'SettingGoal',
     component: SettingGoal,
-    props: true
+    props: true,
+    beforeEnter: requireAuth
+  },
+  // catchall 404
+  {
+    path:  '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
   },
   {
-    path:'/:id',
+    path:'/detail/:id',
     name: 'Detail',
     component: Detail,
-    props: true
-  }
+    props: true,
+    beforeEnter: requireAuth
+  },
 ]
 
 const router = createRouter({

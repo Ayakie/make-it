@@ -110,9 +110,35 @@ export default {
         dates: new Date(),
         highlight: {color: "gray", fillMode: 'solid'},
         popover: {label: 'something'},
-        customData: {'task': 'Today'}
+        customData: {'label': 'Today'}
       }
     ])
+
+    const attrs = computed(() => {
+      attributes.value.push({
+      key: 'goal date',
+      dates: goalDocs.value[0]['date'].toDate(),
+      highlight: { color: 'orange', fillMode: 'solid' },
+      popover: {label: 'something'},
+      customData: {'label': goalDocs.value[0]['goal']}
+      }
+    )
+      attributes.value.push(
+      ...taskDocs.value.map(doc => ({
+        key: doc.id,
+        dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
+        dot: {
+          color: doc.completed ? 'green' : 'red',
+        },
+        customData: {'label': doc.task},
+        popover: {
+          visibility: 'click'
+          }
+        }))
+      )
+      console.log('attributes in computed', attributes.value)
+      return attributes
+    })
 
     watchEffect(() => {
       console.log('changed', goalDocs.value[0])
@@ -122,7 +148,7 @@ export default {
           dates: goalDocs.value[0]['date'].toDate(),
           highlight: { color: 'orange', fillMode: 'solid' },
           popover: {label: 'something'},
-          customData: {'task': goalDocs.value[0]['goal']}
+          customData: {'label': goalDocs.value[0]['goal']}
           }
         )
         attributes.value.push(
@@ -132,7 +158,7 @@ export default {
           dot: {
             color: doc.completed ? 'green' : 'red',
           },
-          customData: doc,
+          customData: {'label': doc.task},
           popover: {
             visibility: 'click'
             }
@@ -142,7 +168,7 @@ export default {
       }
     })
 
-    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
+    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes, attrs}
   }
 }
 </script>
