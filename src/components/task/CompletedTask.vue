@@ -1,5 +1,14 @@
 <template>
     <div class="completed-tasks-container">
+        <div class="tags">
+            <h4 class="tags-title">タグ一覧</h4>
+            <div class="tag show-all"
+            :class="{selected: isSelected === '全て表示'}"
+            @click="handleClick('全て表示')">全て表示</div>
+            <div v-for="tag in tagsSet.value" :key="tag" class="tag"
+            :class="{selected: isSelected === tag}"
+            @click="handleClick(tag)"># {{ tag }}</div>
+        </div>
         <div class="tasks-container">
             <div class="tasks">
                 <div v-for="doc in tasks" :key="doc.id">
@@ -16,15 +25,6 @@
                 </div>
                 <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
             </div>
-        </div>
-        <div class="tags">
-            <h4 class="tags-title">タグ一覧</h4>
-            <div class="tag show-all"
-            :class="{selected: isSelected === '全て表示'}"
-            @click="handleClick('全て表示')">全て表示</div><br>
-            <div v-for="tag in tagsSet.value" :key="tag" class="tag"
-            :class="{selected: isSelected === tag}"
-            @click="handleClick(tag)"># {{ tag }}</div>
         </div>
     </div>
 </template>
@@ -64,14 +64,16 @@ export default {
 
 <style scoped>
 .completed-tasks-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
+    display: flex;
+    flex-direction: row-reverse;
     gap: 24px;
-
 }
 .tasks-container {
-    width: 95%;
-    margin: 0 auto;
+    flex: 2;
+}
+.tags {
+    flex: 1;
+    text-align: center;
 }
 .tasks {
     max-height: 600px;
@@ -99,10 +101,15 @@ export default {
 }
 @media (max-width: 768px) {
     .completed-tasks-container {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
     }
     .tags {
-        margin: 0 24px;
+        margin: 24px 24px 0 24px;
+    }
+    .tags-title {
+        margin-bottom: 0;
     }
     .tags p {
         margin: 8px auto;
