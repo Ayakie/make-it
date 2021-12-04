@@ -124,7 +124,7 @@ export default {
             customData: {'label': 'Today'}
           }
         ]
-        if (goalDocs.value[0]) {
+        if (goalDocs.value.length) {
           attrs.value.push(
             {
               key: 'goal date',
@@ -136,6 +136,7 @@ export default {
             }
           )
         }
+        console.log(goalPending.value, taskPending.value)
         attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,

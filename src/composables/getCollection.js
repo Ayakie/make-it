@@ -29,7 +29,7 @@ const getCollection = (collectionName, _query) => {
 
         //update values
         documents.value = results
-        isPending.value = false
+        isPending.value = snap.metadata.hasPendingWrites ? true : false
 
     }, (err) => {
         console.log(err.message)
