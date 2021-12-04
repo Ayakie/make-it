@@ -4,7 +4,7 @@
   :goal="goalDocs[0]['goal']"
   :id="goalDocs[0]['id']"
   />
-  <HeroBefore v-if="!goalDocs.length"/>
+  <HeroBefore v-else/>
 
   <section class="calendar">
     <h2>目標日を確認しよう</h2>
@@ -13,9 +13,9 @@
         <template #day-popover="{ dayTitle, attributes }">
           {{ dayTitle }}
           <br>
-        <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr" style="color: white;">
-          {{ attr.customData.task }}
-        </popover-row>
+          <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr">
+            {{ attr.customData.label }}
+          </popover-row>
         </template>
       </Calendar>
     </div>
@@ -65,8 +65,8 @@ export default {
     const status = ref('ongoing')
     const uid = user.value.uid
     // get current user's collection
-    const { error: taskError, documents: taskDocs } = getCollection('tasks', ['userId', '==', uid])
-    const { error: goalError, documents: goalDocs } = getCollection('goals', ['userId', '==', uid])
+    const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid])
+    const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid])
     console.log('goalDoc', goalDocs.value)
 
     const filteredDocs = computed(() => {
@@ -104,54 +104,32 @@ export default {
     const updateStatus = (_status) => {
       status.value = _status
     }
-    const attributes = ref([
-      {
-        key: 'today',
-        dates: new Date(),
-        highlight: {color: "gray", fillMode: 'solid'},
-        popover: {label: 'something'},
-        customData: {'label': 'Today'}
-      }
-    ])
 
-    const attrs = computed(() => {
-      attributes.value.push({
-      key: 'goal date',
-      dates: goalDocs.value[0]['date'].toDate(),
-      highlight: { color: 'orange', fillMode: 'solid' },
-      popover: {label: 'something'},
-      customData: {'label': goalDocs.value[0]['goal']}
-      }
-    )
-      attributes.value.push(
-      ...taskDocs.value.map(doc => ({
-        key: doc.id,
-        dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
-        dot: {
-          color: doc.completed ? 'green' : 'red',
-        },
-        customData: {'label': doc.task},
-        popover: {
-          visibility: 'click'
+    const attributes = computed(() => {
+      const attrs = ref([])
+      if (!goalPending.value && !taskPending.value) {
+        attrs.value = [
+          {
+            key: 'today',
+            dates: new Date(),
+            highlight: {color: "gray", fillMode: 'solid'},
+            popover: {label: 'something'},
+            customData: {'label': 'Today'}
           }
-        }))
-      )
-      console.log('attributes in computed', attributes.value)
-      return attributes
-    })
-
-    watchEffect(() => {
-      console.log('changed', goalDocs.value[0])
-      if (goalDocs.value[0]) {
-        attributes.value.push({
-          key: 'goal date',
-          dates: goalDocs.value[0]['date'].toDate(),
-          highlight: { color: 'orange', fillMode: 'solid' },
-          popover: {label: 'something'},
-          customData: {'label': goalDocs.value[0]['goal']}
-          }
-        )
-        attributes.value.push(
+        ]
+        if (goalDocs.value[0]) {
+          attrs.value.push(
+            {
+              key: 'goal date',
+              dates: goalDocs.value[0]['date'].toDate(),
+              highlight: { color: 'orange', fillMode: 'solid' },
+              popover: {label: 'something'},
+              customData: {'label': goalDocs.value[0]['goal']}
+    
+            }
+          )
+        }
+        attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,
           dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
@@ -162,13 +140,14 @@ export default {
           popover: {
             visibility: 'click'
             }
-        }))
-      )
-        console.log('attrs', attributes.value)
+          }))
+        )
+        console.log('attributes in computed', attrs.value)
       }
+      return attrs.value
     })
 
-    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes, attrs}
+    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
   }
 }
 </script>

@@ -6,10 +6,12 @@ const getCollection = (collectionName, _query) => {
     
     const documents = ref([])
     const error = ref(null)
+    const isPending = ref(false)
 
     // register the firestore collection reference
     let collectionRef = collection(projectFirestore, collectionName)
     collectionRef = query(collectionRef, orderBy('createdAt'))
+    isPending.value = true
 
 
     if (_query) {
@@ -27,20 +29,20 @@ const getCollection = (collectionName, _query) => {
 
         //update values
         documents.value = results
-        // これいる？
-        error.value = null
+        isPending.value = false
 
     }, (err) => {
         console.log(err.message)
         error.value = 'could not fetch the data'
         documents.value = []
+        isPending.value = false
     })
 
     watchEffect((onInvalidate) => {
         // unsub from prev collection when watcher is stopped (component unmounted)
         onInvalidate(() => unsub())
     })
-    return { error, documents }
+    return { error, documents, isPending }
 }
 
 export default getCollection
