@@ -2,8 +2,11 @@
   <div class="detail" v-if="!taskError">
     <h3>やったことを振り返ろう</h3>
     <form>
+      <!-- task -->
       <label for="">タイトル</label>
       <input type="text" class="task-name" v-model="title">
+
+      <!-- completedAt -->
       <label for="complete-date">完了日</label>
       <DatePicker mode="date" id="complete-date" v-model="completedAt" :masks="masks">
         <template v-slot="{ inputValue, inputEvents }">
@@ -15,16 +18,20 @@
           >
         </template>
       </DatePicker>
+
+      <!-- memo -->
       <label for="memo">メモや思ったことを残そう
         <span class="error">{{ setError }}</span>
       </label>
       <textarea id="memo" placeholder=""
       v-model="memo">
       </textarea>
+
+      <!-- tags -->
       <label for="">タグ (カテゴリ)</label>
       <input class="input-tag" type="text" placeholder="Enter を押して追加"
       v-model="tag" @keypress.enter.prevent="handleEnterTag">
-      <div class="tag" v-for="_tag in document.tags" :key="_tag">
+      <div class="tag" v-for="_tag in tags" :key="_tag">
         <span class="material-icons clear" @click="handleClear(_tag)">clear</span>
         #{{ _tag }}
       </div>
@@ -191,7 +198,7 @@ export default {
     }
 
     return {taskError, title, setError, document, memo,
-    tag, handleEnterTag, handleClear, handleSubmit,
+    tag, tags, handleEnterTag, handleClear, handleSubmit,
     completedAt, handleSave, handleUnfinish, handleDelete,
     handleUpdate, imgUrl }
   },
