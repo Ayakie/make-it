@@ -3,6 +3,7 @@
   :date="goalDocs[0]['date']"
   :goal="goalDocs[0]['goal']"
   :id="goalDocs[0]['id']"
+  @deleteGoal="handleDeleteGoal"
   />
   <HeroBefore v-else/>
 
@@ -28,7 +29,7 @@
     <!-- ongoing task page -->
     <div v-if="filteredDocs.length && status==='ongoing'" class="tasks">
       <div v-for="doc in filteredDocs" :key="doc.id">
-        <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="getTagsSet" @finish="handleFinish"/>
+        <SingleTask :doc="doc" @delete="handleDeleteTask" :tagsSet="getTagsSet" @finish="handleFinish"/>
       </div>
     </div>
     <!-- new task form -->
@@ -87,8 +88,14 @@ export default {
       })
     }
 
-    const handleDelete = async (id) => {
+    const handleDeleteTask = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
+    }
+
+    const handleDeleteGoal = async () => {
+      console.log('deleted!!')
+      const id = goalDocs.value[0]['id']
+      await deleteDoc((doc(projectFirestore, 'goals', id)))
     }
 
     const getTagsSet = computed(() => {
@@ -147,14 +154,15 @@ export default {
       return attrs.value
     })
 
-    return { taskDocs, handleFinish, handleDelete, goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
+    return { taskDocs, handleFinish, handleDeleteTask, handleDeleteGoal,
+    goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
   }
 }
 </script>
 
 <style>
 section.task {
-  margin-top: 48px;
+  margin-top: 56px;
 }
 .tasks {
   max-width: 600px;
@@ -181,6 +189,7 @@ section.task {
   position: absolute;
   left: max(15vw, 120px);
   top: 10%;
+  filter: opacity(80%);
   z-index: -1;
 }
 .hero .title {
@@ -188,9 +197,13 @@ section.task {
 }
 .material-icons.edit {
   position: absolute;
-  top: 50%;
+  top: 57%;
   right: 25vw;
-
+}
+.material-icons.delete {
+  position: absolute;
+  top: 57%;
+  right: 21vw;
 }
 .calendar-container {
   max-width: 600px;
@@ -204,18 +217,27 @@ section.task {
 }
 /* smartphone */
 @media (max-width: 768px) {
+  .hero {
+    height: 320px;
+  }
   .hero-img {
-      left: 20px;
-      filter: opacity(60%);
-    }
-    .hero .title {
-      margin-top: 20px;
-      margin-bottom: 0;
-    }
+    left: 20px;
+    filter: opacity(50%);
+    top: 1%;
+  }
+  .hero .title {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
   .material-icons.edit {
     position: absolute;
     top: 65%;
-    right: 5vw;
-}
+    right: 15vw;
+    }
+  .material-icons.delete {
+  position: absolute;
+  top: 65%;
+  right: 7vw;
+    }
 }
 </style>

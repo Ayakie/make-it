@@ -15,6 +15,7 @@
           <router-link :to="{name: 'SettingGoal', params: {id: id, goal: goal}}">
             <span class="material-icons edit">edit</span>
           </router-link>
+            <span class="material-icons delete" @click="$emit('deleteGoal')">delete</span>
       </div>
   </section>
 </template>

@@ -21,7 +21,7 @@
     color: var(--primary);
 }
 
-h2, h3 {
+h1, h2, h3 {
     color: var(--main);
     text-align: center;
 }
@@ -79,5 +79,5 @@ a {
     text-decoration: none;
 }
 section {
-    margin: 24px auto;
+    margin: 0 auto;
 }
