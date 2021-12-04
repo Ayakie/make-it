@@ -9,7 +9,7 @@
           <label for="goal">目標</label>
           <input type="text" id="goal" v-model="newGoal" required placeholder="例) 〇〇大学に合格する">
           <label for="goal-date">達成日</label>
-          <DatePicker mode="date" v-model="goalDate" :masks="masks">
+          <DatePicker mode="date" v-model="goalDate" :masks="masks" :model-config="modelConfig">
               <template v-slot="{ inputValue, inputEvents }">
                   <input
                   id="goal-date"
@@ -106,14 +106,16 @@ export default {
             }
         })
 
-        return {newGoal, goalDate, handleSubmit, addError, dateError, output, dateError }
-    },
-    data() {
-        return {
-            masks: {
-                input: 'YYYY/MM/DD'
-            }
+        const modelConfig = {
+            timeAdjust: '00:00:00'
         }
+
+        const masks = {
+            input: 'YYYY/MM/DD'
+        }
+
+        return {newGoal, goalDate, handleSubmit, addError,
+        dateError, output, dateError, masks, modelConfig }
     }
 }
 </script>
