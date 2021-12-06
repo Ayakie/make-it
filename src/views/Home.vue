@@ -257,6 +257,7 @@ section.task {
 }
 .calendar-container > .checkpoint {
   flex: 1;
+  width: 100%;
 }
 .lists-container.checkpoints {
   max-height: 250px;
