@@ -37,7 +37,7 @@ export default {
 
         const user = getUser()
 
-        return { error, handleLogout, user}
+        return { error, handleLogout, user }
     }
 }
 </script>

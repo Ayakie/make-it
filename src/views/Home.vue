@@ -271,12 +271,13 @@ section.task {
 .calendar-container {
   display: flex;
   gap: clamp(45px, 6vw, 80px);
-  align-items: center;
   min-height: 600px;
 }
 .calendar-container > .calendar {
   flex: 2;
   max-width: 600px;
+  display: grid;
+  place-items: center;
 }
 .calendar-container > .checkpoint {
   flex: 1;
