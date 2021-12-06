@@ -68,4 +68,26 @@ export default {
 .output.days {
   font-size: 40px;
 }
+.material-icons.edit {
+  position: absolute;
+  top: 57%;
+  right: 25vw;
+}
+.material-icons.delete {
+  position: absolute;
+  top: 57%;
+  right: 21vw;
+}
+@media (max-width: 768px) {
+  .material-icons.edit {
+    position: absolute;
+    top: 65%;
+    right: 15vw;
+  }
+  .material-icons.delete {
+  position: absolute;
+  top: 65%;
+  right: 7vw;
+  }
+}
 </style>

@@ -244,20 +244,11 @@ section.task {
 .hero .title {
   margin-bottom: 24px;
 }
-.material-icons.edit {
-  position: absolute;
-  top: 57%;
-  right: 25vw;
-}
-.material-icons.delete {
-  position: absolute;
-  top: 57%;
-  right: 21vw;
-}
 .calendar-container {
   display: flex;
   gap: clamp(45px, 6vw, 80px);
   align-items: center;
+  min-height: 600px;
 }
 .calendar-container > .calendar {
   flex: 2;
