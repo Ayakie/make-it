@@ -46,8 +46,9 @@
 <script>
 import getCollection from '@/composables/getCollection'
 import getUser from '@/composables/getUser'
-import HeroBefore from '@/components/hero/HeroBefore.vue'
-import HeroAfter from '@/components/hero/HeroAfter.vue'
+import HeroBefore from '@/components/goal/HeroBefore.vue'
+import HeroAfter from '@/components/goal/HeroAfter.vue'
+import NewCheckPointForm from '@/components/goal/NewCheckPointForm.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
