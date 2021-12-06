@@ -28,9 +28,9 @@
       <h3>チェックポイント</h3>
       <FilterNav @changeStatus="updateStatusGoal" :status="statusGoal"/>
 
-      <div v-if="filteredGoals.length && statusGoal==='ongoing'" class="modal-container checkpoints">
-        <div v-for="doc in filteredGoals" :key="doc.id">
-          <SingleCheckPoint :doc="doc"
+      <div v-if="filteredGoals.length && statusGoal==='ongoing'" class="lists-container checkpoints">
+        <div v-for="(doc, index) in filteredGoals" :key="doc.id">
+          <SingleCheckPoint :doc="doc" :index="index"
           @deleteCheckpoint="handleDelete" @finishCheckpoint="handleFinish"/>
         </div>
       </div>

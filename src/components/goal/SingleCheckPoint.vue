@@ -2,7 +2,8 @@
   <div class="single-list">
       <div class="single-list-container">
           <div>
-            <span class="date">{{ goalDate }} </span>までに
+              {{ index+1 }}.
+            <span class="date">{{ goalDate }}</span>までに
             <span class="goal">{{ doc.goal }}</span>
           </div>
         <div class="icons">
@@ -18,7 +19,7 @@ import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 
 export default {
-    props:['doc'],
+    props:['doc', 'index'],
     setup(props, context) {
         const goalDate = format(props.doc.checkpoint.toDate(), 'yyyy年M月d日(E) ', {locale: ja})
 
