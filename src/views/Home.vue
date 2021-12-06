@@ -214,9 +214,6 @@ section.task {
 .section-title.task{
   margin-bottom: 0px;
 }
-.vc-day-popover-row-content {
-  color: white;
-}
 /* smartphone */
 @media (max-width: 768px) {
   .hero {

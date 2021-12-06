@@ -37,9 +37,6 @@ export default {
 </script>
 
 <style>
-body {
-    background-color: #f2f2f2;
-}
 .welcome {
     margin: 100px auto;
     text-align: center;

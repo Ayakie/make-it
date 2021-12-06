@@ -18,6 +18,9 @@
 /* base styles */
 * {
     font-family: 'Noto Sans', sans-serif;
+}
+body {
+    background-color: #f2f2f2;
     color: var(--primary);
 }
 
