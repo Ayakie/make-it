@@ -1,15 +1,15 @@
 <template>
   <div class="single-list">
       <div class="single-list-container">
-          <div>
-              {{ index+1 }}.
+          <div class="title checkpoint"  :class="{completed: true}">
+              <slot name="finished-checkpoint-icon">{{ index+1 }}.</slot>
             <span class="date">{{ goalDate }}</span>までに
             <span class="goal">{{ doc.goal }}</span>
           </div>
         <div class="icons">
-            <slot></slot>
+            <slot name="finish-icon"></slot>
             <!-- <span class="material-icons finish" @click="finishCheckpoint">done</span> -->
-            <span class="material-icons" @click="deleteCheckpoint">delete</span>
+            <span class="material-icons delete" @click="deleteCheckpoint">delete</span>
         </div>
       </div>
   </div>
@@ -37,8 +37,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .date {
     font-weight: bold;
+}
+.single-list .title.checkpoint {
+    max-width: 350px;
+}
+.material-icons.finished {
+    color: var(--finished);
+}
+.material-icons.finished:hover {
+    cursor: default;
+}
+@media (max-width: 768px) {
+    .single-list .title.checkpoint {
+        max-width: 200px;
+    }
 }
 </style>

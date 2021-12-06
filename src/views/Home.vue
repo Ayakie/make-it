@@ -32,7 +32,9 @@
         <div v-for="(doc, index) in filteredGoals" :key="doc.id">
           <SingleCheckPoint :doc="doc" :index="index"
           @deleteCheckpoint="handleDelete">
+          <template #finish-icon>
             <span class="material-icons finish" @click="handleFinish(doc.id, 'checkpoints')">done</span>
+          </template>
           </SingleCheckPoint>
         </div>
       </div>
@@ -43,7 +45,11 @@
       <div v-if="statusGoal==='completed'"  class="lists-container checkpoints">
         <div v-for="(doc, index) in filteredGoals" :key="doc.id">
           <SingleCheckPoint :doc="doc" :index="index"
-          @deleteCheckpoint="handleDelete"/>
+          @deleteCheckpoint="handleDelete">
+            <template #finished-checkpoint-icon>
+              <span class="material-icons finished">done</span>
+            </template>
+          </SingleCheckPoint>
         </div>
         <div v-if="!filteredGoals.length" class="empty-lists">目標に向けた中間目標を設定しよう</div>
       </div>
@@ -214,7 +220,6 @@ export default {
 section.task {
   margin-top: 56px;
 }
-
 .empty-lists {
   color: var(--secondary);
   text-align: center;
@@ -261,8 +266,22 @@ section.task {
 .calendar-container > .checkpoint {
   flex: 1;
 }
+.lists-container.checkpoints {
+  max-height: 250px;
+  overflow: auto;
+}
 .section-title.task{
   margin-bottom: 0px;
+}
+.single-list .material-icons {
+    margin-right: 10px;
+}
+.material-icons.finished {
+    color: var(--finished);
+}
+.material-icons.finished:hover {
+    cursor: default;
+    color: var(--finished);
 }
 /* smartphone */
 @media (max-width: 768px) {
@@ -281,15 +300,11 @@ section.task {
   .calendar-container {
     flex-direction: column;
   }
-  .material-icons.edit {
-    position: absolute;
-    top: 65%;
-    right: 15vw;
-    }
-  .material-icons.delete {
-  position: absolute;
-  top: 65%;
-  right: 7vw;
-    }
+  .single-list .material-icons {
+    margin-right: 8px;
+  }
+  .single-list .material-icons.delete {
+    margin-right: 0px;
+  }
 }
 </style>

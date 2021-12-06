@@ -3,7 +3,7 @@
     <p class="created-time">{{ time }}</p>
     <!-- task name and icons -->
     <div class="single-list-container">
-      <div class="task-name" :class="{completed: isCompleted === true}">
+      <div class="title task" :class="{completed: true}">
         <slot name="finished-task-icon"></slot>
         <p>{{ doc.task }}</p>
       </div>
@@ -13,7 +13,7 @@
           <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet}}">
             <span class="material-icons">edit</span>
           </router-link>
-          <span class="material-icons" @click="deleteTask">delete</span>
+          <span class="material-icons delete" @click="deleteTask">delete</span>
         </slot>
       </div>
     </div>
@@ -60,11 +60,11 @@ export default {
 </script>
 
 <style scoped>
-.task-name {
-  max-width: 390px;
+.single-list .title.task {
+  max-width: 460px;
   display: flex;
 }
-.task-name p {
+.title p {
   display: inline-block;
   vertical-align: middle;
   margin: 0 4px;
@@ -78,9 +78,6 @@ export default {
     color: var(--secondary);
     margin-bottom: 8px;
   }
-.single-list .material-icons {
-  margin-right: 10px;
-}
 .description .memo {
   color: var(--secondary);
   font-size: 14px;
@@ -102,11 +99,12 @@ export default {
     padding: 0px;
     font-size: 15px;
   }
-  .task-name {
+  .single-list .title.task {
     max-width: 170px;
   }
-  .task-name.completed {
-    max-width: 220px;
+  .single-list .title.completed {
+    max-width: 300px;
+    margin-right: 8px;
   }
 }
 </style>

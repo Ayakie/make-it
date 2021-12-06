@@ -71,6 +71,7 @@ form > label {
     padding: 16px 24px;
     border-radius: 4px;
     max-width: 600px;
+    margin: 16px auto;
   }
 .inline-form input {
   text-align: center;
@@ -108,15 +109,12 @@ form > label {
     align-items: center;
     height: 100%;
 }
-.single-list .material-icons {
-    margin-right: 10px;
-}
 .lists-container {
     max-width: 600px;
     background: white;
     border-radius: 4px;
     margin: 24px auto;
-    padding: 32px;
+    padding: 24px;
 }
 
 /* error text */

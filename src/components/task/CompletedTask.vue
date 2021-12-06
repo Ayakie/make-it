@@ -14,7 +14,7 @@
                 <div v-for="doc in tasks" :key="doc.id">
                     <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value" :isCompleted="true">
                         <template #finished-task-icon>
-                            <span class="material-icons finish">done</span>
+                            <span class="material-icons finished">done</span>
                         </template>
                         <template #icons>
                             <router-link :to="{name: 'Detail', params: { id: doc.id, tagsSet: tagsSet.value, isCompleted: true}}">
@@ -96,8 +96,14 @@ export default {
     font-weight: bold;
     border-bottom: none;
 }
-.material-icons.finish {
+.material-icons.finished {
     color: var(--finished);
+}
+.material-icons.finished:hover {
+    cursor: default;
+}
+.checkpoint {
+    align-items: center;
 }
 @media (max-width: 768px) {
     .completed-tasks-container {
