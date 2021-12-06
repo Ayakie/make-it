@@ -1,7 +1,7 @@
 <template>
-  <form class="new-task" @submit.prevent="handleSubmit">
+  <form class="inline-form" @submit.prevent="handleSubmit">
       <input type="text" class="input-new-task"
-      placeholder="小さなことから始めよう"
+      placeholder="英語の問題を1年分解く"
       v-model="newTask">
       <div class="error"> {{ error }} </div>
     <button class="create-btn">作成する</button>
@@ -48,24 +48,10 @@ export default {
 </script>
 
 <style>
-.new-task {
-  padding: 16px;
-  border-radius: 4px;
-  max-width: 600px;
-}
 .new-task textarea {
   text-align: center;
   margin: 0 auto;
   padding: 0 10px;
   border: none;
-}
-.create-btn {
-  margin: 0 auto;
-  background: var(--secondary);
-  display: inherit;
-  color: white;
-}
-.input-new-task {
-  text-align: center;
 }
 </style>

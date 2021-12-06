@@ -65,6 +65,23 @@ form > label {
     display: block;
 }
 
+.inline-form {
+    padding: 16px 24px;
+    border-radius: 4px;
+    max-width: 600px;
+  }
+.inline-form input {
+  text-align: center;
+}
+/* inline button */
+.create-btn {
+    margin: 0 auto;
+    background: var(--secondary);
+    display: inherit;
+    color: white;
+    margin-top: 16px;
+  }
+
 /* modal */
 .modal {
     margin: 100px auto;
@@ -81,6 +98,7 @@ form > label {
 .error {
     color: var(--unfinished);
     margin: 18px 0;
+    text-align: center;
 }
 
 .material-icons {

@@ -1,7 +1,7 @@
 <template>
     <div class="completed-tasks-container">
         <div class="tags">
-            <h4 class="tags-title">タグ一覧</h4>
+            <h4 class="tags-title"># タグ一覧</h4>
             <div class="tag show-all"
             :class="{selected: isSelected === '全て表示'}"
             @click="handleClick('全て表示')">全て表示</div>

@@ -5,7 +5,7 @@
        @click="handleClick('ongoing')">これから</div>
       <div class="part2"
       :class="{selected: status === 'completed'}"
-      @click="handleClick('completed')">これまでの軌跡</div>
+      @click="handleClick('completed')">これまで</div>
   </div>
 </template>
 
