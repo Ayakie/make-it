@@ -42,12 +42,9 @@ export default {
     font-weight: bold;
 }
 .single-list .title.checkpoint {
-    max-width: 350px;
+    max-width:370px;
 }
-.single-list .title.checkpoint.completed {
-    max-width: 500px;
-    margin-right: 8px;
-}
+
 .material-icons.finished {
     color: var(--finished);
 }
