@@ -56,12 +56,12 @@ export default {
         const dateError = computed(() => {
             if(checkpointDate.value) {
                 const now = new Date()
-                return checkpointDate.value.getTime() < now.getTime() ? '途中目標は明日以降に設定しよう' : ''
+                return checkpointDate.value.getTime() < now.getTime() ? '途中目標は今日以降に設定しよう' : ''
             }
         })
         
         const modelConfig = {
-            timeAdjust: '00:00:00'
+            timeAdjust: '23:59:59'
         }
         const masks = {
             input: 'YYYY/MM/DD'
