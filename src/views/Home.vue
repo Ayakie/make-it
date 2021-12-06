@@ -10,6 +10,8 @@
 
   <section class="calendar">
     <h2>目標日を確認しよう</h2>
+
+    <!-- calender component -->
     <div class="calendar-container">
       <div class="calendar">
         <Calendar is-expanded :attributes='attributes'>
@@ -24,27 +26,35 @@
       </div>
     <div class="checkpoint">
       <h3>チェックポイント</h3>
-      <NewCheckPointForm />
+      <FilterNav @changeStatus="updateStatusGoal" :status="statusGoal"/>
+      
+      <div v-if="filteredGoals.length && statusGoal==='ongoing'">
+        <div v-for="doc in filteredGoals" :key="doc.id">
+          {{ doc.goal }}
+        </div>
+      </div>
+      <!-- new check point form -->
+      <NewCheckPointForm v-if="statusGoal==='ongoing'"/>
     </div>
     </div>
   </section>
 
   <section class="task">
     <h2 class="section-title task">やることリスト</h2>
-    <FilterNav @changeStatus="updateStatus" :status="status"/>
+    <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
     <!-- ongoing task page -->
-    <div v-if="filteredDocs.length && status==='ongoing'" class="tasks">
-      <div v-for="doc in filteredDocs" :key="doc.id">
-        <SingleTask :doc="doc" @delete="handleDeleteTask" :tagsSet="getTagsSet" @finish="handleFinish"/>
+    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="tasks">
+      <div v-for="doc in filteredTasks" :key="doc.id">
+        <SingleTask :doc="doc" @deleteTask="deleteTask" :tagsSet="getTagsSet" @finishTask="finishTask"/>
       </div>
     </div>
     <!-- new task form -->
-    <NewTaskForm v-if="status==='ongoing'"/>
+    <NewTaskForm v-if="statusTask==='ongoing'"/>
 
     <!-- completed task page -->
-    <div class="completed-tasks" v-if="status==='completed'">
-      <CompletedTask :tasks="filteredDocs" :tagsSet="getTagsSet" :uid="uid"/>
+    <div class="completed-tasks" v-if="statusTask==='completed'">
+      <CompletedTask :tasks="filteredTasks" :tagsSet="getTagsSet" :uid="uid"/>
     </div>
   </section>
 </template>
@@ -55,6 +65,7 @@ import getUser from '@/composables/getUser'
 import HeroBefore from '@/components/goal/HeroBefore.vue'
 import HeroAfter from '@/components/goal/HeroAfter.vue'
 import NewCheckPointForm from '@/components/goal/NewCheckPointForm.vue'
+import SingleCheckPoint from '@/components/goal/SingleCheckPoint.vue'
 import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
@@ -67,37 +78,50 @@ import Navbar from '../components/Navbar.vue'
 
 export default {
   name: 'Home',
-  components: { Navbar, HeroBefore, HeroAfter, NewTaskForm, SingleTask,
-  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow, NewCheckPointForm },
+  components: { Navbar, HeroBefore, HeroAfter, NewCheckPointForm, SingleCheckPoint,
+  NewTaskForm, SingleTask,
+  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
   setup (){
     const user = getUser()
     const tags = ref([])
-    const status = ref('ongoing')
+    const statusTask = ref('ongoing')
+    const statusGoal = ref('ongoing')
     const uid = user.value.uid
     // get current user's collection
     const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid])
     const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid])
-    console.log('goalDoc', goalDocs.value)
+    const { error: checkpointError, documents: checkpointDocs, isPending: checkpointPending } = getCollection('checkpoints', ['userId', '==', uid])
+    console.log('checkpointDoc', checkpointDocs.value)
 
-    const filteredDocs = computed(() => {
+    const filteredTasks = computed(() => {
       // return documents based on status（ongoing or completed）
-      if (status.value === "ongoing") {
+      if (statusTask.value === "ongoing") {
         return taskDocs.value.filter(doc => !doc.completed)
-      } else if (status.value === "completed") {
+      } else if (statusTask.value === "completed") {
         return taskDocs.value.filter(doc => doc.completed)
       } else {
         throw new Error('another status!')
       }
     })
+    const filteredGoals = computed(() => {
+      // return documents based on status（ongoing or completed）
+      if (statusGoal.value === "ongoing") {
+        return checkpointDocs.value.filter(doc => !doc.completed)
+      } else if (statusGoal.value === "completed") {
+        return checkpointDocs.value.filter(doc => doc.completed)
+      } else {
+        throw new Error('another status!')
+      }
+    })
 
-    const handleFinish = async (id) => {
+    const finishTask = async (id) => {
       await updateDoc(doc(projectFirestore, 'tasks', id), {
         completed: true,
         completedAt: serverTimestamp()
       })
     }
 
-    const handleDeleteTask = async (id) => {
+    const deleteTask = async (id) => {
       await deleteDoc(doc(projectFirestore, 'tasks', id))
     }
 
@@ -117,8 +141,12 @@ export default {
       return tags
     })
 
-    const updateStatus = (_status) => {
-      status.value = _status
+    const updateStatusTask = (_status) => {
+      statusTask.value = _status
+    }
+
+    const updateStatusGoal = (_status) => {
+      statusGoal.value = _status
     }
 
     const attributes = computed(() => {
@@ -163,8 +191,9 @@ export default {
       return attrs.value
     })
 
-    return { taskDocs, handleFinish, handleDeleteTask, handleDeleteGoal,
-    goalDocs, getTagsSet, updateStatus, status, filteredDocs, attributes}
+    return {statusGoal, filteredGoals, updateStatusGoal,checkpointDocs,
+    finishTask, deleteTask, handleDeleteGoal,
+    goalDocs, getTagsSet, updateStatusTask, statusTask, filteredTasks, attributes}
   }
 }
 </script>

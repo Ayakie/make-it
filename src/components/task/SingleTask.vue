@@ -47,11 +47,11 @@ export default {
       })
 
       const finishTask = () => {
-        context.emit('finish', props.doc.id)
+        context.emit('finishTask', props.doc.id)
       }
 
       const deleteTask = () => {
-        context.emit('delete', props.doc.id)
+        context.emit('deleteTask', props.doc.id)
       }
 
       return { time, deleteTask, finishTask }
@@ -93,9 +93,6 @@ export default {
   }
 .material-icons {
   margin-right: 10px;
-}
-.material-icons.finish:hover {
-  color: var(--finished);
 }
 .description .memo {
   color: var(--secondary);

@@ -38,8 +38,10 @@ export default {
                 userId : user.value.uid,
                 userName: user.value.displayName,
                 goal: newGoal.value,
+                completed: false,
                 checkpoint: checkpointDate.value,
-                completedAt: timestamp()
+                completedAt: timestamp(),
+                createdAt: timestamp()
             }
 
             if (newGoal.value.length) {
