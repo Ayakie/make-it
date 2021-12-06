@@ -79,14 +79,12 @@ export default {
                     await _updateDoc(goal)
                 } else {
                     const docRef = await _addDoc(goal)
-                    // newGoal.value =''
                 }
                 if (!setError.value && !addError.value) {
                     console.log('submitted!')
                     router.push({name: 'Home'})
                 }
             }
-            // context.emit('setDate', restSec.value)
         }
 
         const output = computed(() => {
@@ -121,19 +119,6 @@ export default {
 </script>
 
 <style scoped>
-.modal {
-    margin: 100px auto;
-    text-align: center;
-}
-.modal h3 {
-    margin-bottom: 8px;
-}
-.modal p {
-    color: var(--secondary);
-}
-.modal input {
-    margin-top: 8px;
-}
 .output {
     color: var(--secondary);
     margin-bottom: 16px;

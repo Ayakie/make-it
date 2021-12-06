@@ -54,11 +54,24 @@ input, textarea {
     padding: 10px;
     margin: 24px auto;
     border: 0.5px solid #d7d7d7;
+    margin-top: 8px;
 }
 
 form > label {
     text-align: left;
     display: block;
+}
+
+/* modal */
+.modal {
+    margin: 100px auto;
+    text-align: center;
+}
+.modal h3 {
+    margin-bottom: 8px;
+}
+.modal p {
+    color: var(--secondary);
 }
 
 /* error text */

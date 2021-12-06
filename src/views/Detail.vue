@@ -1,5 +1,5 @@
 <template>
-  <div class="detail" v-if="!taskError">
+  <div class="modal" v-if="!taskError">
     <h3>やったことを振り返ろう</h3>
     <form>
       <!-- task -->
@@ -214,13 +214,6 @@ export default {
 <style scoped>
 .task-name {
   font-weight: bold;
-  /* margin-bottom: 24px; */
-}
-.detail {
-  text-align: center;
-}
-input, textarea {
-  margin-top: 8px;
 }
 .tag {
   display: inline-block;
