@@ -50,6 +50,9 @@
             <template #finished-checkpoint-icon>
               <span class="material-icons finished">done</span>
             </template>
+            <template #finish-icon>
+              <span class="material-icons" @click="handleUnfinish(doc.id)">unpublished</span>
+            </template>
           </SingleCheckPoint>
         </div>
         <div v-if="!filteredGoals.length" class="empty-lists">目標に向けた中間目標を設定しよう</div>
@@ -140,6 +143,13 @@ export default {
       })
     }
 
+    const handleUnfinish = async (id) => {
+      await updateDoc(doc(projectFirestore, 'checkpoints', id), {
+        completed: false,
+        createdAt: serverTimestamp()
+      })
+    }
+
     const handleDelete = async (id, collectionName) => {
       await deleteDoc(doc(projectFirestore, collectionName, id))
     }
@@ -170,7 +180,9 @@ export default {
 
     const attributes = computed(() => {
       const attrs = ref([])
-      if (!goalPending.value && !taskPending.value) {
+
+      if (!goalPending.value && !taskPending.value && !checkpointPending.value) {
+        // today
         attrs.value = [
           {
             key: 'today',
@@ -180,6 +192,7 @@ export default {
             customData: {'label': 'Today'}
           }
         ]
+        // goal date
         if (goalDocs.value.length) {
           attrs.value.push(
             {
@@ -191,7 +204,7 @@ export default {
             }
           )
         }
-        console.log(goalPending.value, taskPending.value)
+        console.log(goalPending.value, taskPending.value, checkpointPending.value)
         attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,
@@ -200,18 +213,28 @@ export default {
             color: doc.completed ? 'green' : 'red',
           },
           customData: {'label': doc.task},
-          popover: {
-            visibility: 'click'
-            }
+          popover: {'label': doc.task}
           }))
         )
-        console.log('attributes in computed', attrs.value)
+        // checkpoint date
+        if (checkpointDocs.value.length) {
+          attrs.value.push(
+            ...checkpointDocs.value.map(doc => ({
+              key: doc.id,
+              dates: doc.checkpoint.toDate(),
+              highlight: { color:doc.completed ? 'green' : 'red',
+                fillMode: 'outline'},
+              popover: {'label': doc.goal},
+              customData: {'label': doc.goal}
+            }))
+          )
+        }
       }
       return attrs.value
     })
 
     return {statusGoal, filteredGoals, updateStatusGoal,
-    handleFinish, handleDelete, handleDeleteGoal,
+    handleFinish, handleUnfinish, handleDelete, handleDeleteGoal,
     goalDocs, getTagsSet, updateStatusTask, statusTask, filteredTasks, attributes}
   }
 }
