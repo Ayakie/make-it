@@ -14,7 +14,8 @@
     <!-- calender component -->
     <div class="calendar-container">
       <div class="calendar">
-        <Calendar is-expanded :attributes='attributes'>
+        <Calendar :attributes='attributes' is-expanded
+        :rows="$screens({ default: 1, lg: 2 })">
           <template #day-popover="{ dayTitle, attributes }">
             {{ dayTitle }}
             <br>

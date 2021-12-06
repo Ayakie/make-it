@@ -6,6 +6,7 @@ import router from './router'
 import './assets/main.css'
 
 import { projectAuth } from './firebase/config'
+import { SetupCalendar } from 'v-calendar';
 
 let app
 
@@ -13,6 +14,12 @@ projectAuth.onAuthStateChanged(() => {
     if(!app) {
         app = createApp(App)
         .use(router)
+        .use(SetupCalendar, {screens: {
+            "sm": "640px",  // (min-width: 640px)
+            "md": "768px",  // (min-width: 768px)
+            "lg": "1024px", // (min-width: 1024px)
+            "xl": "1280px"  // (min-width: 1280px)
+        }})
         .mount('#app')
     }
 })
