@@ -27,10 +27,11 @@
     <div class="checkpoint">
       <h3>チェックポイント</h3>
       <FilterNav @changeStatus="updateStatusGoal" :status="statusGoal"/>
-      
-      <div v-if="filteredGoals.length && statusGoal==='ongoing'">
+
+      <div v-if="filteredGoals.length && statusGoal==='ongoing'" class="modal-container checkpoints">
         <div v-for="doc in filteredGoals" :key="doc.id">
-          {{ doc.goal }}
+          <SingleCheckPoint :doc="doc"
+          @deleteCheckpoint="handleDelete" @finishCheckpoint="handleFinish"/>
         </div>
       </div>
       <!-- new check point form -->
@@ -44,9 +45,9 @@
     <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
     <!-- ongoing task page -->
-    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="tasks">
+    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="modal-container tasks">
       <div v-for="doc in filteredTasks" :key="doc.id">
-        <SingleTask :doc="doc" @deleteTask="deleteTask" :tagsSet="getTagsSet" @finishTask="finishTask"/>
+        <SingleTask :doc="doc" @deleteTask="handleDelete" :tagsSet="getTagsSet" @finishTask="handleFinish"/>
       </div>
     </div>
     <!-- new task form -->
@@ -114,15 +115,15 @@ export default {
       }
     })
 
-    const finishTask = async (id) => {
-      await updateDoc(doc(projectFirestore, 'tasks', id), {
+    const handleFinish = async (id, collectionName) => {
+      await updateDoc(doc(projectFirestore, collectionName, id), {
         completed: true,
         completedAt: serverTimestamp()
       })
     }
 
-    const deleteTask = async (id) => {
-      await deleteDoc(doc(projectFirestore, 'tasks', id))
+    const handleDelete = async (id, collectionName) => {
+      await deleteDoc(doc(projectFirestore, collectionName, id))
     }
 
     const handleDeleteGoal = async () => {
@@ -191,8 +192,8 @@ export default {
       return attrs.value
     })
 
-    return {statusGoal, filteredGoals, updateStatusGoal,checkpointDocs,
-    finishTask, deleteTask, handleDeleteGoal,
+    return {statusGoal, filteredGoals, updateStatusGoal,
+    handleFinish, handleDelete, handleDeleteGoal,
     goalDocs, getTagsSet, updateStatusTask, statusTask, filteredTasks, attributes}
   }
 }
@@ -202,7 +203,7 @@ export default {
 section.task {
   margin-top: 56px;
 }
-.tasks {
+.modal-container {
   max-width: 600px;
   background: white;
   border-radius: 4px;
