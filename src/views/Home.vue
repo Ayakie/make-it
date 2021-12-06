@@ -1,4 +1,5 @@
 <template>
+  <Navbar />
   <HeroAfter v-if="goalDocs.length"
   :date="goalDocs[0]['date']"
   :goal="goalDocs[0]['goal']"
@@ -55,11 +56,12 @@ import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { Calendar, DatePicker, PopoverRow } from 'v-calendar'
 import { ref, computed } from '@vue/reactivity'
-import { onMounted, onUpdated, watch, watchEffect } from '@vue/runtime-core'
+import Navbar from '../components/Navbar.vue'
 
 export default {
   name: 'Home',
-  components: { HeroBefore, HeroAfter, NewTaskForm, SingleTask, Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
+  components: { Navbar, HeroBefore, HeroAfter, NewTaskForm, SingleTask,
+  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
   setup (){
     const user = getUser()
     const tags = ref([])
@@ -132,7 +134,6 @@ export default {
               highlight: { color: 'orange', fillMode: 'solid' },
               popover: {label: 'something'},
               customData: {'label': goalDocs.value[0]['goal']}
-    
             }
           )
         }
