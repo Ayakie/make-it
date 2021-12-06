@@ -11,15 +11,21 @@
   <section class="calendar">
     <h2>目標日を確認しよう</h2>
     <div class="calendar-container">
-      <Calendar is-expanded :attributes='attributes'>
-        <template #day-popover="{ dayTitle, attributes }">
-          {{ dayTitle }}
-          <br>
-          <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr">
-            {{ attr.customData.label }}
-          </popover-row>
-        </template>
-      </Calendar>
+      <div class="calendar">
+        <Calendar is-expanded :attributes='attributes'>
+          <template #day-popover="{ dayTitle, attributes }">
+            {{ dayTitle }}
+            <br>
+            <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr">
+              {{ attr.customData.label }}
+            </popover-row>
+          </template>
+        </Calendar>
+      </div>
+    <div class="checkpoint">
+      <h3>チェックポイント</h3>
+      <NewCheckPointForm />
+    </div>
     </div>
   </section>
 
@@ -62,7 +68,7 @@ import Navbar from '../components/Navbar.vue'
 export default {
   name: 'Home',
   components: { Navbar, HeroBefore, HeroAfter, NewTaskForm, SingleTask,
-  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
+  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow, NewCheckPointForm },
   setup (){
     const user = getUser()
     const tags = ref([])
@@ -209,8 +215,16 @@ section.task {
   right: 21vw;
 }
 .calendar-container {
+  display: flex;
+  gap: clamp(45px, 6vw, 80px);
+  align-items: center;
+}
+.calendar-container > .calendar {
+  flex: 2;
   max-width: 600px;
-  margin: 0 auto;
+}
+.calendar-container > .checkpoint {
+  flex: 1;
 }
 .section-title.task{
   margin-bottom: 0px;
@@ -228,6 +242,9 @@ section.task {
   .hero .title {
     margin-top: 20px;
     margin-bottom: 0;
+  }
+  .calendar-container {
+    flex-direction: column;
   }
   .material-icons.edit {
     position: absolute;
