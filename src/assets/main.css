@@ -23,7 +23,9 @@ body {
     background-color: #f2f2f2;
     color: var(--primary);
 }
-
+section {
+    margin: 0 auto;
+}
 h1, h2, h3 {
     color: var(--main);
     text-align: center;
@@ -93,6 +95,29 @@ form > label {
 .modal p {
     color: var(--secondary);
 }
+.single-list {
+    margin: 24px auto;
+    padding: 8px 10px;
+    background: white;
+    border-bottom: 0.5px solid #d7d7d7;
+    max-width: 600px;
+  }
+.single-list-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+.single-list .material-icons {
+    margin-right: 10px;
+}
+.lists-container {
+    max-width: 600px;
+    background: white;
+    border-radius: 4px;
+    margin: 24px auto;
+    padding: 32px;
+}
 
 /* error text */
 .error {
@@ -105,13 +130,13 @@ form > label {
     cursor: pointer;
     color: var(--secondary);
     vertical-align: middle;
-  }
+}
 .material-icons:hover{
     color: var(--main);
-  }
+}
+.material-icons.finish:hover {
+    color: var(--finished);
+}
 a {
     text-decoration: none;
-}
-section {
-    margin: 0 auto;
 }

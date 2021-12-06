@@ -1,8 +1,8 @@
 <template>
-  <div class="task">
+  <div class="single-list">
     <p class="created-time">{{ time }}</p>
     <!-- task name and icons -->
-    <div class="task-container">
+    <div class="single-list-container">
       <div class="task-name" :class="{completed: isCompleted === true}">
         <slot name="finished-task-icon"></slot>
         <p>{{ doc.task }}</p>
@@ -47,11 +47,11 @@ export default {
       })
 
       const finishTask = () => {
-        context.emit('finishTask', props.doc.id)
+        context.emit('finishTask', props.doc.id, 'tasks')
       }
 
       const deleteTask = () => {
-        context.emit('deleteTask', props.doc.id)
+        context.emit('deleteTask', props.doc.id, 'tasks')
       }
 
       return { time, deleteTask, finishTask }
@@ -60,19 +60,6 @@ export default {
 </script>
 
 <style scoped>
-.task {
-  margin: 24px auto;
-  padding: 8px 10px;
-  background: white;
-  border-bottom: 0.5px solid #d7d7d7;
-  max-width: 600px;
-}
-.task-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-}
 .task-name {
   max-width: 390px;
   display: flex;
@@ -91,7 +78,7 @@ export default {
     color: var(--secondary);
     margin-bottom: 8px;
   }
-.material-icons {
+.single-list .material-icons {
   margin-right: 10px;
 }
 .description .memo {

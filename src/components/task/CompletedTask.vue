@@ -10,7 +10,7 @@
             @click="handleClick(tag)"># {{ tag }}</div>
         </div>
         <div class="tasks-container">
-            <div class="tasks">
+            <div class="lists-container tasks">
                 <div v-for="doc in tasks" :key="doc.id">
                     <SingleTask :doc="doc" @delete="handleDelete" :tagsSet="tagsSet.value" :isCompleted="true">
                         <template #finished-task-icon>
@@ -75,7 +75,7 @@ export default {
     flex: 1;
     text-align: center;
 }
-.tasks {
+.lists-container {
     max-height: 600px;
     overflow: auto;
 }

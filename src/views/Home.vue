@@ -45,7 +45,7 @@
     <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
     <!-- ongoing task page -->
-    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="modal-container tasks">
+    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="lists-container tasks">
       <div v-for="doc in filteredTasks" :key="doc.id">
         <SingleTask :doc="doc" @deleteTask="handleDelete" :tagsSet="getTagsSet" @finishTask="handleFinish"/>
       </div>
@@ -203,13 +203,7 @@ export default {
 section.task {
   margin-top: 56px;
 }
-.modal-container {
-  max-width: 600px;
-  background: white;
-  border-radius: 4px;
-  margin: 24px auto;
-  padding: 32px;
-}
+
 .no-task {
   color: var(--secondary);
   text-align: center;
