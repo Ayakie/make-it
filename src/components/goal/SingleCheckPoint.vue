@@ -7,7 +7,8 @@
             <span class="goal">{{ doc.goal }}</span>
           </div>
         <div class="icons">
-            <span class="material-icons finish" @click="finishCheckpoint">done</span>
+            <slot></slot>
+            <!-- <span class="material-icons finish" @click="finishCheckpoint">done</span> -->
             <span class="material-icons" @click="deleteCheckpoint">delete</span>
         </div>
       </div>

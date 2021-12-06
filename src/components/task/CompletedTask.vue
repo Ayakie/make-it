@@ -23,7 +23,7 @@
                         </template>
                     </SingleTask>
                 </div>
-                <div class="no-task" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
+                <div class="empty-lists" v-if="!tasks.length">達成したことを振り返ることでモチベーションアップ！</div>
             </div>
         </div>
     </div>

@@ -25,17 +25,28 @@
         </Calendar>
       </div>
     <div class="checkpoint">
-      <h3>チェックポイント</h3>
+      <h3>中間目標</h3>
       <FilterNav @changeStatus="updateStatusGoal" :status="statusGoal"/>
-
+      <!-- ongoing checkpoint -->
       <div v-if="filteredGoals.length && statusGoal==='ongoing'" class="lists-container checkpoints">
         <div v-for="(doc, index) in filteredGoals" :key="doc.id">
           <SingleCheckPoint :doc="doc" :index="index"
-          @deleteCheckpoint="handleDelete" @finishCheckpoint="handleFinish"/>
+          @deleteCheckpoint="handleDelete">
+            <span class="material-icons finish" @click="handleFinish(doc.id, 'checkpoints')">done</span>
+          </SingleCheckPoint>
         </div>
       </div>
       <!-- new check point form -->
       <NewCheckPointForm v-if="statusGoal==='ongoing'"/>
+
+      <!-- completed checkpoint -->
+      <div v-if="statusGoal==='completed'"  class="lists-container checkpoints">
+        <div v-for="(doc, index) in filteredGoals" :key="doc.id">
+          <SingleCheckPoint :doc="doc" :index="index"
+          @deleteCheckpoint="handleDelete"/>
+        </div>
+        <div v-if="!filteredGoals.length" class="empty-lists">目標に向けた中間目標を設定しよう</div>
+      </div>
     </div>
     </div>
   </section>
@@ -204,7 +215,7 @@ section.task {
   margin-top: 56px;
 }
 
-.no-task {
+.empty-lists {
   color: var(--secondary);
   text-align: center;
 }
