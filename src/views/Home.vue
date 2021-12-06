@@ -45,7 +45,7 @@
       <!-- completed checkpoint -->
       <div v-if="statusGoal==='completed'"  class="lists-container checkpoints">
         <div v-for="(doc, index) in filteredGoals" :key="doc.id">
-          <SingleCheckPoint :doc="doc" :index="index"
+          <SingleCheckPoint :doc="doc" :index="index" :isCompleted="true"
           @deleteCheckpoint="handleDelete">
             <template #finished-checkpoint-icon>
               <span class="material-icons finished">done</span>
@@ -73,7 +73,7 @@
 
     <!-- completed task page -->
     <div class="completed-tasks" v-if="statusTask==='completed'">
-      <CompletedTask :tasks="filteredTasks" :tagsSet="getTagsSet" :uid="uid"/>
+      <CompletedTask :tasks="filteredTasks" :tagsSet="getTagsSet"/>
     </div>
   </section>
 </template>

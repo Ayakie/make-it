@@ -3,7 +3,7 @@
     <p class="created-time">{{ time }}</p>
     <!-- task name and icons -->
     <div class="single-list-container">
-      <div class="title task" :class="{completed: true}">
+      <div class="title task" :class="{completed: isCompleted===true}">
         <slot name="finished-task-icon"></slot>
         <p>{{ doc.task }}</p>
       </div>

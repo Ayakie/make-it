@@ -1,7 +1,7 @@
 <template>
   <div class="single-list">
       <div class="single-list-container">
-          <div class="title checkpoint"  :class="{completed: true}">
+          <div class="title checkpoint"  :class="{completed: isCompleted===true}">
               <slot name="finished-checkpoint-icon">{{ index+1 }}.</slot>
             <span class="date">{{ goalDate }}</span>までに
             <span class="goal">{{ doc.goal }}</span>
@@ -20,7 +20,7 @@ import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 
 export default {
-    props:['doc', 'index'],
+    props:['doc', 'index', 'isCompleted'],
     setup(props, context) {
         const goalDate = format(props.doc.checkpoint.toDate(), 'yyyy年M月d日(E) ', {locale: ja})
 
@@ -43,6 +43,10 @@ export default {
 }
 .single-list .title.checkpoint {
     max-width: 350px;
+}
+.single-list .title.checkpoint.completed {
+    max-width: 500px;
+    margin-right: 8px;
 }
 .material-icons.finished {
     color: var(--finished);
