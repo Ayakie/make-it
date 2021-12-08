@@ -9,7 +9,7 @@
             <span class="output days">{{ output['days'] }}</span> 日
             <span class="output">{{ output['hours'] }}</span> 時間
             <span class="output">{{ output['min'] }}</span> 分
-            <span class="output">{{ output['sec'] }}</span> 秒
+            <span class="output">{{ output['sec'] }}</span> 秒<br>
             です！
             </h3>
           <router-link :to="{name: 'SettingGoal', params: {id: id, goal: goal}}">

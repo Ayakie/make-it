@@ -20,6 +20,6 @@ export default {
 
 <style>
 .goal-btn {
-    background-color: inherit;
+    background-color: #f2f2f2;
 }
 </style>
