@@ -312,7 +312,6 @@ section.task {
   }
   .hero .title {
     margin-top: 20px;
-    margin-bottom: 0;
   }
   .calendar-container {
     flex-direction: column;
