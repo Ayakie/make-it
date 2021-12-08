@@ -6,7 +6,7 @@
             </div>
             <h3 class="title">ゴールを達成した自分をイメージしよう</h3>
             <router-link :to="{name: 'SettingGoal'}">
-                <button>目標を設定する</button>
+                <button class="goal-btn">目標を設定する</button>
             </router-link>
         </div>
   </section>
@@ -19,5 +19,7 @@ export default {
 </script>
 
 <style>
-
+.goal-btn {
+    background-color: inherit;
+}
 </style>

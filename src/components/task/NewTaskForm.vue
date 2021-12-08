@@ -4,7 +4,7 @@
       placeholder="英語の問題を1年分解く"
       v-model="newTask">
       <div class="error"> {{ error }} </div>
-    <button class="create-btn">作成する</button>
+    <button class="create-btn gray">作成する</button>
   </form>
 </template>
 

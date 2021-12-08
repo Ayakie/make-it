@@ -8,7 +8,7 @@
           </div>
           <div class="nav-login">
               <p>ようこそ、{{ user.displayName }} さん</p>
-              <button @click="handleLogout">Logout</button>
+              <button class="btn gray navbar" @click="handleLogout">Logout</button>
           </div>
       </div>
   </header>
