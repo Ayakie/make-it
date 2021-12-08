@@ -38,12 +38,12 @@
       <!-- if finished -->
       <div v-if="isCompleted">
         <button @click.prevent="handleUnfinish">
-          <span class="material-icons finish">unpublished</span>
+          <span class="material-icons">unpublished</span>
           <span class="text">やることに戻す</span>
         </button>
         <div class="btn-container">
           <div class="delete-btn" @click.prevent="handleDelete">
-            <span class="material-icons finish">delete</span>
+            <span class="material-icons delete">delete</span>
             削除する
           </div>
           <div class="save-btn" @click.prevent="handleUpdate">
@@ -59,7 +59,7 @@
          <span class="text">やることを完了する</span>
           </button>
         <div class="save-btn" @click.prevent="handleSave">
-          <span class="material-icons save">border_color</span>
+          <span class="material-icons">border_color</span>
           一時保存する
         </div>
       </div>
@@ -238,23 +238,18 @@ button {
 button .text {
   vertical-align: middle;
 }
-.material-icons.finish {
-  color: var(--main2);
-  margin-right: 4px;
-}
 .clear {
   font-size: 18px;
   padding-bottom: 1px;
 }
-.material-icons.save {
+.material-icons {
   color: var(--main2);
-  font-size: 14px;
   margin-right: 4px;
 }
 .save-btn, .delete-btn {
   cursor: pointer;
   margin-top: 16px;
-  margin-right: 16px;
+  margin-right: 24px;
 }
 .save-btn:hover, .delete-btn:hover {
   opacity: 0.6;
