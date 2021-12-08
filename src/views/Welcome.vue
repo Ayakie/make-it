@@ -44,8 +44,23 @@ export default {
 .welcome span {
     cursor: pointer;
     color: var(--main2);
+    font-weight: bold;
+    position: relative;
 }
-.welcome span:hover {
-    opacity: 0.6;
+
+.welcome span::after {
+    content: '';
+    position: absolute;
+    left: 0%;
+    bottom: -50%;
+    width: 100%;
+    height: 2px;
+    background:var(--accent);
+    transition: all 0.3s;
+    transform: scale(0, 1);
+    transform-origin: left top;
+}
+.welcome span:hover::after {
+    transform: scale(1,1);
 }
 </style>
