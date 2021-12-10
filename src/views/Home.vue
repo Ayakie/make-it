@@ -208,7 +208,7 @@ export default {
         attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,
-          dates: doc.completed ? doc.completedAt.toDate() : doc.createdAt.toDate(),
+          dates: doc.completedAt.toDate(),
           dot: {
             color: doc.completed ? 'green' : 'red',
           },
