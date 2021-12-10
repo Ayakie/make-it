@@ -37,18 +37,18 @@
       </div>
       <!-- if finished -->
       <div v-if="isCompleted">
-        <button @click.prevent="handleUnfinish">
-          <span class="material-icons">unpublished</span>
-          <span class="text">やることに戻す</span>
+        <button @click.prevent="handleUpdate">
+            <span class="material-icons save">border_color</span>
+            <span class="text">更新する</span>
         </button>
         <div class="btn-container">
           <div class="delete-btn" @click.prevent="handleDelete">
             <span class="material-icons delete">delete</span>
             削除する
           </div>
-          <div class="save-btn" @click.prevent="handleUpdate">
-            <span class="material-icons save">border_color</span>
-            更新する
+          <div class="save-btn" @click.prevent="handleUnfinish">
+            <span class="material-icons">unpublished</span>
+            やることに戻す
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@ export default {
     const setupValue = (async() => {
       await _getDoc()
       console.log('document.value: ', document.value)
-      // memo.value = document.value.memo
+      memo.value = document.value.memo
       title.value = document.value.task
       if (document.value.completedAt) {
         completedAt.value = document.value.completedAt.toDate()
@@ -249,6 +249,8 @@ button .text {
 .save-btn, .delete-btn {
   cursor: pointer;
   margin-top: 16px;
+}
+.delete-btn {
   margin-right: 24px;
 }
 .save-btn:hover, .delete-btn:hover {
