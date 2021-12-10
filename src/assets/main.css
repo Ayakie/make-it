@@ -122,7 +122,7 @@ form > label {
     max-width: 600px;
     background: white;
     border-radius: 4px;
-    margin: 24px 0;
+    margin: 24px auto;
     padding: 24px;
 }
 

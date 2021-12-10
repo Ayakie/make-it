@@ -78,6 +78,7 @@ export default {
 .lists-container {
     max-height: 600px;
     overflow: auto;
+    margin: 24px 0;
 }
 .tag {
   display: inline-block;
