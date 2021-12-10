@@ -242,7 +242,7 @@ export default {
 
 <style>
 section.task {
-  margin-top: 56px;
+  margin-top: 48px;
 }
 .empty-lists {
   color: var(--secondary);
@@ -270,7 +270,7 @@ section.task {
 }
 .calendar-container {
   display: flex;
-  gap: clamp(45px, 6vw, 80px);
+  gap: clamp(42px, 6vw, 80px);
   min-height: 600px;
 }
 .calendar-container > .calendar {
@@ -315,6 +315,10 @@ section.task {
   }
   .calendar-container {
     flex-direction: column;
+    min-height: 612px;
+  }
+  .calendar-container > .calendar {
+    max-height: 270px;
   }
   .single-list .material-icons {
     margin-right: 8px;
