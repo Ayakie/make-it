@@ -2,9 +2,9 @@
   <header>
       <div class="header-container"  v-if="user">
           <div class="site">
-              <router-link :to="{name: 'Home'}">
+              <!-- <router-link :to="{name: 'Home'}">
                   <span class="material-icons home">home</span>
-              </router-link>
+              </router-link> -->
           </div>
           <div class="nav-login">
               <p>ようこそ、{{ user.displayName }} さん</p>
@@ -60,9 +60,6 @@ header {
     color: var(--secondary);
     background-color: #D7D7D7;
     margin-left: 24px;
-}
-.material-icons.home {
-    font-size: 36px;
 }
 
 /* smartphone */
