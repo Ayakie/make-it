@@ -81,7 +81,7 @@ export default {
                     const docRef = await _addDoc(goal)
                 }
                 if (!setError.value && !addError.value) {
-                    console.log('submitted!')
+                    // console.log('submitted!')
                     router.push({name: 'Home'})
                 }
             }

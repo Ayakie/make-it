@@ -104,7 +104,7 @@ export default {
     // retrieve data from firestore
     const setupValue = (async() => {
       await _getDoc()
-      console.log('document.value: ', document.value)
+      // console.log('document.value: ', document.value)
       memo.value = document.value.memo
       title.value = document.value.task
       if (document.value.completedAt) {
@@ -123,7 +123,7 @@ export default {
       nextTick(() => {
         area.value.style.height = area.value.scrollHeight + 'px'
       })
-      console.log('height: ', area.value.scrollHeight)
+      // console.log('height: ', area.value.scrollHeight)
     }
 
     watch(memo, () => resize())

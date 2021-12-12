@@ -113,7 +113,7 @@ export default {
     const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid])
     const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid])
     const { error: checkpointError, documents: checkpointDocs, isPending: checkpointPending } = getCollection('checkpoints', ['userId', '==', uid])
-    console.log('checkpointDoc', checkpointDocs.value)
+    // console.log('checkpointDoc', checkpointDocs.value)
 
     const filteredTasks = computed(() => {
       // return documents based on status（ongoing or completed）
@@ -155,7 +155,7 @@ export default {
     }
 
     const handleDeleteGoal = async () => {
-      console.log('deleted!!')
+      // console.log('deleted!!')
       const id = goalDocs.value[0]['id']
       await deleteDoc((doc(projectFirestore, 'goals', id)))
     }
@@ -204,7 +204,7 @@ export default {
             }
           )
         }
-        console.log(goalPending.value, taskPending.value, checkpointPending.value)
+        // console.log(goalPending.value, taskPending.value, checkpointPending.value)
         attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,

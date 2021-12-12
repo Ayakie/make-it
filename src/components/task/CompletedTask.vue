@@ -43,7 +43,7 @@ export default {
 
     setup(props) {
         const tasks = ref(props.tasks)
-        console.log(tasks.value)
+        // console.log(tasks.value)
         const isSelected = ref('全て表示')
         const handleDelete = async (id) => {
             await deleteDoc(doc(projectFirestore, 'tasks', id))
