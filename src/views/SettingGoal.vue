@@ -3,8 +3,8 @@
       <h3>目標と達成予定日を設定しよう</h3>
       <p>登録することで、達成日までのカウントダウンが表示されます</p>
       <form @submit.prevent="handleSubmit">
-          <div v-if="id">
-              現在の目標：{{ goal }}
+          <div v-if="id" class="current-goal">
+              現在の目標：<span class="text">{{ goal }}</span>
           </div>
           <label for="goal">目標</label>
           <input type="text" id="goal" v-model="newGoal" required placeholder="例) 〇〇大学に合格する">
@@ -122,5 +122,11 @@ export default {
 .output {
     color: var(--secondary);
     margin-bottom: 16px;
+}
+.current-goal {
+    margin-bottom: 16px;
+}
+.current-goal > .text{
+    font-weight: bold;
 }
 </style>
