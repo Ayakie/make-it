@@ -76,8 +76,7 @@ export default {
     text-align: center;
 }
 .lists-container {
-    max-height: 600px;
-    overflow: auto;
+    /* 左寄せ */
     margin: 24px 0;
 }
 .tag {

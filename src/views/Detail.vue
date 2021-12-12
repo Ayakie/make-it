@@ -23,8 +23,10 @@
       <label for="memo">メモや思ったことを残そう
         <span class="error">{{ setError }}</span>
       </label>
-      <textarea id="memo" placeholder=""
-      v-model="memo">
+      <textarea id="memo"
+      v-model="memo"
+      ref="area"
+      >
       </textarea>
 
       <!-- tags -->
@@ -38,17 +40,17 @@
       <!-- if finished -->
       <div v-if="isCompleted">
         <button @click.prevent="handleUpdate">
-            <span class="material-icons save">border_color</span>
+            <span class="material-icons save">task_alt</span>
             <span class="text">更新する</span>
         </button>
         <div class="btn-container">
           <div class="delete-btn" @click.prevent="handleDelete">
             <span class="material-icons delete">delete</span>
-            削除する
+            <span>削除する</span>
           </div>
           <div class="save-btn" @click.prevent="handleUnfinish">
-            <span class="material-icons">unpublished</span>
-            やることに戻す
+            <span class="material-icons">undo</span>
+            <span>やることに戻す</span>
           </div>
         </div>
       </div>
@@ -60,7 +62,7 @@
           </button>
         <div class="save-btn" @click.prevent="handleSave">
           <span class="material-icons">border_color</span>
-          一時保存する
+          <span>一時保存する</span>
         </div>
       </div>
     </form>
@@ -80,7 +82,7 @@ import getImgUrl from "@/composables/getImgUrl"
 import { computed, ref } from '@vue/reactivity'
 import { DatePicker } from 'v-calendar'
 import { useRouter } from 'vue-router'
-import { onMounted } from '@vue/runtime-core'
+import { nextTick, onMounted, watch } from 'vue'
 import { timestamp } from '@/firebase/config'
 
 export default {
@@ -95,6 +97,9 @@ export default {
     const tags = ref([])
     const title = ref('')
     const imgUrl = getImgUrl(3)
+    const area = ref(null)
+    const tag = ref('')
+    const tagsSet = props.tagsSet
 
     // retrieve data from firestore
     const setupValue = (async() => {
@@ -110,12 +115,18 @@ export default {
       }
     })()
 
-    const tag = ref('')
-    // for suggenstion of tag
-    const tagsSet = props.tagsSet
     // document is null at this moment
     // console.log('document.value: ', document.value)
-    onMounted(() => console.log('mounted!'))
+
+    const resize = () => {
+      area.value.style.height = "auto"
+      nextTick(() => {
+        area.value.style.height = area.value.scrollHeight + 'px'
+      })
+      console.log('height: ', area.value.scrollHeight)
+    }
+
+    watch(memo, () => resize())
 
     const handleEnterTag =  () => {
       // tags.value = await document.value.tags
@@ -197,7 +208,7 @@ export default {
       }
     }
 
-    return {taskError, title, setError, document, memo,
+    return {taskError, title, setError, document, memo, area,
     tag, tags, handleEnterTag, handleClear, handleSubmit,
     completedAt, handleSave, handleUnfinish, handleDelete,
     handleUpdate, imgUrl }
