@@ -62,7 +62,7 @@
   </section>
 
   <section class="task">
-    <h2 class="section-title task">今からやること</h2>
+    <h1>今からやること</h1>
     <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
     <!-- ongoing task page -->
@@ -291,9 +291,6 @@ section.task {
   max-height: 600px;
   overflow: auto;
 }
-.section-title.task{
-  margin-bottom: 0px;
-}
 .single-list .material-icons {
     margin-right: 10px;
 }
@@ -323,6 +320,8 @@ section.task {
   }
   .calendar-container > .calendar {
     max-height: 270px;
+    width: 100%;
+    margin: auto;
   }
   .single-list .material-icons {
     margin-right: 8px;

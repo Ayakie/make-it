@@ -111,6 +111,9 @@ export default {
         flex-direction: column;
         gap: 0;
     }
+    .lists-container {
+        margin: 20px auto;
+    }
     .tags {
         margin: 24px 24px 0 24px;
     }
