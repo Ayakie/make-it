@@ -13,7 +13,7 @@
       <input type="text" v-model="newGoal" class="new-goal"
       placeholder="過去問を一周終わらせる" required>
       <div class="error" v-if="dateError"> {{ dateError }} </div>
-      <button class="create-btn gray">登録する</button>
+      <button class="create">登録する</button>
   </form>
 </template>
 
