@@ -55,14 +55,14 @@
             </template>
           </SingleCheckPoint>
         </div>
-        <div v-if="!filteredGoals.length" class="empty-lists">目標に向けた中間目標を設定しよう</div>
+        <div v-if="!filteredGoals.length" class="empty-lists">最終目標に向けて、途中で達成すべき中間目標を設定しよう</div>
       </div>
     </div>
     </div>
   </section>
 
   <section class="task">
-    <h2 class="section-title task">やることリスト</h2>
+    <h2 class="section-title task">今からやること</h2>
     <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
     <!-- ongoing task page -->
@@ -285,6 +285,10 @@ section.task {
 }
 .lists-container.checkpoints {
   max-height: 250px;
+  overflow: auto;
+}
+.lists-container.tasks {
+  max-height: 600px;
   overflow: auto;
 }
 .section-title.task{
