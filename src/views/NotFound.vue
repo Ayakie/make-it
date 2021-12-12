@@ -5,7 +5,14 @@
     <img :src="url" alt="not-found">
 
     <div class="back-page">
-        <BackPage />
+        <BackPage>
+            <div class="back">
+                <router-link :to="{name: 'Home'}">
+                    <span class="material-icons home">home</span>
+                    <span class="back-text">ホームに戻る</span>
+                </router-link>
+            </div>
+        </BackPage>
     </div>
 </div>
 
@@ -25,12 +32,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .not-found {
-    margin: 0 auto;
+    margin: 100px auto;
     text-align: center;
 }
 .not-found img {
     margin: 32px 0;
+}
+.material-icons.home {
+    margin-right: 4px;
 }
 </style>
