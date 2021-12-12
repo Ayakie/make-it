@@ -7,6 +7,7 @@ import './assets/main.css'
 
 import { projectAuth } from './firebase/config'
 import { SetupCalendar } from 'v-calendar';
+import Markdown from 'vue3-markdown-it'
 
 let app
 
@@ -20,6 +21,7 @@ projectAuth.onAuthStateChanged(() => {
             "lg": "1024px", // (min-width: 1024px)
             "xl": "1280px"  // (min-width: 1280px)
         }})
+        .use(Markdown)
         .mount('#app')
     }
 })

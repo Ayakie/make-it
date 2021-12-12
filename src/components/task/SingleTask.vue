@@ -19,9 +19,7 @@
     </div>
     <!-- memo and tags -->
     <div class="description">
-      <div class="memo">
-        {{ doc.memo }}
-      </div>
+      <Markdown :source="compiledMarkdown" class="memo" :html="true"/>
       <div class="tags">
         <span class="tag" v-for="tag in doc.tags" :key="tag">
           #{{ tag }}
@@ -34,9 +32,11 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { format } from 'date-fns'
+import Markdown from 'vue3-markdown-it'
 
 export default {
     props: ['doc', 'tagsSet', 'isCompleted'],
+    components: { Markdown },
     setup(props, context) {
       const time = computed(() => {
         if (props.doc.completed) {
@@ -54,12 +54,16 @@ export default {
         context.emit('deleteTask', props.doc.id, 'tasks')
       }
 
-      return { time, deleteTask, finishTask }
+      const compiledMarkdown = computed(() => {
+        return props.doc.memo
+      })
+
+      return { time, deleteTask, finishTask, compiledMarkdown }
     }
 }
 </script>
 
-<style scoped>
+<style>
 .single-list .title.task {
   max-width: 460px;
   display: flex;
@@ -78,6 +82,10 @@ export default {
     color: var(--secondary);
     margin-bottom: 8px;
   }
+.memo h1, .memo h2, .memo h3 {
+  text-align: initial;
+  margin: initial;
+}
 .description .memo {
   color: var(--secondary);
   font-size: 14px;
