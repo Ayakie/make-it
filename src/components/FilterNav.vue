@@ -27,9 +27,6 @@ export default {
 </script>
 
 <style>
-.filter-nav {
-    margin-left:24px;
-}
 .part1, .part2 {
     color: var(--secondary);
     display: inline-block;
