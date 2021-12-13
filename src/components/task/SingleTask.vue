@@ -33,17 +33,14 @@
 import { computed, ref } from '@vue/reactivity'
 import { format } from 'date-fns'
 import Markdown from 'vue3-markdown-it'
+import { ja } from 'date-fns/locale'
 
 export default {
     props: ['doc', 'tagsSet', 'isCompleted'],
     components: { Markdown },
     setup(props, context) {
       const time = computed(() => {
-        if (props.doc.completed) {
-          return format(props.doc.completedAt.toDate(), 'yyyy.MM.dd (E)')
-          } else {
-          return format(props.doc.createdAt.toDate(), 'yyyy.MM.dd (E) HH:mm')
-        }
+        return format(props.doc.completedAt.toDate(), 'yyyy.MM.dd（E）', {locale: ja})
       })
 
       const finishTask = () => {

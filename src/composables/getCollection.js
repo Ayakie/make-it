@@ -2,7 +2,7 @@ import { ref, watchEffect } from "vue"
 import { collection, onSnapshot, doc, query, where, orderBy } from "firebase/firestore"
 import { projectFirestore } from "@/firebase/config"
 
-const getCollection = (collectionName, _query, order) => {
+const getCollection = (collectionName, _query, order='createdAt') => {
     
     const documents = ref([])
     const error = ref(null)
@@ -12,11 +12,8 @@ const getCollection = (collectionName, _query, order) => {
     let collectionRef = collection(projectFirestore, collectionName)
     isPending.value = true
 
-    if(order) {
-        collectionRef = query(collectionRef, orderBy(order))
-    } else {
-        collectionRef = query(collectionRef, orderBy('createdAt'))
-    }
+    // query
+    collectionRef = query(collectionRef, orderBy(order))
 
 
     if (_query) {

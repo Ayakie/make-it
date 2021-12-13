@@ -127,7 +127,7 @@ export default {
     const tasks = ref(null)
     // get current user's collection
     const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid], 'completedAt')
-    const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid])
+    const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid], 'createdAt')
     const { error: checkpointError, documents: checkpointDocs, isPending: checkpointPending } = getCollection('checkpoints', ['userId', '==', uid], 'checkpoint')
     // console.log('checkpointDoc', checkpointDocs.value)
 
