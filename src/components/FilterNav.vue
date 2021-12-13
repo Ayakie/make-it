@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .part1, .part2 {
     color: var(--secondary);
     display: inline-block;

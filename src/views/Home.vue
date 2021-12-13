@@ -333,7 +333,7 @@ section.task {
   overflow: auto;
 }
 .single-list .material-icons {
-    margin-right: 10px;
+    margin-right: 12px;
 }
 .material-icons.finished {
     color: var(--finished);
