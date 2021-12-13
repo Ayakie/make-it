@@ -2,7 +2,7 @@
     <section class="hero">
         <div class="hero-container">
             <div class="hero-img">
-                <img src="@/assets/setting-goal.png" alt="">
+                <img src="@/assets/setting-goal.png" height="240">
             </div>
             <h3 class="title">ゴールを達成した自分をイメージしよう</h3>
             <router-link :to="{name: 'SettingGoal'}">

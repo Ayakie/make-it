@@ -2,7 +2,7 @@
   <section class="hero">
       <div class="hero-container">
           <div class="hero-img">
-              <img src="@/assets/countdown.png" alt="" srcset="">
+              <img src="@/assets/countdown.png" height="250">
           </div>
           <h3 class="title">
             {{ goal }} まで残り<br>

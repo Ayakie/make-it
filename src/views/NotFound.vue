@@ -2,7 +2,7 @@
 <div class="not-found">
     <h1>404</h1>
     <h2>Oh...Not Found...</h2>
-    <img :src="url" alt="not-found">
+    <img :src="url" alt="not-found" height="300">
 
     <div class="back-page">
         <BackPage>
