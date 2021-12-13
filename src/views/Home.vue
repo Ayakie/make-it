@@ -77,6 +77,8 @@
             <SingleTask :doc="doc" @deleteTask="handleDelete" :tagsSet="getTagsSet" @finishTask="handleFinish"/>
           </div>
         </div>
+        <!-- new task form -->
+        <NewTaskForm v-if="statusTask==='ongoing'"/>
       </div>
       <!-- completed task page -->
       <div class="left" v-if="statusTask==='completed'">
@@ -88,8 +90,7 @@
         </div>
       </div>
     </div>
-    <!-- new task form -->
-    <NewTaskForm v-if="statusTask==='ongoing'"/>
+
 
   </section>
 </template>
