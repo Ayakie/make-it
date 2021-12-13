@@ -54,4 +54,7 @@ export default {
   padding: 0 10px;
   border: none;
 }
+.inline-form {
+  max-width: 700px;
+}
 </style>

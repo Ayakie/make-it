@@ -65,19 +65,32 @@
     <h1>今からやること</h1>
     <FilterNav @changeStatus="updateStatusTask" :status="statusTask"/>
 
-    <!-- ongoing task page -->
-    <div v-if="filteredTasks.length && statusTask==='ongoing'" class="lists-container tasks">
-      <div v-for="doc in filteredTasks" :key="doc.id">
-        <SingleTask :doc="doc" @deleteTask="handleDelete" :tagsSet="getTagsSet" @finishTask="handleFinish"/>
+    <div class="tasks-container">
+      <div class="tags right">
+        <TagCloud :tagsSet="getTagsSet" @selectTag="handleSelectTag"/>
+      </div>
+      <!-- ongoing task page -->
+      <div class="left"  v-if="statusTask==='ongoing'">
+        <div class="lists-container tasks">
+          <p v-if="!filteredTasks.length" class="empty-lists">小さなタスクから始めよう</p>
+          <div v-for="doc in filteredTasks" :key="doc.id">
+            <SingleTask :doc="doc" @deleteTask="handleDelete" :tagsSet="getTagsSet" @finishTask="handleFinish"/>
+          </div>
+        </div>
+      </div>
+      <!-- completed task page -->
+      <div class="left" v-if="statusTask==='completed'">
+        <div class="lists-container tasks">
+          <p v-if="!filteredTasks.length" class="empty-lists" >達成したことを振り返ることでモチベーションアップ！</p>
+          <div v-for="doc in filteredTasks" :key="doc.id">
+            <CompletedTask  :doc="doc" :tagsSet="getTagsSet"/>
+          </div>
+        </div>
       </div>
     </div>
     <!-- new task form -->
     <NewTaskForm v-if="statusTask==='ongoing'"/>
 
-    <!-- completed task page -->
-    <div class="completed-tasks" v-if="statusTask==='completed'">
-      <CompletedTask :tasks="filteredTasks" :tagsSet="getTagsSet"/>
-    </div>
   </section>
 </template>
 
@@ -92,6 +105,7 @@ import NewTaskForm from '@/components/task/NewTaskForm.vue'
 import SingleTask from '@/components/task/SingleTask.vue'
 import FilterNav from '@/components/FilterNav.vue'
 import CompletedTask from '@/components/task/CompletedTask.vue'
+import TagCloud from '@/components/task/TagCloud.vue'
 import { projectFirestore } from "@/firebase/config"
 import { doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { Calendar, DatePicker, PopoverRow } from 'v-calendar'
@@ -101,32 +115,43 @@ import Navbar from '../components/Navbar.vue'
 export default {
   name: 'Home',
   components: { Navbar, HeroBefore, HeroAfter, NewCheckPointForm, SingleCheckPoint,
-  NewTaskForm, SingleTask,
-  Calendar, DatePicker, FilterNav, CompletedTask, PopoverRow },
+  NewTaskForm, SingleTask, CompletedTask, TagCloud,
+  Calendar, DatePicker, FilterNav,  PopoverRow },
   setup (){
     const user = getUser()
     const tags = ref([])
+    const selectedTag = ref('全て表示')
     const statusTask = ref('ongoing')
     const statusGoal = ref('ongoing')
     const uid = user.value.uid
+    const tasks = ref(null)
     // get current user's collection
-    const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid])
+    const { error: taskError, documents: taskDocs, isPending: taskPending } = getCollection('tasks', ['userId', '==', uid], 'completedAt')
     const { error: goalError, documents: goalDocs, isPending: goalPending } = getCollection('goals', ['userId', '==', uid])
-    const { error: checkpointError, documents: checkpointDocs, isPending: checkpointPending } = getCollection('checkpoints', ['userId', '==', uid])
+    const { error: checkpointError, documents: checkpointDocs, isPending: checkpointPending } = getCollection('checkpoints', ['userId', '==', uid], 'checkpoint')
     // console.log('checkpointDoc', checkpointDocs.value)
 
     const filteredTasks = computed(() => {
-      // return documents based on status（ongoing or completed）
+      // filter bu status (ongoing or completed)
       if (statusTask.value === "ongoing") {
-        return taskDocs.value.filter(doc => !doc.completed)
+        tasks.value = taskDocs.value.filter(doc => !doc.completed)
       } else if (statusTask.value === "completed") {
-        return taskDocs.value.filter(doc => doc.completed)
+        tasks.value = taskDocs.value.filter(doc => doc.completed)
       } else {
         throw new Error('another status!')
       }
+
+      // filter by selectedTag
+      if (selectedTag.value !== "全て表示") {
+        tasks.value = tasks.value.filter(doc => doc.tags.includes(selectedTag.value))
+        console.log(selectedTag.value)
+      } else {
+        tasks.value = tasks.value
+      }
+      return tasks.value
     })
     const filteredGoals = computed(() => {
-      // return documents based on status（ongoing or completed）
+      // filter by status（ongoing or completed）
       if (statusGoal.value === "ongoing") {
         return checkpointDocs.value.filter(doc => !doc.completed)
       } else if (statusGoal.value === "completed") {
@@ -135,6 +160,15 @@ export default {
         throw new Error('another status!')
       }
     })
+
+    const handleSelectTag = (tag) => {
+      selectedTag.value = tag
+      // if (tag==="全て表示") {
+      //   // pass
+      // } else {
+      //   tasks.value = taskDocs.value.filter(doc => doc.tags.includes(tag))
+      // }
+    }
 
     const handleFinish = async (id, collectionName) => {
       await updateDoc(doc(projectFirestore, collectionName, id), {
@@ -172,6 +206,7 @@ export default {
 
     const updateStatusTask = (_status) => {
       statusTask.value = _status
+      selectedTag.value = selectedTag.value
     }
 
     const updateStatusGoal = (_status) => {
@@ -235,19 +270,13 @@ export default {
 
     return {statusGoal, filteredGoals, updateStatusGoal,
     handleFinish, handleUnfinish, handleDelete, handleDeleteGoal,
-    goalDocs, getTagsSet, updateStatusTask, statusTask, filteredTasks, attributes}
+    goalDocs, getTagsSet, handleSelectTag,
+    updateStatusTask, statusTask, filteredTasks, attributes}
   }
 }
 </script>
 
 <style>
-section.task {
-  margin-top: 48px;
-}
-.empty-lists {
-  color: var(--secondary);
-  text-align: center;
-}
 .hero {
     height: 400px;
     position: relative;
@@ -268,13 +297,14 @@ section.task {
 .hero .title {
   margin-bottom: 24px;
 }
+/* calendar */
 .calendar-container {
   display: flex;
   gap: clamp(42px, 6vw, 80px);
   min-height: 600px;
 }
 .calendar-container > .calendar {
-  flex: 2;
+  flex: 1;
   max-width: 600px;
   display: grid;
   place-items: center;
@@ -287,9 +317,27 @@ section.task {
   max-height: 250px;
   overflow: auto;
 }
+/* tasks */
+section.task {
+  margin-top: 48px;
+}
+.tasks-container {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 24px;
+}
+.tasks-container > .right {
+  flex: 1;
+  text-align: center;
+}
+.tasks-container > .left {
+  flex: 2;
+  margin: 24px 0;
+}
 .lists-container.tasks {
   max-height: 600px;
   overflow: auto;
+  max-width: 700px;
 }
 .single-list .material-icons {
     margin-right: 10px;
@@ -300,6 +348,10 @@ section.task {
 .material-icons.finished:hover {
     cursor: default;
     color: var(--finished);
+}
+.empty-lists {
+  color: var(--secondary);
+  text-align: center;
 }
 /* smartphone */
 @media (max-width: 768px) {
