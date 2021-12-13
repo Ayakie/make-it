@@ -40,9 +40,10 @@ export default {
 <style scoped>
 .date {
     font-weight: bold;
+    margin-left: 4px;
 }
 .single-list .title.checkpoint {
-    max-width:370px;
+    max-width:80%;
 }
 
 .material-icons.finished {
@@ -51,7 +52,7 @@ export default {
 .material-icons.finished:hover {
     cursor: default;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .single-list .title.checkpoint {
         max-width: 200px;
     }

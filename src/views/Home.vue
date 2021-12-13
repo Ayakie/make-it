@@ -163,11 +163,6 @@ export default {
 
     const handleSelectTag = (tag) => {
       selectedTag.value = tag
-      // if (tag==="全て表示") {
-      //   // pass
-      // } else {
-      //   tasks.value = taskDocs.value.filter(doc => doc.tags.includes(tag))
-      // }
     }
 
     const handleFinish = async (id, collectionName) => {
@@ -189,7 +184,6 @@ export default {
     }
 
     const handleDeleteGoal = async () => {
-      // console.log('deleted!!')
       const id = goalDocs.value[0]['id']
       await deleteDoc((doc(projectFirestore, 'goals', id)))
     }
@@ -239,7 +233,7 @@ export default {
             }
           )
         }
-        // console.log(goalPending.value, taskPending.value, checkpointPending.value)
+
         attrs.value.push(
         ...taskDocs.value.map(doc => ({
           key: doc.id,
@@ -329,15 +323,14 @@ section.task {
 .tasks-container > .right {
   flex: 1;
   text-align: center;
+  margin-top: 24px;
 }
 .tasks-container > .left {
   flex: 2;
-  margin: 24px 0;
 }
 .lists-container.tasks {
   max-height: 600px;
   overflow: auto;
-  max-width: 700px;
 }
 .single-list .material-icons {
     margin-right: 10px;
@@ -375,11 +368,28 @@ section.task {
     width: 100%;
     margin: auto;
   }
+  /* tasks */
+  .tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
   .single-list .material-icons {
     margin-right: 8px;
   }
   .single-list .material-icons.delete {
     margin-right: 0px;
+  }
+  /* tags */
+  .tags.right {
+    margin: 24px;
+  }
+  .tags-title {
+    margin-bottom: 0;
+  }
+  .tags p {
+    margin: 8px auto;
+    text-align: center;
   }
 }
 </style>

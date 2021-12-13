@@ -89,8 +89,8 @@ form > label {
 .inline-form {
     padding: 16px 24px;
     border-radius: 4px;
-    max-width: 600px;
-    margin: 16px auto;
+    max-width: 700px;
+    margin: 24px auto;
   }
 .inline-form input {
   text-align: center;
@@ -112,7 +112,7 @@ form > label {
     padding: 8px 10px;
     background: white;
     border-bottom: 0.5px solid #d7d7d7;
-    max-width: 600px;
+    max-width: 700px;
   }
 .single-list-container {
     display: flex;
@@ -121,10 +121,10 @@ form > label {
     height: 100%;
 }
 .lists-container {
-    max-width: 600px;
+    max-width: 700px;
     background: white;
     border-radius: 4px;
-    margin: 24px auto;
+    margin-top: 24px;
     padding: 24px;
 }
 
@@ -148,4 +148,14 @@ form > label {
 }
 a {
     text-decoration: none;
+}
+/* mobile and tablet */
+@media (max-width:768px) {
+    .lists-container {
+        max-width: 600px;
+        margin: auto;
+    }
+    .inline-form {
+        max-width: 600px;
+    }
 }

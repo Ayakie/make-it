@@ -22,38 +22,17 @@ export default {
 </script>
 
 <style>
-.completed-tasks-container {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 24px;
-}
-.lists-container.tasks {
-    flex: 2;
-    margin: 24px 0;
-}
-.lists-container {
-    /* 左寄せ */
-    margin: 24px 0;
-}
 .material-icons.finished {
     color: var(--finished);
 }
 .material-icons.finished:hover {
     cursor: default;
 }
-.checkpoint {
-    align-items: center;
-}
 @media (max-width: 768px) {
-    .completed-tasks-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-    }
     .lists-container {
         margin: 20px auto;
     }
-    .tags {
+    /* .tags {
         margin: 24px 24px 0 24px;
     }
     .tags-title {
@@ -62,7 +41,7 @@ export default {
     .tags p {
         margin: 8px auto;
         text-align: center;
-    }
+    } */
     .material-icons.finish {
     font-size: 20px;
   }
