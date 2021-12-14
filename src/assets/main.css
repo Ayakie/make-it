@@ -12,7 +12,7 @@
     --main2: #3D566F;
     --accent: #F1AC5F;
     --finished: #4cb674;
-    --unfinished: #F07751;
+    --unfinished: #FF462D;
 }
 
 /* base styles */
@@ -142,6 +142,9 @@ form > label {
 }
 .material-icons:hover{
     color: var(--main);
+}
+.material-icons.delete:hover {
+    color: var(--unfinished);
 }
 .material-icons.finish:hover {
     color: var(--finished);
