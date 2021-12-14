@@ -51,7 +51,7 @@
               <span class="material-icons finished">done</span>
             </template>
             <template #finish-icon>
-              <span class="material-icons" @click="handleUnfinish(doc.id)">unpublished</span>
+              <span class="material-icons" @click="handleUnfinish(doc.id)">undo</span>
             </template>
           </SingleCheckPoint>
         </div>
