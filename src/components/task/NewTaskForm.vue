@@ -33,7 +33,7 @@ export default {
         completedAt: timestamp(),
         memo: ""
       }
-      
+
       if (newTask.value.length) {
         const docRef = await _addDoc(task)
       }

@@ -145,7 +145,7 @@ export default {
       // filter by selectedTag
       if (selectedTag.value !== "全て表示") {
         tasks.value = tasks.value.filter(doc => doc.tags.includes(selectedTag.value))
-        console.log(selectedTag.value)
+        // console.log(selectedTag.value)
       } else {
         tasks.value = tasks.value
       }

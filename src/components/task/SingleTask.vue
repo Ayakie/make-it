@@ -40,7 +40,7 @@ export default {
     components: { Markdown },
     setup(props, context) {
       const time = computed(() => {
-        return format(props.doc.completedAt.toDate(), 'yyyy.MM.dd（E）', {locale: ja})
+        return format(props.doc.completedAt.toDate(), 'yyyy.MM.dd(E)', {locale: ja})
       })
 
       const finishTask = () => {
