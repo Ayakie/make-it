@@ -1,4 +1,4 @@
-# study-log-app
+# make-it
 
 ## Project setup
 ```
