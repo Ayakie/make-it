@@ -383,7 +383,7 @@ section.task {
   }
   /* tags */
   .tags.right {
-    margin: 24px;
+    margin-top: 8px;
   }
   .tags-title {
     margin-bottom: 0;

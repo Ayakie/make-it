@@ -17,7 +17,7 @@
 
 /* base styles */
 * {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: "Noto Sans JP", "游ゴシック", "Yu Gothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Noto Sans Japanese", Meiryo, sans-serif;
 }
 body {
     background-color: #f2f2f2;
@@ -157,8 +157,10 @@ a {
     .lists-container {
         max-width: 600px;
         margin: auto;
+        margin-top: 24px;
     }
     .inline-form {
         max-width: 600px;
+        margin: 24px auto;
     }
 }
